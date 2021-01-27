@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[0],{"Dv/5":function(e,i,a){},QfWi:function(e,i,a){"use strict";a.r(i);var o=a("SzhR");a("VwVG"),a("ELjB");o.a.initializeApp({apiKey:"AIzaSyD8Pj5g00ZULxj-kPltwk6-ExixXS3Bltg",authDomain:"movie-buddies-887c1.firebaseapp.com",projectId:"movie-buddies-887c1",storageBucket:"movie-buddies-887c1.appspot.com",messagingSenderId:"663783849320",appId:"1:663783849320:web:4447396883e1c7c0492add"});o.a.firestore(),o.a.auth();a("hU6G"),a("awo+"),a("Dv/5")}},[["QfWi",1,2]]]);
+//# sourceMappingURL=main.b97f761aa41950d9e010.js.map
