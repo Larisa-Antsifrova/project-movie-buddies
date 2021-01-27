@@ -1,5 +1,7 @@
-// Importing Materialize CSS and JS
+// Importing Firebase services
+import './js/firebase-init.js';
 
+// Importing Materialize CSS and JS
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min';
 

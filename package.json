@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "firebase": "^8.2.4",
     "handlebars": "^4.7.6",
     "materialize-css": "^1.0.0-rc.2"
   }
