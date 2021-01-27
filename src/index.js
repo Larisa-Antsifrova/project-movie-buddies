@@ -9,5 +9,7 @@ import 'materialize-css/dist/js/materialize.min';
 import './scss/main.scss';
 
 // Importing JS files
+import './js/templates.js';
 import './js/movieApi.js';
-import './js/auth.js';
+import './js/firebase-auth.js';
+import './js/firebase-firestore.js';
