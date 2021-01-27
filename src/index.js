@@ -7,3 +7,6 @@ import 'materialize-css/dist/js/materialize.min';
 
 // Importing main partial of custom SASS
 import './scss/main.scss';
+
+// Importing JS files
+import './js/movieApi.js';
