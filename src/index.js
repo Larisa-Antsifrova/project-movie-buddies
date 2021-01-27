@@ -10,3 +10,4 @@ import './scss/main.scss';
 
 // Importing JS files
 import './js/movieApi.js';
+import './js/auth.js';
