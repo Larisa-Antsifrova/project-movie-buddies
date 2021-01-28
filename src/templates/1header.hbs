@@ -1,1 +1,77 @@
+<nav class="">
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">
+                <i class="material-icons">local_movies</i>
+                <span>Movie Buddies</span>
+            </a>
+            <ul id="nav-mobile" class="right">
+                <li class="logged-in__js">
+                    <a href="#" class="modal-trigger" data-target="modal-account">Account</a>
+                </li>
+                <li class="logged-in__js">
+                    <a href="#" class="" id="logout">Logout</a>
+                </li>
+                <li class="logged-out__js">
+                    <a href="#" class="modal-trigger" data-target="modal-login">Login</a>
+                </li>
+                <li class="logged-out__js">
+                    <a href="#" class="modal-trigger" data-target="modal-signup">Sign up</a>
+                </li>
+                <li class="">
+                    <a href="#">Home</a>
+                </li>
+                <li class="logged-in__js">
+                    <a href="#">My Library</a>
+                </li>
+                <li class="logged-in__js">
+                    <a href="#">Find Buddy</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
+<div id="modal-signup" class="modal">
+    <div class="modal-content">
+        <h4>Sign up</h4>
+        <br />
+        <form id="signup-form">
+            <div class="input-field">
+                <input type="email" id="signup-email" required />
+                <label for="signup-email">Email address</label>
+            </div>
+            <div class="input-field">
+                <input type="password" id="signup-password" required />
+                <label for="signup-password">Choose password</label>
+            </div>
+            <button class="btn yellow darken-2 z-depth-0">Sign up</button>
+        </form>
+    </div>
+</div>
+
+<div id="modal-login" class="modal">
+    <div class="modal-content">
+        <h4>Login</h4>
+        <br />
+        <form id="login-form">
+            <div class="input-field">
+                <input type="email" id="login-email" required />
+                <label for="login-email">Email address</label>
+            </div>
+            <div class="input-field">
+                <input type="password" id="login-password" required />
+                <label for="login-password">Your password</label>
+            </div>
+            <button class="btn yellow darken-2 z-depth-0">Login</button>
+        </form>
+    </div>
+</div>
+
+<div id="modal-account" class="modal">
+    <div class="modal-content center-align">
+        <h4>Account details</h4>
+        <br />
+        <div class="account-details"></div>
+    </div>
+</div>
