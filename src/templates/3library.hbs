@@ -1,23 +1,25 @@
 <div class="container">
+    <div class="row">
     <div class="col s12 l6 offset-l2">
         <ul class="tabs">
-            <li class="tab col s6"><a href="#watched" class="">WATCHED</a></li>
-            <li class="tab col s6"><a href="#queue" class="">QUEUE</a></li>
-            <li class="tab col s6"><a href="#favourite" class="">FAVOURITE</a></li>
+            <li class="tab col s4"><a href="#watched" class="">WATCHED</a></li>
+            <li class="tab col s4"><a href="#queue" class="">QUEUE</a></li>
+            <li class="tab col s4"><a href="#favourite" class="">FAVORITE</a></li>
         </ul>
     </div>
-    <div class="tab-panes">
-        <div id="watched" class="tab-pane">
-            <ul class="library-page-gallery" data-library-gallery-watched></ul>
+    <div>
+        <div id="watched" class="col s12">
+            <p>You don't have any movies, add them</p>
+            <ul class="library-page-gallery watched-gallery__js"></ul>
         </div>
-        <div id="queue" class="tab-pane">
-            <ul class="library-page-gallery" data-library-gallery-favorite></ul>
+        <div id="queue" class="col s12">
+            <p>You don't have any movies, add them</p>
+            <ul class="library-page-gallery queue-gallery__js"></ul>
         </div>
-        <div id="favourite" class="tab-pane">
-            <ul class="library-page-gallery" data-library-gallery-queue></ul>
+        <div id="favourite" class="col s12">
+            <p>You don't have any movies, add them</p>
+            <ul class="library-page-gallery favorite-gallery__js"></ul>
         </div>
     </div>
-    <div class="gallery-rendering">
-        <ul class="gallery-list" id="library-gallery"></ul>
-    </div>
+     </div>
 </div>
