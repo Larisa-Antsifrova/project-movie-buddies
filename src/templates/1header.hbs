@@ -1,42 +1,33 @@
-{{!-- {{#each}} --}}
-<div class="bg-image">
-    <header>
-        <div class="container">
-            <div class="header-section">
-                <nav class=" z-depth-0 grey lighten-4">
-                    <div class="nav-wrapper indigo">
-                        <a href="#" class="brand-logo">
-                            <i class="material-icons">local_movies</i>
-                            {{!-- <img src="" style="width: 100px; height: 50px; margin-top: 10px;"> --}}
-                            <span class="logo-name">Filmoteka</span>
-                        </a>
-                        <ul id="nav-mobile" class="right hide-on-med-and-down">
-                            <li class="logged-in">
-                                <a href="#" class="grey-text modal-trigger" data-target="modal-account">Account</a>
-                            </li>
-                            <li class="logged-in">
-                                <a href="#" class="grey-text" id="logout">Logout</a>
-                            </li>
-                            <li class="logged-in">
-                                <a href="#" class="grey-text modal-trigger" data-target="modal-create">Create Guide</a>
-                            </li>
-                            <li class="logged-out">
-                                <a href="#" class="grey-text modal-trigger" data-target="modal-login">Login</a>
-                            </li>
-                            <li class="logged-out">
-                                <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign up</a>
-                            </li>
-                            <li class="">
-                                <a href="#" class="grey-text modal-trigger">HOME</a>
-                            </li>
-                            <li class="">
-                                <a href="#" class="grey-text modal-trigger">MY LIBRARY</a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
+<nav class="">
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">
+                <i class="material-icons">local_movies</i>
+                <span>Movie Buddies</span>
+            </a>
+            <ul id="nav-mobile" class="right">
+                <li class="logged-in__js">
+                    <a href="#" class="modal-trigger" data-target="modal-account">Account</a>
+                </li>
+                <li class="logged-in__js">
+                    <a href="#" class="" id="logout">Logout</a>
+                </li>
+                <li class="logged-out__js">
+                    <a href="#" class="modal-trigger" data-target="modal-login">Login</a>
+                </li>
+                <li class="logged-out__js">
+                    <a href="#" class="modal-trigger" data-target="modal-signup">Sign up</a>
+                </li>
+                <li class="">
+                    <a href="#">Home</a>
+                </li>
+                <li class="logged-in__js">
+                    <a href="#">My Library</a>
+                </li>
+                <li class="logged-in__js">
+                    <a href="#">Find Buddy</a>
+                </li>
+            </ul>
         </div>
-    </header>
-</div>
-{{!-- {{/each}} --}}
+    </div>
+</nav>
