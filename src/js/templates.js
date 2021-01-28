@@ -13,5 +13,5 @@ libraryRef.insertAdjacentHTML('beforeend', libraryMarkup);
 // Initialize GalleryElement
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
 const galleryElementMarkup = galleryElementTemplate();
-const galleryElementRef = document.getElementById('library-gallery');
+const galleryElementRef = document.getElementById('home-gallery');
 galleryElementRef.insertAdjacentHTML('beforeend', galleryElementMarkup);
