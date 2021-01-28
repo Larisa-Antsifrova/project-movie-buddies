@@ -6,25 +6,25 @@
                 <span>Movie Buddies</span>
             </a>
             <ul id="nav-mobile" class="right">
-                <li class="logged-in__js">
+                <li class="logged-in__js" style="display: none;">
                     <a href="#" class="modal-trigger" data-target="modal-account">Account</a>
                 </li>
-                <li class="logged-in__js">
+                <li class="logged-in__js" style="display: none;">
                     <a href="#" class="" id="logout">Logout</a>
                 </li>
-                <li class="logged-out__js">
+                <li class="logged-out__js" style="display: none;">
                     <a href="#" class="modal-trigger" data-target="modal-login">Login</a>
                 </li>
-                <li class="logged-out__js">
+                <li class="logged-out__js" style="display: none;">
                     <a href="#" class="modal-trigger" data-target="modal-signup">Sign up</a>
                 </li>
-                <li class="">
+                <li class="home-page-link__js" style="display: none;">
                     <a href="#">Home</a>
                 </li>
-                <li class="logged-in__js">
+                <li class="logged-in__js" style="display: none;">
                     <a href="#">My Library</a>
                 </li>
-                <li class="logged-in__js">
+                <li class="logged-in__js" style="display: none;">
                     <a href="#">Find Buddy</a>
                 </li>
             </ul>
@@ -44,6 +44,10 @@
             <div class="input-field">
                 <input type="password" id="signup-password" required />
                 <label for="signup-password">Choose password</label>
+            </div>
+            <div class="input-field">
+                <input type="text" id="signup-name" required />
+                <label for="signup-name">Enter your name</label>
             </div>
             <button class="btn yellow darken-2 z-depth-0">Sign up</button>
         </form>
