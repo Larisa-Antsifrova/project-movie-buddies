@@ -4,7 +4,7 @@ const loginForm = document.getElementById('login-form');
 const logout = document.querySelector('#logout');
 const loggedOutLinks = document.querySelectorAll('.logged-out__js');
 const loggedInLinks = document.querySelectorAll('.logged-in__js');
-const accountDetails = document.querySelector('.account-details');
+const accountDetails = document.querySelector('.account-details__js');
 const homeNavLnk = document.querySelector('.home-page-link__js');
 
 // listen for auth status changes
@@ -39,6 +39,7 @@ signupForm.addEventListener('submit', e => {
         library: [],
         watched: [],
         queue: [],
+        favorite: [],
       });
     })
     .then(() => {
