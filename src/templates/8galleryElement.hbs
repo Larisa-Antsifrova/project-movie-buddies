@@ -1,0 +1,12 @@
+{{#each this}}
+<li class="gallery-element">
+    {{!-- <article class="movie"> --}}
+    <img class="movie-image"
+    src="{{ image }}" alt="{{ name }}">
+    <h3 class="movie-name" >{{ name }}</h3>
+    <p class="movie-genre">{{ genre }}</p>
+    <p class="movie_year">{{ year }}</p>
+    <p class="movie_rating">{{ rating }}</p>
+    {{!-- </article> --}}
+</li>
+{{/each}}
