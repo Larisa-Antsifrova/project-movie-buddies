@@ -35,7 +35,7 @@ signupForm.addEventListener('submit', e => {
       userData.user.updateProfile({
         displayName: signupForm['signup-name'].value,
       });
-      return db.collection('users').doc(userData.user.uid).set({
+      db.collection('users').doc(userData.user.uid).set({
         library: [],
         watched: [],
         queue: [],
