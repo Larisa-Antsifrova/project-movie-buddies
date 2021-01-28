@@ -1,11 +1,23 @@
-<section class="library__js" data-library-section="">
-<ul class="gallery-list" id="library-gallery"></ul>
-<div class="col s12 l6 offset-l2">
+<div class="container">
+    <div class="col s12 l6 offset-l2">
         <ul class="tabs">
-            <li class="tab col s6"><a href="" class="">WATCHED</a></li>
-            <li class="tab col s6"><a href="" class="">QUEUE</a></li>
-            <li class="tab col s6"><a href="" class="">FAVORITE</a></li>
+            <li class="tab col s6"><a href="#watched" class="">WATCHED</a></li>
+            <li class="tab col s6"><a href="#queue" class="">QUEUE</a></li>
+            <li class="tab col s6"><a href="#favourite" class="">FAVOURITE</a></li>
         </ul>
     </div>
+    <div class="tab-panes">
+        <div id="watched" class="tab-pane">
+            <ul class="library-page-gallery" data-library-gallery-watched></ul>
+        </div>
+        <div id="queue" class="tab-pane">
+            <ul class="library-page-gallery" data-library-gallery-favorite></ul>
+        </div>
+        <div id="favourite" class="tab-pane">
+            <ul class="library-page-gallery" data-library-gallery-queue></ul>
+        </div>
+    </div>
+    <div class="gallery-rendering">
+        <ul class="gallery-list" id="library-gallery"></ul>
+    </div>
 </div>
-</section>
