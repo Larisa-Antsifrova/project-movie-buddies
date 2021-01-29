@@ -130,6 +130,7 @@ const Api = {
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
 let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
 let currentMovieItem = null;
+export { currentMoviesList, currentMovieItem, genres };
 
 const homeGalleryRef = document.querySelector('.home-gallery-list__js');
 
