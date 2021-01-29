@@ -1,4 +1,14 @@
-import { currentMovieItem, currentMoviesList, genres } from './movieApi.js';
+import { currentMoviesList, genres } from './movieApi.js';
+import {
+  updateWatchedBtn,
+  watchedBtnRef,
+  queueBtnRef,
+  favoriteBtnRef,
+  manageWatched,
+} from './firebase-firestore.js';
+
+let currentMovieItem = {};
+
 // import detailFilmTemplate from '../templates/4details.hbs';
 // console.log(detailFilmTemplate);
 
@@ -13,9 +23,19 @@ const voteRef = document.querySelector('.vote__js');
 const votesRef = document.querySelector('.votes__js');
 const originalTitleRef = document.querySelector('.original-title__js');
 
-homeGalleryRef.addEventListener('click', e => {
-  // console.log('Hello, I am event');
+homeGalleryRef.addEventListener('click', async e => {
+  currentMovieItem = await getCurrentMovieItem(e);
+  console.log(currentMovieItem);
+  let currentMovieItemId = currentMovieItem.id;
   showDetails(e);
+  console.log('current ID from event listeren', currentMovieItemId);
+
+  updateWatchedBtn(currentMovieItem);
+  watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem));
+  queueBtnRef.addEventListener('click', e => manageQueue(currentMovieItem));
+  favoriteBtnRef.addEventListener('click', e =>
+    manageFavorite(currentMovieItem),
+  );
 });
 
 async function showDetails(e) {
@@ -44,3 +64,12 @@ async function showDetails(e) {
 }
 
 export { showDetails };
+
+async function getCurrentMovieItem(e) {
+  const id = +e.target.dataset.id;
+
+  let movieList = await currentMoviesList;
+  let currentMovieItem = movieList.find(el => el.id === id);
+
+  return currentMovieItem;
+}
