@@ -11,3 +11,4 @@ import './js/input.js';
 import './js/firebase-auth.js';
 import './js/firebase-firestore.js';
 import './js/materialize.js';
+import './js/buttonUp.js';
