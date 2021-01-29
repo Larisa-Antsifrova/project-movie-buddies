@@ -1,11 +1,23 @@
-import { currentMovieItem, currentMoviesList, genres } from './movieApi.js';
+import { currentMoviesList, genres } from './movieApi.js';
 import * as Handlebars from 'handlebars/runtime';
 import detailTemplate from '../templates/4details.hbs';
+import {
+  updateWatchedBtn,
+  watchedBtnRef,
+  queueBtnRef,
+  favoriteBtnRef,
+  manageWatched,
+} from './firebase-firestore.js';
 
 Handlebars.registerHelper('getMovieYear', function (release_date) {
   var movieYear = release_date.slice(0, 4);
   return movieYear;
 });
+
+let currentMovieItem = {};
+
+// import detailFilmTemplate from '../templates/4details.hbs';
+// console.log(detailFilmTemplate);
 
 Handlebars.registerHelper('roundUpPopularity', function (num) {
   console.log(typeof num);
@@ -26,7 +38,26 @@ const originalTitleRef = document.querySelector('.original-title__js');
 
 const detailsModalRef = document.querySelector('#details-modal'); //доступ к модалке
 
-homeGalleryRef.addEventListener('click', showDetails);
+function onDetailsModalOpen(e) {
+  showDetails(e);
+  manageLibrary(e);
+}
+
+async function manageLibrary(e) {
+  currentMovieItem = await getCurrentMovieItem(e);
+  console.log(currentMovieItem);
+  let currentMovieItemId = currentMovieItem.id;
+  showDetails(e);
+  console.log('current ID from event listeren', currentMovieItemId);
+
+  updateWatchedBtn(currentMovieItem);
+  watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem));
+  queueBtnRef.addEventListener('click', e => manageQueue(currentMovieItem));
+  favoriteBtnRef.addEventListener('click', e =>
+    manageFavorite(currentMovieItem),
+  );
+}
+homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 
 function showDetails(e) {
   detailsModalRef.innerHTML = '';
@@ -79,3 +110,12 @@ function showDetails(e) {
 // }
 
 export { showDetails };
+
+async function getCurrentMovieItem(e) {
+  const id = +e.target.dataset.id;
+
+  let movieList = await currentMoviesList;
+  let currentMovieItem = movieList.find(el => el.id === id);
+
+  return currentMovieItem;
+}
