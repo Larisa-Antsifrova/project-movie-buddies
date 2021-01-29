@@ -7,8 +7,6 @@ const watchedBtnRef = document.querySelector('.watched-btn__js');
 const queueBtnRef = document.querySelector('.queue-btn__js');
 const favoriteBtnRef = document.querySelector('.favorite-btn__js');
 
-console.log(watchedBtnRef, queueBtnRef, favoriteBtnRef);
-
 // Function to set buttons UI
 function updateBtn() {
   const user = auth.currentUser;
@@ -20,11 +18,13 @@ function updateBtn() {
     .get()
     .then(docSnapshot => {
       if (docSnapshot.exists) {
+        watchedBtnRef.dataset.status = 'remove';
         watchedBtnRef.textContent = 'Remove';
       }
     });
 }
 
+updateBtn();
 watchedBtnRef.addEventListener('click', addToWatched);
 
 // Function to add to Watched
