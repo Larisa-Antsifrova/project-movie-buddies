@@ -15,7 +15,15 @@ async function manageWatched(currentMovieItem) {
   let movieItem = await currentMovieItem;
   console.log('CURRENT IN EVENT ON BUTTON', movieItem);
   const user = auth.currentUser;
-
+  console.log(
+    'watched collections',
+    db
+      .collection('users')
+      .doc(user.uid)
+      .collection('watched')
+      .get()
+      .then(snapshot => console.log(snapshot.docs.map(doc => doc.data()))),
+  );
   if (watchedBtnRef.dataset.status === 'add') {
     db.doc(`users/${user.uid}/watched/${movieItem.id}`)
       .set(movieItem)
