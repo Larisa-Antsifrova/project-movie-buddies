@@ -176,4 +176,4 @@ Handlebars.registerHelper('getMovieYear', function (release_date) {
   return movieYear;
 });
 
-export default { Api };
+export { Api, currentMovieItem, currentMoviesList, genres };
