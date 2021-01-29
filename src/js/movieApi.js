@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_KEY } from './apiKey.js';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
+import * as Handlebars from 'handlebars/runtime';
 
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
@@ -136,6 +137,11 @@ const homeGalleryRef = document.querySelector('.home-gallery-list__js');
 Api.fetchTrendingMoviesList().then(movies => {
   const galleryListMarkup = galleryElementTemplate(movies);
   homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
+});
+
+Handlebars.registerHelper('getMovieYear', function (release_date) {
+  var movieYear = release_date.slice(0, 4);
+  return movieYear;
 });
 
 export { currentMovieItem, currentMoviesList, genres };
