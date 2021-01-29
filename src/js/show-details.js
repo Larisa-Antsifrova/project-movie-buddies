@@ -19,9 +19,9 @@ let currentMovieItem = {};
 // import detailFilmTemplate from '../templates/4details.hbs';
 // console.log(detailFilmTemplate);
 
-Handlebars.registerHelper('roundUpPopularity', function (num) {
-  console.log(typeof num);
-  return num.toFixed(1);
+Handlebars.registerHelper('roundUpPopularity', function (popularity) {
+  var roundValue = popularity.toFixed(1);
+  return roundValue;
 });
 
 // console.log(detailFilmTemplate);
