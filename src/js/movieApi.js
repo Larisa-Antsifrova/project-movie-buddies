@@ -140,10 +140,20 @@ Api.fetchTrendingMoviesList().then(movies => {
     acc.push(filmYear);
     return acc
   }, [])
-  let filmsGenres = movies.reduce((acc, movie) => {
+  let filmsGenres = movies.map(movie => {
     const filmGenresIdArr = movie.genre_ids;
-    console.log('filmGenresIdArr', filmGenresIdArr);
-  }, []);
+    // console.log('filmGenresIdArr', filmGenresIdArr);
+    let filmGenre = filmGenresIdArr.reduce((acc, genre) => {
+          console.log(genre);
+        // console.log('genres', genres);
+        // console.log('name', genres.name);
+      if (filmGenresIdArr.includes(genres.id)) {
+        acc.push(genres.name);
+      }
+      return acc;
+    }, []);
+    // console.log('filmGenre', filmGenre);
+  });
     // genres.then(genresArr => {
     //   let thisMovieGenres = genresArr.reduce((acc, genre) => {
     //       if (genresIdArr.includes(genre.id)) {
@@ -154,7 +164,7 @@ Api.fetchTrendingMoviesList().then(movies => {
     //   filmGenres = thisMovieGenres.join(', ');
     //   return filmGenres;
     // });
-    // console.log(filmGenres);
+    // console.log(filmsYear);
   return ({movies, filmsYear})
 }).then(({ movies, filmsYear }) => {
     const galleryListMarkup = galleryElementTemplate(movies);
@@ -165,3 +175,5 @@ Handlebars.registerHelper('getMovieYear', function (release_date) {
   var movieYear = release_date.slice(0, 4);
   return movieYear;
 });
+
+export default { Api };
