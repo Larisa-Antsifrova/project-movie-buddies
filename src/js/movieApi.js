@@ -146,7 +146,7 @@ Api.fetchTrendingMoviesList()
       const filmGenresIdArr = movie.genre_ids;
       // console.log('filmGenresIdArr', filmGenresIdArr);
       let filmGenre = filmGenresIdArr.reduce((acc, genre) => {
-        console.log(genre);
+        // console.log(genre);
         // console.log('genres', genres);
         // console.log('name', genres.name);
         if (filmGenresIdArr.includes(genres.id)) {
