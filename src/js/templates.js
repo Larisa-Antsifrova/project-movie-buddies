@@ -20,7 +20,6 @@ const headerMarkup = headerTemplate();
 const headerRef = document.querySelector('.header__js');
 headerRef.insertAdjacentHTML('beforeend', headerMarkup);
 
-
 //Подключение Footer
 import footerTemplate from '../templates/7footer.hbs';
 const footerMarkup = footerTemplate();
@@ -33,3 +32,8 @@ const detailMarkup = detailTemplate();
 const detailRef = document.querySelector('.details__js');
 detailRef.insertAdjacentHTML('beforeend', detailMarkup);
 
+// UP button
+import buttonUpTemplate from '../templates/9buttonUp.hbs';
+const buttonUp = buttonUpTemplate();
+homeRef.insertAdjacentHTML('beforeend', buttonUp);
+console.log(buttonUp, homeRef);
