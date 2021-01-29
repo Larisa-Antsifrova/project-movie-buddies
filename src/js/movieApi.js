@@ -137,3 +137,5 @@ Api.fetchTrendingMoviesList().then(movies => {
   const galleryListMarkup = galleryElementTemplate(movies);
   homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
 });
+
+export { currentMovieItem, currentMoviesList, genres };
