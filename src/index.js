@@ -13,3 +13,4 @@ import './js/firebase-firestore.js';
 import './js/materialize.js';
 import './js/show-details.js';
 import './js/buttonUp.js';
+import './js/navigation.js';
