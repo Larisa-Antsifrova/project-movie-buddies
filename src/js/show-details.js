@@ -2,7 +2,7 @@ import { currentMovieItem, currentMoviesList, genres } from './movieApi.js';
 // console.log(currentMovieItem, currentMoviesList, genres);
 const homeGalleryRef = document.querySelector('.home__js');
 const titleFilmRef = document.querySelector('.title-film__js');
-console.log(titleFilmRef);
+// console.log(titleFilmRef);
 
 homeGalleryRef.addEventListener('click', e => {
   showDetails(e);

@@ -14,16 +14,10 @@ const Api = {
   pageNumber: 1,
   images: {
     baseImageUrl: 'https://image.tmdb.org/t/p/',
-    defaultBackdropImg: '',
     defaultPosterImg: '',
     currentSizes: {
       backdropSize: '',
       posterSize: '',
-    },
-    backdropSizes: {
-      mobile: 'w780',
-      tablet: 'w780',
-      desktop: 'w780',
     },
     posterSizes: {
       mobile: 'w342',
@@ -41,31 +35,8 @@ const Api = {
   resetPage() {
     this.pageNumber = 1;
   },
-  get imageBackdropSize() {
-    return this.images.currentSizes.backdropSize;
-  },
   get imagePosterSize() {
     return this.images.currentSizes.posterSize;
-  },
-  calculateBackdropImgSize() {
-    if (window.visualViewport.width >= 1024) {
-      this.images.currentSizes.backdropSize = this.images.backdropSizes.desktop;
-      this.images.defaultBackdropImg = './images/default/backdrop-desktop.jpg';
-      return;
-    }
-    if (
-      window.visualViewport.width >= 768 &&
-      window.visualViewport.width < 1024
-    ) {
-      this.images.currentSizes.backdropSize = this.images.backdropSizes.tablet;
-      this.images.defaultBackdropImg = './images/default/backdrop-tablet.jpg';
-      return;
-    }
-    if (window.visualViewport.width < 768) {
-      this.images.currentSizes.backdropSize = this.images.backdropSizes.mobile;
-      this.images.defaultBackdropImg = './images/default/backdrop-mobile.jpg';
-      return;
-    }
   },
   calculatePosterImgSize() {
     if (window.visualViewport.width >= 1024) {
@@ -176,4 +147,4 @@ Handlebars.registerHelper('getMovieYear', function (release_date) {
   return movieYear;
 });
 
-export { Api, currentMovieItem, currentMoviesList, genres };
+export default { Api, currentMovieItem, currentMoviesList, genres };
