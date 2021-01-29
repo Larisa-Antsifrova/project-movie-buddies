@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_KEY } from './apiKey.js';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
+import * as Handlebars from 'handlebars/runtime';
 
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
@@ -134,8 +135,45 @@ let currentMovieItem = null;
 const homeGalleryRef = document.querySelector('.home-gallery-list__js');
 
 Api.fetchTrendingMoviesList().then(movies => {
-  const galleryListMarkup = galleryElementTemplate(movies);
+  let filmsYear = movies.reduce((acc, movie) => {
+    const filmYear = movie.release_date ? `${movie.release_date.slice(0, 4)}` : `${movie.first_air_date.slice(0, 4)}`;
+    acc.push(filmYear);
+    return acc
+  }, [])
+  let filmsGenres = movies.map(movie => {
+    const filmGenresIdArr = movie.genre_ids;
+    // console.log('filmGenresIdArr', filmGenresIdArr);
+    let filmGenre = filmGenresIdArr.reduce((acc, genre) => {
+          console.log(genre);
+        // console.log('genres', genres);
+        // console.log('name', genres.name);
+      if (filmGenresIdArr.includes(genres.id)) {
+        acc.push(genres.name);
+      }
+      return acc;
+    }, []);
+    // console.log('filmGenre', filmGenre);
+  });
+    // genres.then(genresArr => {
+    //   let thisMovieGenres = genresArr.reduce((acc, genre) => {
+    //       if (genresIdArr.includes(genre.id)) {
+    //         acc.push(genre.name);
+    //     }
+    //       return acc;
+    //   }, []);
+    //   filmGenres = thisMovieGenres.join(', ');
+    //   return filmGenres;
+    // });
+    // console.log(filmsYear);
+  return ({movies, filmsYear})
+}).then(({ movies, filmsYear }) => {
+    const galleryListMarkup = galleryElementTemplate(movies);
   homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
 });
 
-export { currentMovieItem, currentMoviesList, genres };
+Handlebars.registerHelper('getMovieYear', function (release_date) {
+  var movieYear = release_date.slice(0, 4);
+  return movieYear;
+});
+
+export { Api, currentMovieItem, currentMoviesList, genres };
