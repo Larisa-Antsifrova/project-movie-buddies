@@ -1,23 +1,20 @@
 {{#each this}}
 <li class="gallery-element" data-id="{{id}}">
     <a class="modal-trigger" href="#details-modal">
-    {{#if title}}
-    <img class="movie-image"
-        src="https://image.tmdb.org/t/p/w780{{backdrop_path}}" alt="{{ title }}">
-    <h3 class="movie-name" >{{ title }}</h3>
-    {{else}}
-    <img class="movie-image"
-        src="https://image.tmdb.org/t/p/w780{{ backdrop_path }}" alt="{{ name }}">
-    <h3 class="movie-name" >{{ name }}</h3>
-    {{/if}}
-    {{!-- <p class="movie-genre">{{ genre }}</p> --}}
-    {{#if release_date}}
-    <p class="movie-year">{{ release_date }}</p>
-    {{else}}
-    <p class="movie-year">{{ first_air_date }}</p>
-    {{/if}}
-    <p class="movie-rating">{{ vote_average }}</p>
+        {{#if title}}
+        <img class="movie-image" src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{ title }}">
+        <h3 class="movie-name">{{ title }}</h3>
+        {{else}}
+        <img class="movie-image" src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="{{ name }}">
+        <h3 class="movie-name">{{ name }}</h3>
+        {{/if}}
+        {{!-- <p class="movie-genre">{{ genre }}</p> --}}
+        {{#if release_date}}
+        <p class="movie-year">{{ getMovieYear release_date }}</p>
+        {{else}}
+        <p class="movie-year">{{ getMovieYear first_air_date }}</p>
+        {{/if}}
+        <p class="movie-rating">{{ vote_average }}</p>
     </a>
 </li>
 {{/each}}
-

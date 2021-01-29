@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_KEY } from './apiKey.js';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
+import * as Handlebars from 'handlebars/runtime';
 
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
@@ -134,6 +135,33 @@ let currentMovieItem = null;
 const homeGalleryRef = document.querySelector('.home-gallery-list__js');
 
 Api.fetchTrendingMoviesList().then(movies => {
-  const galleryListMarkup = galleryElementTemplate(movies);
+  let filmsYear = movies.reduce((acc, movie) => {
+    const filmYear = movie.release_date ? `${movie.release_date.slice(0, 4)}` : `${movie.first_air_date.slice(0, 4)}`;
+    acc.push(filmYear);
+    return acc
+  }, [])
+  let filmsGenres = movies.reduce((acc, movie) => {
+    const filmGenresIdArr = movie.genre_ids;
+    console.log('filmGenresIdArr', filmGenresIdArr);
+  }, []);
+    // genres.then(genresArr => {
+    //   let thisMovieGenres = genresArr.reduce((acc, genre) => {
+    //       if (genresIdArr.includes(genre.id)) {
+    //         acc.push(genre.name);
+    //     }
+    //       return acc;
+    //   }, []);
+    //   filmGenres = thisMovieGenres.join(', ');
+    //   return filmGenres;
+    // });
+    // console.log(filmGenres);
+  return ({movies, filmsYear})
+}).then(({ movies, filmsYear }) => {
+    const galleryListMarkup = galleryElementTemplate(movies);
   homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
+});
+
+Handlebars.registerHelper('getMovieYear', function (release_date) {
+  var movieYear = release_date.slice(0, 4);
+  return movieYear;
 });
