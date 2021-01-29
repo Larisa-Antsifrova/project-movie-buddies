@@ -7,9 +7,9 @@ Handlebars.registerHelper('getMovieYear', function (release_date) {
   return movieYear;
 });
 
-Handlebars.registerHelper('roundUpPopularity', function (number) {
-  console.log(typeof number);
-  return number.toFixed(1);
+Handlebars.registerHelper('roundUpPopularity', function (num) {
+  console.log(typeof num);
+  return num.toFixed(1);
 });
 
 // console.log(detailFilmTemplate);
@@ -24,29 +24,32 @@ const voteRef = document.querySelector('.vote__js');
 const votesRef = document.querySelector('.votes__js');
 const originalTitleRef = document.querySelector('.original-title__js');
 
-homeGalleryRef.addEventListener('click', e => {
-  console.log('Hello, I am event');
-  if (e.target.nodeName !== 'A') {
-    return;
-  }
-  console.log(e);
-  showDetails(e);
-});
+const detailsModalRef = document.querySelector('#details-modal'); //доступ к модалке
+
+homeGalleryRef.addEventListener('click', showDetails);
 
 function showDetails(e) {
+  detailsModalRef.innerHTML = '';
+  // e.preventDefault();
+  console.dir(e.target.nodeName);
+  // if (e.target.nodeName !== 'IMG') {
+  //   return;
+  // }
+
   console.log('hello');
   const id = +e.target.dataset.id;
+  console.log(id);
   // console.log(currentMoviesList);
   currentMoviesList
     .then(movies => {
       console.log(movies);
-      movies.find(el => el.id === id);
-      return el;
+      return movies.find(el => el.id === id);
     })
-    .then(film => {
-      console.log(film);
-      const modalMarkup = detailTemplate(film);
-      sectionDetails.insertAdjacentHTML('afterbegin', modalMarkup);
+    .then(el => {
+      console.log('I element');
+      console.log(el);
+      const modalMarkup = detailTemplate(el);
+      detailsModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
     });
 }
 
