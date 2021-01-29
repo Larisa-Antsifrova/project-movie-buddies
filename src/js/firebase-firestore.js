@@ -7,49 +7,57 @@ const watchedBtnRef = document.querySelector('.watched-btn__js');
 const queueBtnRef = document.querySelector('.queue-btn__js');
 const favoriteBtnRef = document.querySelector('.favorite-btn__js');
 
-// Function to set buttons UI
-function updateBtn() {
+// Adding event listeners
+// watchedBtnRef.addEventListener('click', e => manageWatched(e));
+
+// Function to manage Watched collection in DB
+async function manageWatched(currentMovieItem) {
+  let movieItem = await currentMovieItem;
+  console.log('CURRENT IN EVENT ON BUTTON', movieItem);
   const user = auth.currentUser;
-
-  db.collection('users')
-    .doc(user.uid)
-    .collection('watched')
-    .doc('85271')
-    .get()
-    .then(docSnapshot => {
-      if (docSnapshot.exists) {
-        watchedBtnRef.dataset.status = 'remove';
-        watchedBtnRef.textContent = 'Remove';
-      }
-    });
-}
-
-updateBtn();
-watchedBtnRef.addEventListener('click', addToWatched);
-
-// Function to add to Watched
-async function addToWatched() {
-  updateBtn();
-  const user = auth.currentUser;
-  let currentMovieItem = await currentMoviesList.then(array =>
-    array.find(item => item.id === 85271),
-  );
-
-  console.log('currentMovieItem in addWatched', currentMovieItem);
-  console.log('currentMoviesList in Watched', currentMoviesList[0]);
 
   if (watchedBtnRef.dataset.status === 'add') {
-    db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
-      .set(currentMovieItem)
+    db.doc(`users/${user.uid}/watched/${movieItem.id}`)
+      .set(movieItem)
       .then(() => {
+        updateWatchedBtn(currentMovieItem);
         console.log('Document successfully written!');
       })
       .catch(error => console.log(error.message));
   } else {
-    db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
+    db.doc(`users/${user.uid}/watched/${movieItem.id}`)
       .delete()
       .then(() => {
+        updateWatchedBtn(currentMovieItem);
         console.log('movie deleted');
       });
   }
 }
+
+// Function to set buttons UI
+async function updateWatchedBtn(currentMovieItem) {
+  let movieItem = await currentMovieItem;
+  console.log('ID in update', movieItem.id);
+
+  const user = auth.currentUser;
+
+  db.doc(`users/${user.uid}/watched/${movieItem.id}`)
+    .get()
+    .then(docSnapshot => {
+      if (docSnapshot.exists) {
+        watchedBtnRef.dataset.status = 'remove';
+        watchedBtnRef.textContent = 'Remove from watched';
+      } else {
+        watchedBtnRef.dataset.status = 'add';
+        watchedBtnRef.textContent = 'Add to watched';
+      }
+    });
+}
+
+export {
+  updateWatchedBtn,
+  watchedBtnRef,
+  queueBtnRef,
+  favoriteBtnRef,
+  manageWatched,
+};

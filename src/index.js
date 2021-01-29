@@ -10,3 +10,4 @@ import './js/movieApi.js';
 import './js/firebase-auth.js';
 import './js/firebase-firestore.js';
 import './js/materialize.js';
+import './js/show-details.js';
