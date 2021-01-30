@@ -36,4 +36,4 @@ const detailMarkup = detailTemplate();
 import buttonUpTemplate from '../templates/9buttonUp.hbs';
 const buttonUp = buttonUpTemplate();
 homeRef.insertAdjacentHTML('beforeend', buttonUp);
-console.log(buttonUp, homeRef);
+// console.log(buttonUp, homeRef);
