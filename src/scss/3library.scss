@@ -1,0 +1,46 @@
+.tabs-wrapper {
+  padding-top: 15px;
+}
+
+.tabs .tab a {
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 5px;
+  border: 1px solid #ffffff;
+  height: 44px;
+  background-color: gray;
+  
+}
+
+.tabs .tab a:focus,
+.tabs .tab a:focus.active {
+  background-color: #ff6b01;
+  color: white;
+}
+
+.tabs .tab a:hover,
+.tabs .tab a.active {
+  background-color: #ff6b01;
+  color: white;
+}
+
+li.tab.col:not(:last-child) {
+  margin-right: 10px;
+
+  @media screen and (min-width: 768px) {
+      margin-right: 15px;
+  }
+
+  
+}
+
+.tabs .indicator {
+  background-color: #ff6b01;
+}
+
+.message {
+    margin-top: 30px;
+    font-size: 18px;
+    text-align: center;
+  }
