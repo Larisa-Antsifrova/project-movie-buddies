@@ -104,28 +104,26 @@ let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит ма�
 let currentMovieItem = null;
 
 const searchForm = document.querySelector('.search-form');
-const homeGalleryRef = document.querySelector('.home-gallery-list__js');
+const homeGalleryListRef = document.querySelector('.home-gallery-list__js');
 const errorArea = document.querySelector('.search-error__js');
 
 // ============================ function rendering ==============================
-async function createMovieList(moviesList) {
+// Функция для добавления декодированных жанров в обьект фильмов
+async function combineFullMovieInfo(moviesList) {
   const moviesFullInfo = await moviesList;
   const genres_info = await getGenresInfo(moviesList);
   const fullInfo = await moviesFullInfo.map((movie, ind) => {
     movie['genres_name'] = genres_info[ind];
-    console.log(movie);
+    return movie;
   });
-  console.log(fullInfo);
-  // .then(movies => {
-  // const fullInfo = movies.map((movie, ind) => {
-  //   movie['genres_name'] = genres_info[ind];
-  // })
-
-  const galleryListMarkup = galleryElementTemplate(fullInfo);
-  homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
-  // });
+  return fullInfo;
 }
-createMovieList(currentMoviesList);
+
+// Функция для отрисовки списка популярных фильмов
+function createMovieList(fullInfo) {
+  const galleryListMarkup = galleryElementTemplate(fullInfo);
+  homeGalleryListRef.insertAdjacentHTML('beforeend', galleryListMarkup);
+}
 
 async function getGenresInfo(moviesList) {
   const genresInfo = await Promise.all([moviesList, genres]);
@@ -139,7 +137,7 @@ async function getGenresInfo(moviesList) {
     }, []);
     return thisMovieGenres.join(', ');
   });
-  // console.log(filmsGenres);
+
   return filmsGenres;
 }
 
@@ -164,8 +162,7 @@ Handlebars.registerHelper('getPoster', function (poster_path) {
   }
 });
 
-// ==================================================
-export { Api, createMovieList, currentMoviesList, currentMovieItem, genres };
+combineFullMovieInfo(currentMoviesList).then(createMovieList);
 
 // ==================================== input ===============================================================
 
@@ -181,7 +178,7 @@ function searchFilms(e) {
 
 // функция выбора отображения страницы в зависимости от наличия текстa в инпуте.
 function toggleRenderPage() {
-  clearGallery(homeGalleryRef);
+  clearGallery(homeGalleryListRef);
   if (!Api.searchQuery.length) {
     renderPopularFilms();
   } else {
@@ -229,3 +226,6 @@ function notFound() {
 function clearError() {
   errorArea.style.visibility = 'hidden';
 }
+
+// ==================================================
+export { Api, currentMoviesList, currentMovieItem, genres };
