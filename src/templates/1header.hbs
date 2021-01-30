@@ -1,31 +1,33 @@
 <nav class="">
     <div class="my-container">
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo">
+            <a href="#" class="brand-logo left">
                 <i class="material-icons">local_movies</i>
                 <span>Movie Buddies</span>
             </a>
-            <ul id="nav-mobile" class="right">
-                <li class="logged-in__js" style="display: none;">
-                    <a href="#" class="modal-trigger" data-target="modal-account">Account</a>
+            <ul id="nav-mobile" class="right navigation__js">
+                <li class="home-page-link__js active" style="display: none;">
+                    <a href="#">Home</a>
                 </li>
-                <li class="logged-in__js" style="display: none;">
-                    <a href="#" class="" id="logout">Logout</a>
-                </li>
+
                 <li class="logged-out__js" style="display: none;">
                     <a href="#" class="modal-trigger" data-target="modal-login">Login</a>
                 </li>
                 <li class="logged-out__js" style="display: none;">
                     <a href="#" class="modal-trigger" data-target="modal-signup">Sign up</a>
                 </li>
-                <li class="home-page-link__js" style="display: none;">
-                    <a href="#">Home</a>
-                </li>
-                <li class="logged-in__js" style="display: none;">
+
+                <li class="logged-in__js library-page-link__js" style="display: none;">
                     <a href="#">My Library</a>
                 </li>
-                <li class="logged-in__js" style="display: none;">
+                <li class="logged-in__js buddy-page-link__js" style="display: none;">
                     <a href="#">Find Buddy</a>
+                </li>
+                <li class="logged-in__js" style="display: none;">
+                    <a href="#" class="modal-trigger" data-target="modal-account">Account</a>
+                </li>
+                <li class="logged-in__js" style="display: none;">
+                    <a href="#" class="" id="logout">Logout</a>
                 </li>
             </ul>
         </div>

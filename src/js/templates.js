@@ -29,8 +29,8 @@ footerRef.insertAdjacentHTML('beforeend', footerMarkup);
 //Подключение разметки модального окна с деталями фильма
 import detailTemplate from '../templates/4details.hbs';
 const detailMarkup = detailTemplate();
-const detailRef = document.querySelector('.details__js');
-detailRef.insertAdjacentHTML('beforeend', detailMarkup);
+// const detailRef = document.querySelector('.details__js');
+// detailRef.insertAdjacentHTML('beforeend', detailMarkup);
 
 // UP button
 import buttonUpTemplate from '../templates/9buttonUp.hbs';
