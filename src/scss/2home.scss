@@ -1,0 +1,16 @@
+.input-field .prefix {
+  right: 0.1rem;
+  color: white;
+}
+
+.input-field .prefix.active {
+  color: #ff6b08;
+}
+
+.input[type='text']:not(.browser-default) {
+  border-bottom: white;
+}
+
+input[type='text']:not(.browser-default):focus:not([readonly]) {
+  border-bottom: #ff6b08;
+}
