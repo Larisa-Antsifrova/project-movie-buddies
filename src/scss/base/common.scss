@@ -1,3 +1,15 @@
+// Styles to place footer at the bottom
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
 // Media Query Ranges
 $small-screen-up: 321px !default;
 $medium-screen-up: 769px !default;
