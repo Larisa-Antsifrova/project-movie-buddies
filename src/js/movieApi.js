@@ -183,6 +183,7 @@ function toggleRenderPage() {
         behavior: 'smooth',
       });
   if (!Api.searchQuery.length) {
+    // тут начинаются проблемы!
     renderPopularFilms().then(() => {
       paginator.recalculate(Api.totalPages || 1);
     });
