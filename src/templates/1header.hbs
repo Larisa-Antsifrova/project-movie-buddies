@@ -2,10 +2,12 @@
     <div class="my-container">
         <div class="nav-wrapper">
             <a href="#" class="brand-logo left">
-                <i class="material-icons">local_movies</i>
                 <span>Movie Buddies</span>
             </a>
-            <ul id="nav-mobile" class="right navigation__js">
+            <a href="#" class="sidenav-trigger" data-target="mobile-links">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down navigation__js">
                 <li class="home-page-link__js active" style="display: none;">
                     <a href="#">Home</a>
                 </li>
@@ -33,6 +35,33 @@
         </div>
     </div>
 </nav>
+
+<ul class="sidenav" id="mobile-links">
+    <li>
+        <a href="#" class="home__link-mobile active"><i class="material-icons">home</i><span>HOME</span></a>
+    </li>
+
+    <li>
+        <a href="#" class="login__link-mobile"><i class="material-icons">login</i><span>Login</span></a>
+    </li>
+    <li>
+        <a href="#" class="sign__link-mobile"><i class="material-icons">person_add</i><span>Sign up</span></a>
+    </li>
+
+    <li>
+        <a href="#" class="library__link-mobile"><i class="material-icons">movie</i><span>My Library</span></a>
+    </li>
+    <li>
+        <a href="#" class="buddy__link-mobile"><i class="material-icons">record_voice_over</i><span>Find
+                Buddy</span></a>
+    </li>
+    <li>
+        <a href="#" class="account__link-mobile"><i class="material-icons">account_circle</i><span>Account</span></a>
+    </li>
+    <li>
+        <a href="#" class="logut__link-mobile"><i class="material-icons">directions_run</i><span>Logout</span></a>
+    </li>
+</ul>
 
 <div id="modal-signup" class="modal">
     <div class="modal-content">
