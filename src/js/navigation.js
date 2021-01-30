@@ -13,30 +13,30 @@ const buddySectionRef = document.querySelector('.buddies__js');
 const navigationRefs = document.querySelector('.navigation__js');
 
 homeNavLinkRef.addEventListener('click', e => {
-  toggleActiveLink(homeNavLinkRef);
+  toggleActiveLink(homeNavLinkRef.firstElementChild);
   homeSectionRef.classList.remove('hide');
   librarySectionRef.classList.add('hide');
   buddySectionRef.classList.add('hide');
 });
 
 libraryNavLinkRef.addEventListener('click', e => {
-  toggleActiveLink(libraryNavLinkRef);
+  toggleActiveLink(libraryNavLinkRef.firstElementChild);
   librarySectionRef.classList.remove('hide');
   homeSectionRef.classList.add('hide');
   buddySectionRef.classList.add('hide');
 });
 
 buddyNavLinkRef.addEventListener('click', e => {
-  toggleActiveLink(buddyNavLinkRef);
+  toggleActiveLink(buddyNavLinkRef.firstElementChild);
   buddySectionRef.classList.remove('hide');
   homeSectionRef.classList.add('hide');
   librarySectionRef.classList.add('hide');
 });
 
 function toggleActiveLink(link) {
-  const currentActiveLink = navigationRefs.querySelector('.active');
+  const currentActiveLink = navigationRefs.querySelector('.current');
   if (currentActiveLink) {
-    currentActiveLink.classList.remove('active');
+    currentActiveLink.classList.remove('current');
   }
-  link.classList.add('active');
+  link.classList.add('current');
 }
