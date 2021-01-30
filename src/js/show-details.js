@@ -10,8 +10,12 @@ import {
 } from './firebase-firestore.js';
 
 Handlebars.registerHelper('getMovieYear', function (release_date) {
-  var movieYear = release_date.slice(0, 4);
-  return movieYear;
+  if (!release_date) {
+    return;
+  } else {
+      var filmYear = release_date.slice(0, 4);
+    return filmYear;
+  }
 });
 
 let currentMovieItem = {};

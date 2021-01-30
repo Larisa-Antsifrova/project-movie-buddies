@@ -1,7 +1,7 @@
 import * as api from './movieApi.js';
 let { Api, getRealiseData, currentMoviesList } = api;
 
-const searchForm = document.querySelector('#search-form');
+const searchForm = document.querySelector('.search-form');
 const homeGalleryRef = document.querySelector('.home-gallery-list__js');
 const errorArea = document.querySelector('.search-error__js');
 
@@ -66,5 +66,3 @@ function notFound() {
 function clearError() {
   errorArea.style.visibility = 'hidden';
 }
-
-export { notFound };
