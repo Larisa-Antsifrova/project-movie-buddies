@@ -1,8 +1,7 @@
 import axios from 'axios';
-import * as Handlebars from 'handlebars/runtime';
 import { API_KEY } from './apiKey.js';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
-// import {notFound} from './input.js';
+import * as Handlebars from 'handlebars/runtime';
 
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
@@ -70,9 +69,9 @@ const Api = {
     );
     this.totalPages = data.total_pages;
     const respArr = await data.results;
-    // if (respArr.length === 0) {
-    //   notFound();
-    // }
+    if (respArr.length === 0) {
+      notFound();
+    }
     return respArr;
   },
   async fetchTrailersAPI(el) {
@@ -97,57 +96,136 @@ const Api = {
     return data.genres;
   },
 };
+Api.calculatePosterImgSize();
 
 // ===== Глобальные переменные
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
 let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
+let currentMovieItem = null;
 
-const homeGalleryRef = document.querySelector('.home-gallery-list__js');
+const searchForm = document.querySelector('.search-form');
+const homeGalleryListRef = document.querySelector('.home-gallery-list__js');
+const errorArea = document.querySelector('.search-error__js');
 
 // ============================ function rendering ==============================
-async function getRealiseData(moviesList) {
-  getGenresInfo(moviesList);
-  moviesList.then(movies => {
-      const galleryListMarkup = galleryElementTemplate(movies);
-      homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
+// Функция для добавления декодированных жанров в обьект фильмов
+async function combineFullMovieInfo(moviesList) {
+  const moviesFullInfo = await moviesList;
+  const genres_info = await getGenresInfo(moviesList);
+  const fullInfo = await moviesFullInfo.map((movie, ind) => {
+    movie['genres_name'] = genres_info[ind];
+    return movie;
   });
+  return fullInfo;
 }
-getRealiseData(currentMoviesList);
+
+// Функция для отрисовки списка популярных фильмов
+function createMovieList(fullInfo) {
+  const galleryListMarkup = galleryElementTemplate(fullInfo);
+  homeGalleryListRef.insertAdjacentHTML('beforeend', galleryListMarkup);
+}
 
 async function getGenresInfo(moviesList) {
   const genresInfo = await Promise.all([moviesList, genres]);
-    let filmsGenres = genresInfo[0].map(movie => {
-      let filmGenresIdArr = movie.genre_ids;
-      let thisMovieGenres = genresInfo[1].reduce((acc, genre) => {
-        if (filmGenresIdArr.includes(genre.id)) {
-          acc.push(genre.name);
-        }
-        return acc;
-      }, []);
-      return thisMovieGenres.join(', ');
-    })
-    // console.log(filmsGenres);
+  let filmsGenres = genresInfo[0].map(movie => {
+    let filmGenresIdArr = movie.genre_ids;
+    let thisMovieGenres = genresInfo[1].reduce((acc, genre) => {
+      if (filmGenresIdArr && filmGenresIdArr.includes(genre.id)) {
+        acc.push(genre.name);
+      }
+      return acc;
+    }, []);
+    return thisMovieGenres.join(', ');
+  });
+
   return filmsGenres;
-};
+}
 
 // ================ Handlebars Helpers ===================================
 Handlebars.registerHelper('getMovieYear', function (release_date) {
   if (!release_date) {
     return;
+  } else {
+    var filmYear = release_date.slice(0, 4);
+    return filmYear;
   }
-  var movieYear = release_date.slice(0, 4);
-  return movieYear;
 });
 
-// Handlebars.registerHelper('getPoster', function (poster_path) {
-//   if (!poster_path) {
-//     return;
-//   }
-//   return movieYear;
-// });
+Handlebars.registerHelper('getPoster', function (poster_path) {
+  if (!poster_path) {
+    const defaultImgUrl =
+      'https://drive.google.com/file/d/1pdAzALp81F5lBAVna3VrQKfcVaMirqrQ/view?usp=sharing';
+    return Handlebars.SafeString(defaultImgUrl);
+  } else {
+    const imgUrl = `${Api.images.baseImageUrl}${Api.images.currentSizes.posterSize}/${poster_path}`;
+    return imgUrl;
+  }
+});
 
+combineFullMovieInfo(currentMoviesList).then(createMovieList);
 
+// ==================================== input ===============================================================
 
+searchForm.addEventListener('click', onInputFocus);
+searchForm.addEventListener('submit', searchFilms);
+
+// функция для слушателя инпута и отображения страницы согласно запросу
+function searchFilms(e) {
+  e.preventDefault();
+  Api.searchQuery = e.target.elements.query.value.trim();
+  toggleRenderPage();
+}
+
+// функция выбора отображения страницы в зависимости от наличия текстa в инпуте.
+function toggleRenderPage() {
+  clearGallery(homeGalleryListRef);
+  if (!Api.searchQuery.length) {
+    renderPopularFilms();
+  } else {
+    renderSearchedFilms(Api.searchQuery);
+  }
+}
+
+// функция рендера страницы запроса
+function renderSearchedFilms(inputValue) {
+  currentMoviesList = Api.fetchSearchMovieList(inputValue);
+  createMovieList(currentMoviesList);
+}
+
+// функция рендера страницы трендов
+function renderPopularFilms() {
+  currentMoviesList = Api.fetchTrendingMoviesList();
+  createMovieList(currentMoviesList);
+}
+
+function clearGallery(filmsList) {
+  filmsList.innerHTML = '';
+}
+
+// функция очистки инпута и параграфа ошибки при фокусе
+function onInputFocus() {
+  clearError();
+  clearInput();
+  Api.resetPage();
+}
+
+function clearInput() {
+  searchForm.elements.query.value = '';
+  Api.searchQuery = '';
+}
+
+// функция реагирования на некорректный запрос
+function notFound() {
+  errorArea.style.visibility = 'visible';
+  setTimeout(clearError, 2000);
+  clearInput();
+  Api.resetPage();
+  toggleRenderPage();
+}
+
+function clearError() {
+  errorArea.style.visibility = 'hidden';
+}
 
 // ==================================================
-export { Api, getRealiseData, currentMoviesList, genres };
+export { Api, currentMoviesList, currentMovieItem, genres };
