@@ -1,24 +1,42 @@
-
-        <div class="modal" id="details-modal">
-          <div class="modal-content">
+      <div class="modal-content">
           <div class="img-wrapper">
-            <img src="#" alt="#" width="#" />
+            {{#if title}}
+            <img src="https://image.tmdb.org/t/p/w780{{ poster_path }}" alt="{{ title }}" class="responsive-img"/>
+            {{else}}
+            <img src="https://image.tmdb.org/t/p/w780{{ poster_path }}" alt="{{ name }}" class="responsive-img"/>
+            {{/if}}
           </div>
-          <div class="img-description">
-            <h3 class="title-film title-film__js">Title film</h3>
 
+          <div class="img-description">
+            {{#if title}}
+            <h3 class="title-film title-film__js">{{ title }}</h3>
+            {{else}}
+            <h3 class="title-film title-film__js">{{ name }}</h3>
+            {{/if}}
             <ul class="list info">
+
+              <li><span>Release Date</span>
+            {{#if release_date}}
+            <p class="release-date__js">{{release_date }}</p>
+            {{else}}
+            <p class="release-date__js">{{first_air_date }}</p>
+            {{/if}}
+              </li>
               <li>
                 <span>Vote<span class="divider">/</span>Votes</span>
-                <p><span class="divider">/</span></p>
+                <p class="vote__js">{{vote_average}}</p><span class="divider">/</span><p class="votes__js">{{vote_count}}</p>
               </li>
               <li>
                 <span>Popularity</span>
-                <p></p>
+                <p class="popularity__js">{{ popularity }}</p>
               </li>
               <li>
                 <span>Original Title</span>
-                <p></p>
+                {{#if original_name}}
+                <p class="original-title__js">{{ original_name }}</p>
+                {{else}}
+                <p class="original-title__js">{{ original_title }}</p>
+                {{/if}}
               </li>
               <li>
                 <span>Genre</span>
@@ -26,11 +44,10 @@
               </li>
             </ul>
             <h3 class="title-about">ABOUT</h3>
-            <p>text about film</p>
-            <a href="#" class="btn orange darken-3">ADD TO WATCHED</a>
-            <a href="#" class="btn orange darken-3">ADD TO QUEUE</a>
-            <a href="#" class="btn orange darken-3">ADD TO FAVOURITES</a>
-            <a href="#" class="btn orange darken-3">FIND A BUDDY</a>
+            <p class="overview__js">{{ overview }}</p>
+            <a href="#" class="btn orange darken-3 watched-btn__js"></a>
+            <a href="#" class="btn orange darken-3 queue-btn__js"></a>
+            <a href="#" class="btn orange darken-3 favorite-btn__js"></a>
+            <a href="#" class="btn orange darken-3">FIND BUDDY</a>
           </div>
           </div>
-        </div>
