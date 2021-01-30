@@ -135,20 +135,10 @@ const homeGalleryRef = document.querySelector('.home-gallery-list__js');
 
 Api.fetchTrendingMoviesList()
   .then(movies => {
-    let filmsYear = movies.reduce((acc, movie) => {
-      const filmYear = movie.release_date
-        ? `${movie.release_date.slice(0, 4)}`
-        : `${movie.first_air_date.slice(0, 4)}`;
-      acc.push(filmYear);
-      return acc;
-    }, []);
     let filmsGenres = movies.map(movie => {
       const filmGenresIdArr = movie.genre_ids;
       // console.log('filmGenresIdArr', filmGenresIdArr);
       let filmGenre = filmGenresIdArr.reduce((acc, genre) => {
-        // console.log(genre);
-        // console.log('genres', genres);
-        // console.log('name', genres.name);
         if (filmGenresIdArr.includes(genres.id)) {
           acc.push(genres.name);
         }
@@ -167,10 +157,12 @@ Api.fetchTrendingMoviesList()
     //   return filmGenres;
     // });
     // console.log(filmsYear);
-    return { movies, filmsYear };
+    return movies;
   })
-  .then(({ movies, filmsYear }) => {
+  .then(movies => {
+    console.log(movies);
     const galleryListMarkup = galleryElementTemplate(movies);
+    console.log(galleryListMarkup);
     homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
   });
 
