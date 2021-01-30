@@ -31,6 +31,28 @@
                 </li>
             </ul>
         </div>
+        <div class="row search-form__js">
+            <form id="search-form" class="col s12 m8 offset-m2 search-form">
+                <div class="input-field">
+                    <input type="text" name="query" id="search" class="input" autocomplete="off" />
+                    <label for="search" class="rigth label-text">Let's find a movie for you!</label>
+                    <i class="material-icons prefix">search</i>
+                </div>
+            </form>
+            <p class="col s12 center-align red-text text-darken-4 search-error__js">
+                No matches found. Try again!
+            </p>
+        </div>
+
+        <div class="row tabs__js hide">
+            <div class="col s12 l6 offset-l2">
+                <ul class="tabs">
+                    <li class="tab col s4"><a href="#watched" class="">WATCHED</a></li>
+                    <li class="tab col s4"><a href="#queue" class="">QUEUE</a></li>
+                    <li class="tab col s4"><a href="#favourite" class="">FAVORITE</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </nav>
 
