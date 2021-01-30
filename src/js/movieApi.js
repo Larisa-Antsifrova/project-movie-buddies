@@ -183,7 +183,9 @@ function toggleRenderPage() {
         behavior: 'smooth',
       });
   if (!Api.searchQuery.length) {
-    renderPopularFilms();
+    renderPopularFilms().then(() => {
+      paginator.recalculate(Api.totalPages || 1);
+    });
   } else {
     renderSearchedFilms(Api.searchQuery).then(() => {
       paginator.recalculate(Api.totalPages || 1);
