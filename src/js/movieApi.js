@@ -1,7 +1,8 @@
 import axios from 'axios';
+import * as Handlebars from 'handlebars/runtime';
 import { API_KEY } from './apiKey.js';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
-import * as Handlebars from 'handlebars/runtime';
+// import {notFound} from './input.js';
 
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
@@ -14,16 +15,9 @@ const Api = {
   pageNumber: 1,
   images: {
     baseImageUrl: 'https://image.tmdb.org/t/p/',
-    defaultBackdropImg: '',
     defaultPosterImg: '',
     currentSizes: {
-      backdropSize: '',
       posterSize: '',
-    },
-    backdropSizes: {
-      mobile: 'w780',
-      tablet: 'w780',
-      desktop: 'w780',
     },
     posterSizes: {
       mobile: 'w342',
@@ -41,31 +35,8 @@ const Api = {
   resetPage() {
     this.pageNumber = 1;
   },
-  get imageBackdropSize() {
-    return this.images.currentSizes.backdropSize;
-  },
   get imagePosterSize() {
     return this.images.currentSizes.posterSize;
-  },
-  calculateBackdropImgSize() {
-    if (window.visualViewport.width >= 1024) {
-      this.images.currentSizes.backdropSize = this.images.backdropSizes.desktop;
-      this.images.defaultBackdropImg = './images/default/backdrop-desktop.jpg';
-      return;
-    }
-    if (
-      window.visualViewport.width >= 768 &&
-      window.visualViewport.width < 1024
-    ) {
-      this.images.currentSizes.backdropSize = this.images.backdropSizes.tablet;
-      this.images.defaultBackdropImg = './images/default/backdrop-tablet.jpg';
-      return;
-    }
-    if (window.visualViewport.width < 768) {
-      this.images.currentSizes.backdropSize = this.images.backdropSizes.mobile;
-      this.images.defaultBackdropImg = './images/default/backdrop-mobile.jpg';
-      return;
-    }
   },
   calculatePosterImgSize() {
     if (window.visualViewport.width >= 1024) {
@@ -99,9 +70,9 @@ const Api = {
     );
     this.totalPages = data.total_pages;
     const respArr = await data.results;
-    if (respArr.length === 0) {
-      notFound();
-    }
+    // if (respArr.length === 0) {
+    //   notFound();
+    // }
     return respArr;
   },
   async fetchTrailersAPI(el) {
@@ -134,47 +105,47 @@ let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит ма�
 const homeGalleryListRef = document.querySelector('.home-gallery-list__js');
 console.log(homeGalleryListRef, 'link');
 
-Api.fetchTrendingMoviesList()
-  .then(movies => {
-    let filmsGenres = movies.map(movie => {
-      const filmGenresIdArr = movie.genre_ids;
-      // console.log('filmGenresIdArr', filmGenresIdArr);
-      let filmGenre = filmGenresIdArr.reduce((acc, genre) => {
-        if (filmGenresIdArr.includes(genres.id)) {
-          acc.push(genres.name);
-        }
-        return acc;
-      }, []);
-      // console.log('filmGenre', filmGenre);
-    });
-    // genres.then(genresArr => {
-    //   let thisMovieGenres = genresArr.reduce((acc, genre) => {
-    //       if (genresIdArr.includes(genre.id)) {
-    //         acc.push(genre.name);
-    //     }
-    //       return acc;
-    //   }, []);
-    //   filmGenres = thisMovieGenres.join(', ');
-    //   return filmGenres;
-    // });
-    // console.log(filmsYear);
-    return movies;
-  })
-  .then(movies => {
-    console.log(movies);
+// ============================ function rendering ==============================
+async function getRealiseData(moviesList) {
+  getGenresInfo(moviesList);
+  moviesList.then(movies => {
     const galleryListMarkup = galleryElementTemplate(movies);
-    console.log(galleryListMarkup);
-    homeGalleryListRef.insertAdjacentHTML('beforeend', galleryListMarkup);
+    homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
   });
+}
+getRealiseData(currentMoviesList);
 
+async function getGenresInfo(moviesList) {
+  const genresInfo = await Promise.all([moviesList, genres]);
+  let filmsGenres = genresInfo[0].map(movie => {
+    let filmGenresIdArr = movie.genre_ids;
+    let thisMovieGenres = genresInfo[1].reduce((acc, genre) => {
+      if (filmGenresIdArr.includes(genre.id)) {
+        acc.push(genre.name);
+      }
+      return acc;
+    }, []);
+    return thisMovieGenres.join(', ');
+  });
+  // console.log(filmsGenres);
+  return filmsGenres;
+}
+
+// ================ Handlebars Helpers ===================================
 Handlebars.registerHelper('getMovieYear', function (release_date) {
+  if (!release_date) {
+    return;
+  }
   var movieYear = release_date.slice(0, 4);
   return movieYear;
 });
 
-// Handlebars.registerHelper('getMovieYear', function (release_date) {
-//   var movieYear = release_date.slice(0, 4);
+// Handlebars.registerHelper('getPoster', function (poster_path) {
+//   if (!poster_path) {
+//     return;
+//   }
 //   return movieYear;
 // });
 
-export { Api, currentMoviesList, genres };
+// ==================================================
+export { Api, getRealiseData, currentMoviesList, genres };
