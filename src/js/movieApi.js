@@ -150,4 +150,4 @@ Handlebars.registerHelper('getMovieYear', function (release_date) {
 
 
 // ==================================================
-export default {Api, getRealiseData, currentMovieItem, currentMoviesList, genres};
+export { Api, getRealiseData, currentMoviesList, genres };

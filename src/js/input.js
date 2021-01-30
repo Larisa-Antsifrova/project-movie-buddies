@@ -1,4 +1,4 @@
-import api from './movieApi.js';
+import * as api from './movieApi.js';
 let { Api, getRealiseData, currentMoviesList } = api;
 
 const searchForm = document.querySelector('#search-form');
@@ -12,6 +12,7 @@ searchForm.addEventListener('submit', searchFilms);
 function searchFilms(e) {
   e.preventDefault();
   Api.searchQuery = e.target.elements.query.value.trim();
+  console.log(currentMoviesList);
   toggleRenderPage();
 };
 
@@ -61,11 +62,6 @@ function notFound() {
   Api.resetPage();
   toggleRenderPage();
 }
-
-//   return renderPopularFilms().then(() => {
-//     // paginator.recalculate(Api.totalPages);
-//   });
-// }
 
 function clearError() {
   errorArea.style.visibility = 'hidden';
