@@ -10,24 +10,22 @@ import {
 } from './firebase-firestore.js';
 
 Handlebars.registerHelper('getMovieYear', function (release_date) {
+  if (!release_date) {
+    return;
+  }
   var movieYear = release_date.slice(0, 4);
   return movieYear;
 });
-
-let currentMovieItem = {};
-
-// import detailFilmTemplate from '../templates/4details.hbs';
-// console.log(detailFilmTemplate);
 
 Handlebars.registerHelper('roundUpPopularity', function (popularity) {
   var roundValue = popularity.toFixed(1);
   return roundValue;
 });
 
-// console.log(detailFilmTemplate);
+let currentMovieItem = {};
 
 const sectionDetails = document.querySelector('.details__js'); // доступ к секции с деталями в html
-const homeGalleryRef = document.querySelector('.home__js');
+const homeGalleryRef = document.querySelector('.home-gallery-list__js'); //доступ к ul галлереи для слушателя модалки
 const titleFilmRef = document.querySelector('.title-film__js');
 const overviewRef = document.querySelector('.overview__js');
 const popularityRef = document.querySelector('.popularity__js');
@@ -57,13 +55,13 @@ async function manageLibrary(e) {
     manageFavorite(currentMovieItem),
   );
 }
-// homeGalleryRef.addEventListener('click', onDetailsModalOpen);
+homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 
 function showDetails(e) {
   detailsModalRef.innerHTML = '';
-  // e.preventDefault();
+  e.preventDefault();
 //   console.dir(e.target.nodeName);
-  // if (e.target.nodeName !== 'IMG') {
+  // if (e.target.nodeName !== 'A') {
   //   return;
   // }
 
@@ -109,8 +107,6 @@ function showDetails(e) {
 //   originalTitleRef.textContent = movieOriginalTitle;
 // }
 
-export { showDetails };
-
 async function getCurrentMovieItem(e) {
   const id = +e.target.dataset.id;
 
@@ -119,3 +115,5 @@ async function getCurrentMovieItem(e) {
 
   return currentMovieItem;
 }
+
+export { showDetails };
