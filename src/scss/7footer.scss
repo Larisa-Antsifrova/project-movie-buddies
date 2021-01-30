@@ -1,0 +1,25 @@
+.footer-container {
+  width: 100%;
+  padding-top: 29px;
+  padding-bottom: 29px;
+  background: #f7f7f7;
+  color: rgba(84, 84, 84, 1);
+  text-align: center;
+}
+
+.copyright-text {
+  @media screen and (max-width: 767px) {
+    display: block;
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.heart-icon {
+  height: 12.75px;
+  font-size: 14px;
+  color: rgba(255, 107, 8, 1);
+}
