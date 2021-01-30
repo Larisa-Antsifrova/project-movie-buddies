@@ -68,6 +68,7 @@ const Api = {
       `/search/multi?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=${this.pageNumber}`,
     );
     this.totalPages = data.total_pages;
+    console.log(this.totalPages, 'this.totalPages');
     const respArr = await data.results;
     if (respArr.length === 0) {
       notFound();
@@ -120,7 +121,7 @@ async function combineFullMovieInfo(moviesList) {
 }
 
 // Функция для отрисовки списка популярных фильмов
-function combineFullMovieInfo(fullInfo) {
+function createMovieList(fullInfo) {
   const galleryListMarkup = galleryElementTemplate(fullInfo);
   homeGalleryListRef.insertAdjacentHTML('beforeend', galleryListMarkup);
 }
@@ -162,9 +163,6 @@ Handlebars.registerHelper('getPoster', function (poster_path) {
   }
 });
 
-combineFullMovieInfo(currentMoviesList).then(combineFullMovieInfo);
-
-
 // ==================================== input ===============================================================
 searchForm.addEventListener('click', onInputFocus);
 searchForm.addEventListener('submit', searchFilms);
@@ -178,24 +176,31 @@ function searchFilms(e) {
 
 // функция выбора отображения страницы в зависимости от наличия текстa в инпуте.
 function toggleRenderPage() {
-  clearGallery(homeGalleryRef);
+  clearGallery(homeGalleryListRef);
+  window.scrollTo({
+        top: 100,
+        left: 100,
+        behavior: 'smooth',
+      });
   if (!Api.searchQuery.length) {
     renderPopularFilms();
   } else {
-    renderSearchedFilms(Api.searchQuery);
+    renderSearchedFilms(Api.searchQuery).then(() => {
+      paginator.recalculate(Api.totalPages || 1);
+    });
   }
 };
 
 // функция рендера страницы запроса
 function renderSearchedFilms(inputValue) {
   currentMoviesList = Api.fetchSearchMovieList(inputValue);
-  return combineFullMovieInfo(currentMoviesList);
+  return combineFullMovieInfo(currentMoviesList).then(createMovieList);
 };
 
 // функция рендера страницы трендов
 function renderPopularFilms() {
   currentMoviesList = Api.fetchTrendingMoviesList();
-  return combineFullMovieInfo(currentMoviesList);
+  return combineFullMovieInfo(currentMoviesList).then(createMovieList);
 };
 
 function clearGallery(filmsList) {
@@ -220,7 +225,10 @@ function notFound() {
   setTimeout(clearError, 2000);
   clearInput();
   Api.resetPage();
-  toggleRenderPage();
+
+  return renderPopularFilms().then(() => {
+  paginator.recalculate(Api.totalPages);
+  });
 }
 
 function clearError() {
@@ -288,7 +296,7 @@ class PaginationApi {
     if (Api.pageNumber === 1) {
       this.disableToBeginningBtn();
       this.disablePreviousPageBtn();
-      // this.assignCurrentActivePage();
+
       this.enableToEndBtn();
       this.enableNextPageBtn();
     }
@@ -340,7 +348,8 @@ class PaginationApi {
   assignCurrentActivePage() {
       const paginationPageItems = this.paginationPageItemsContainerRef.querySelectorAll('li');
       const liArr = Array.from(paginationPageItems);
-      const activeTarget = liArr.find(node => +node.dataset.page === Api.pageNumber);
+    const activeTarget = liArr.find(node => +node.dataset.page === Api.pageNumber);
+    console.log(activeTarget);
     activeTarget.classList.add('active');
     this.currentActivePage = activeTarget;
   }
