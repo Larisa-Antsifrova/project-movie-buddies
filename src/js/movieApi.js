@@ -98,7 +98,7 @@ const Api = {
 };
 Api.calculatePosterImgSize();
 
-// ===== Глобальные переменные
+// ===== Глобальные переменные ==============================================================
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
 let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
 let currentMovieItem = null;
@@ -114,17 +114,10 @@ async function createMovieList(moviesList) {
   const genres_info = await getGenresInfo(moviesList);
   const fullInfo = await moviesFullInfo.map((movie, ind) => {
     movie['genres_name'] = genres_info[ind];
-    console.log(movie);
+    return movie;
   })
-  console.log(fullInfo);
-    // .then(movies => {
-    // const fullInfo = movies.map((movie, ind) => {
-    //   movie['genres_name'] = genres_info[ind];
-    // })
-    
-      const galleryListMarkup = galleryElementTemplate(fullInfo);
-      homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
-  // });
+  const galleryListMarkup = galleryElementTemplate(fullInfo);
+  homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
 }
 createMovieList(currentMoviesList);
 
@@ -140,7 +133,6 @@ async function getGenresInfo(moviesList) {
       }, []);
       return thisMovieGenres.join(', ');
     })
-    // console.log(filmsGenres);
   return filmsGenres;
 };
 
