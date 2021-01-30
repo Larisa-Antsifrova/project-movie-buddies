@@ -104,37 +104,42 @@ let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит ма�
 let currentMovieItem = null;
 
 const searchForm = document.querySelector('.search-form');
-const homeGalleryRef = document.querySelector('.home-gallery-list__js');
+const homeGalleryListRef = document.querySelector('.home-gallery-list__js');
 const errorArea = document.querySelector('.search-error__js');
 
-
 // ============================ function rendering ==============================
-async function createMovieList(moviesList) {
+// Функция для добавления декодированных жанров в обьект фильмов
+async function combineFullMovieInfo(moviesList) {
   const moviesFullInfo = await moviesList;
   const genres_info = await getGenresInfo(moviesList);
   const fullInfo = await moviesFullInfo.map((movie, ind) => {
     movie['genres_name'] = genres_info[ind];
     return movie;
-  })
-  const galleryListMarkup = galleryElementTemplate(fullInfo);
-  homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
+  });
+  return fullInfo;
 }
-// createMovieList(currentMoviesList);
+
+// Функция для отрисовки списка популярных фильмов
+function combineFullMovieInfo(fullInfo) {
+  const galleryListMarkup = galleryElementTemplate(fullInfo);
+  homeGalleryListRef.insertAdjacentHTML('beforeend', galleryListMarkup);
+}
 
 async function getGenresInfo(moviesList) {
   const genresInfo = await Promise.all([moviesList, genres]);
-    let filmsGenres = genresInfo[0].map(movie => {
-      let filmGenresIdArr = movie.genre_ids;
-      let thisMovieGenres = genresInfo[1].reduce((acc, genre) => {
-        if (filmGenresIdArr && filmGenresIdArr.includes(genre.id)) {
-          acc.push(genre.name);
-        }
-        return acc;
-      }, []);
-      return thisMovieGenres.join(', ');
-    })
+  let filmsGenres = genresInfo[0].map(movie => {
+    let filmGenresIdArr = movie.genre_ids;
+    let thisMovieGenres = genresInfo[1].reduce((acc, genre) => {
+      if (filmGenresIdArr && filmGenresIdArr.includes(genre.id)) {
+        acc.push(genre.name);
+      }
+      return acc;
+    }, []);
+    return thisMovieGenres.join(', ');
+  });
+
   return filmsGenres;
-};
+}
 
 // ================ Handlebars Helpers ===================================
 Handlebars.registerHelper('getMovieYear', function (release_date) {
@@ -146,7 +151,6 @@ Handlebars.registerHelper('getMovieYear', function (release_date) {
   }
 });
 
-
 Handlebars.registerHelper('getPoster', function (poster_path) {
   if (!poster_path) {
     const defaultImgUrl = `${Api.images.baseImageUrl}${Api.images.currentSizes.posterSize}/wwemzKWzjKYJFfCeiB57q3r4Bcm.png`;
@@ -157,6 +161,9 @@ Handlebars.registerHelper('getPoster', function (poster_path) {
 
   }
 });
+
+combineFullMovieInfo(currentMoviesList).then(combineFullMovieInfo);
+
 
 // ==================================== input ===============================================================
 searchForm.addEventListener('click', onInputFocus);
@@ -182,13 +189,13 @@ function toggleRenderPage() {
 // функция рендера страницы запроса
 function renderSearchedFilms(inputValue) {
   currentMoviesList = Api.fetchSearchMovieList(inputValue);
-  return createMovieList(currentMoviesList);
+  return combineFullMovieInfo(currentMoviesList);
 };
 
 // функция рендера страницы трендов
 function renderPopularFilms() {
   currentMoviesList = Api.fetchTrendingMoviesList();
-  return createMovieList(currentMoviesList);
+  return combineFullMovieInfo(currentMoviesList);
 };
 
 function clearGallery(filmsList) {
@@ -564,7 +571,6 @@ const paginator = new PaginationApi(Api.totalPages);
 renderPopularFilms().then(() => {
   paginator.recalculate(Api.totalPages);
 });
-
 
 // ==================================================
 export { Api, currentMoviesList, currentMovieItem, genres };

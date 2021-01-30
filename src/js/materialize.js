@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // M.Modal.init(detailsModal, {
   //   onOpenEnd: e => {
   //     console.log('test event', e);
-  //     // showDetails(e);
+  //     showDetails(e);
   //   },
   // });
 });

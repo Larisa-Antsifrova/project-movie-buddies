@@ -1,50 +1,41 @@
-nav {
-  background-color: transparent !important;
-}
-.nav-wrapper a {
-  color: #aaa !important;
-}
-
 body {
-  max-width: $mobile;
-  
-
-  background-image: url('../images/header-bg-main-mobile.jpg');
+  background-image: url('../images/header-bg-main-desktop.jpg');
+  background-position: top center;
   background-repeat: no-repeat;
-  
-
-  @media screen and (min-device-pixel-ratio: 2),
-    screen and (min-resolution: 192dpi),
-    screen and (min-resolution: 2dppx) {
-    background-image:  
-      url('../images/header-bg-main-mobile.jpg');
-  }
-
-  @media screen and (min-width: $tablet) {
-    max-width: $tablet;
-
-    background-image: 
-      url('../images/header-bg-main-tablet.jpg');
-      // background-position: center, top;
-
-    @media screen and (min-device-pixel-ratio: 2),
-      screen and (min-resolution: 192dpi),
-      screen and (min-resolution: 2dppx) {
-      background-image: 
-        url('../images/header-bg-main-tablet.jpg');
-    }
-  }
-  @media screen and (min-width: $desktop) {
-    max-width: $desktop;
-    background-image: 
-      url('../images/header-bg-main-desktop.jpg');
-      
-
-    @media screen and (min-device-pixel-ratio: 2),
-      screen and (min-resolution: 192dpi),
-      screen and (min-resolution: 2dppx) {
-      background-image:
-        url('../images/header-bg-main-desktop.jpg');
-    }
-  }
 }
+
+// body {
+//   max-width: $mobile;
+
+//   background-image: url('../images/header-bg-main-mobile.jpg');
+//   background-repeat: no-repeat;
+
+//   @media screen and (min-device-pixel-ratio: 2),
+//     screen and (min-resolution: 192dpi),
+//     screen and (min-resolution: 2dppx) {
+//     background-image: url('../images/header-bg-main-mobile.jpg');
+//   }
+
+//   @media screen and (min-width: $tablet) {
+//     max-width: $tablet;
+
+//     background-image: url('../images/header-bg-main-tablet.jpg');
+//     // background-position: center, top;
+
+//     @media screen and (min-device-pixel-ratio: 2),
+//       screen and (min-resolution: 192dpi),
+//       screen and (min-resolution: 2dppx) {
+//       background-image: url('../images/header-bg-main-tablet.jpg');
+//     }
+//   }
+//   @media screen and (min-width: $desktop) {
+//     max-width: $desktop;
+//     background-image: url('../images/header-bg-main-desktop.jpg');
+
+//     @media screen and (min-device-pixel-ratio: 2),
+//       screen and (min-resolution: 192dpi),
+//       screen and (min-resolution: 2dppx) {
+//       background-image: url('../images/header-bg-main-desktop.jpg');
+//     }
+//   }
+// }
