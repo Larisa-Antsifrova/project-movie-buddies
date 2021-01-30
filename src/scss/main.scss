@@ -1,5 +1,8 @@
 @import './base/modern-normalize';
 @import './base/common';
+@import './base/variables.scss';
+
+
 @import './1header.scss';
 @import './2home.scss';
 @import './3library.scss';
@@ -9,3 +12,4 @@
 @import './7footer.scss';
 @import './8galleryElement.scss';
 @import './9buttonUp.scss';
+

@@ -2,13 +2,13 @@
 <li class="gallery-element col s12 m6 l4" data-id="{{id}}">
         <a class="modal-trigger" href="#details-modal">
                 {{#if title}}
-                <img data-id="{{id}}" class="movie-image responsive-img" src="https://image.tmdb.org/t/p/w500{{poster_path}}" alt="{{ title }}">
+                <img data-id="{{id}}" class="movie-image responsive-img" src="https://image.tmdb.org/t/p/w780{{poster_path}}" alt="{{ title }}">
                 <h3 class="movie-name">{{ title }}</h3>
                 {{else}}
-                <img data-id="{{id}}" class="movie-image responsive-img" src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="{{ name }}">
+                <img data-id="{{id}}" class="movie-image responsive-img" src="https://image.tmdb.org/t/p/w780{{ poster_path }}" alt="{{ name }}">
                 <h3 class="movie-name">{{ name }}</h3>
                 {{/if}}
-                {{!-- <p class="movie-genre">{{ genre }}</p> --}}
+                <p class="movie-genre">{{ genres_name }}</p>
                 {{#if release_date}}
                 <p class="movie-year">{{ getMovieYear release_date }}</p>
                 {{else}}
