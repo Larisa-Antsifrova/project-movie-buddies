@@ -57,19 +57,19 @@ async function manageLibrary(e) {
     manageFavorite(currentMovieItem),
   );
 }
-homeGalleryRef.addEventListener('click', onDetailsModalOpen);
+// homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 
 function showDetails(e) {
   detailsModalRef.innerHTML = '';
   // e.preventDefault();
-  console.dir(e.target.nodeName);
+//   console.dir(e.target.nodeName);
   // if (e.target.nodeName !== 'IMG') {
   //   return;
   // }
 
-  console.log('hello');
+//   console.log('hello');
   const id = +e.target.dataset.id;
-  console.log(id);
+//   console.log(id);
   // console.log(currentMoviesList);
   currentMoviesList
     .then(movies => {
@@ -77,8 +77,8 @@ function showDetails(e) {
       return movies.find(el => el.id === id);
     })
     .then(el => {
-      console.log('I element');
-      console.log(el);
+    //   console.log('I element');
+    //   console.log(el);
       const modalMarkup = detailTemplate(el);
       detailsModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
     });
