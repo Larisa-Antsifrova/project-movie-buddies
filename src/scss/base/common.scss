@@ -1,19 +1,27 @@
-section {
-  padding-top: 20px;
-  padding-bottom: 40px;
+// Media Query Ranges
+$small-screen-up: 321px !default;
+$medium-screen-up: 769px !default;
+$large-screen-up: 1025px !default;
 
-  @media screen and (min-width: 767px) {
-    padding-top: 60px;
-    padding-bottom: 60px;
-  }
-}
+$small-screen: 320px !default;
+$medium-screen: 768px !default;
+$large-screen: 1024px !default;
 
-.my-container {
+$medium-and-up: 'only screen and (min-width : #{$small-screen-up})' !default;
+$large-and-up: 'only screen and (min-width : #{$medium-screen-up})' !default;
+$extra-large-and-up: 'only screen and (min-width : #{$large-screen-up})' !default;
+$small-and-down: 'only screen and (max-width : #{$small-screen})' !default;
+$medium-and-down: 'only screen and (max-width : #{$medium-screen})' !default;
+$medium-only: 'only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})' !default;
+
+.container {
   width: 100%;
   padding: 0 20px;
+
   margin-left: auto;
   margin-right: auto;
-  outline: 2px solid tomato;
+
+  // outline: 2px solid tomato;
 
   @media screen and (min-width: 320px) {
     width: 320px;
@@ -28,8 +36,12 @@ section {
   }
 }
 
-img {
-  display: block;
-  max-width: 280px;
-  height: auto;
+section {
+  padding-top: 20px;
+  padding-bottom: 40px;
+
+  @media screen and (min-width: 767px) {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
 }
