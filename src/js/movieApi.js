@@ -1,7 +1,8 @@
 import axios from 'axios';
+import * as Handlebars from 'handlebars/runtime';
 import { API_KEY } from './apiKey.js';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
-import * as Handlebars from 'handlebars/runtime';
+// import {notFound} from './input.js';
 
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
@@ -16,7 +17,6 @@ const Api = {
     baseImageUrl: 'https://image.tmdb.org/t/p/',
     defaultPosterImg: '',
     currentSizes: {
-      backdropSize: '',
       posterSize: '',
     },
     posterSizes: {
@@ -70,9 +70,9 @@ const Api = {
     );
     this.totalPages = data.total_pages;
     const respArr = await data.results;
-    if (respArr.length === 0) {
-      notFound();
-    }
+    // if (respArr.length === 0) {
+    //   notFound();
+    // }
     return respArr;
   },
   async fetchTrailersAPI(el) {
@@ -105,46 +105,50 @@ let currentMovieItem = null;
 
 const homeGalleryRef = document.querySelector('.home-gallery-list__js');
 
-Api.fetchTrendingMoviesList().then(movies => {
-  let filmsYear = movies.reduce((acc, movie) => {
-    const filmYear = movie.release_date ? `${movie.release_date.slice(0, 4)}` : `${movie.first_air_date.slice(0, 4)}`;
-    acc.push(filmYear);
-    return acc
-  }, [])
-  let filmsGenres = movies.map(movie => {
-    const filmGenresIdArr = movie.genre_ids;
-    // console.log('filmGenresIdArr', filmGenresIdArr);
-    let filmGenre = filmGenresIdArr.reduce((acc, genre) => {
-          console.log(genre);
-        // console.log('genres', genres);
-        // console.log('name', genres.name);
-      if (filmGenresIdArr.includes(genres.id)) {
-        acc.push(genres.name);
-      }
-      return acc;
-    }, []);
-    // console.log('filmGenre', filmGenre);
+// ============================ function rendering ==============================
+async function getRealiseData(moviesList) {
+  getGenresInfo(moviesList);
+  moviesList.then(movies => {
+      const galleryListMarkup = galleryElementTemplate(movies);
+      homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
   });
-    // genres.then(genresArr => {
-    //   let thisMovieGenres = genresArr.reduce((acc, genre) => {
-    //       if (genresIdArr.includes(genre.id)) {
-    //         acc.push(genre.name);
-    //     }
-    //       return acc;
-    //   }, []);
-    //   filmGenres = thisMovieGenres.join(', ');
-    //   return filmGenres;
-    // });
-    // console.log(filmsYear);
-  return ({movies, filmsYear})
-}).then(({ movies, filmsYear }) => {
-    const galleryListMarkup = galleryElementTemplate(movies);
-  homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
-});
+}
+getRealiseData(currentMoviesList);
 
+async function getGenresInfo(moviesList) {
+  const genresInfo = await Promise.all([moviesList, genres]);
+    let filmsGenres = genresInfo[0].map(movie => {
+      let filmGenresIdArr = movie.genre_ids;
+      let thisMovieGenres = genresInfo[1].reduce((acc, genre) => {
+        if (filmGenresIdArr.includes(genre.id)) {
+          acc.push(genre.name);
+        }
+        return acc;
+      }, []);
+      return thisMovieGenres.join(', ');
+    })
+    // console.log(filmsGenres);
+  return filmsGenres;
+};
+
+// ================ Handlebars Helpers ===================================
 Handlebars.registerHelper('getMovieYear', function (release_date) {
+  if (!release_date) {
+    return;
+  }
   var movieYear = release_date.slice(0, 4);
   return movieYear;
 });
 
-export default { Api, currentMovieItem, currentMoviesList, genres };
+// Handlebars.registerHelper('getPoster', function (poster_path) {
+//   if (!poster_path) {
+//     return;
+//   }
+//   return movieYear;
+// });
+
+
+
+
+// ==================================================
+export default {Api, getRealiseData, currentMovieItem, currentMoviesList, genres};
