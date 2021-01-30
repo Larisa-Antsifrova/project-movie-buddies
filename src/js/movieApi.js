@@ -131,7 +131,8 @@ const Api = {
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
 let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
 
-const homeGalleryRef = document.querySelector('.home-gallery-list__js');
+const homeGalleryListRef = document.querySelector('.home-gallery-list__js');
+console.log(homeGalleryListRef, 'link');
 
 Api.fetchTrendingMoviesList()
   .then(movies => {
@@ -163,7 +164,7 @@ Api.fetchTrendingMoviesList()
     console.log(movies);
     const galleryListMarkup = galleryElementTemplate(movies);
     console.log(galleryListMarkup);
-    homeGalleryRef.insertAdjacentHTML('beforeend', galleryListMarkup);
+    homeGalleryListRef.insertAdjacentHTML('beforeend', galleryListMarkup);
   });
 
 Handlebars.registerHelper('getMovieYear', function (release_date) {
@@ -171,9 +172,9 @@ Handlebars.registerHelper('getMovieYear', function (release_date) {
   return movieYear;
 });
 
-Handlebars.registerHelper('getMovieYear', function (release_date) {
-  var movieYear = release_date.slice(0, 4);
-  return movieYear;
-});
+// Handlebars.registerHelper('getMovieYear', function (release_date) {
+//   var movieYear = release_date.slice(0, 4);
+//   return movieYear;
+// });
 
 export { Api, currentMoviesList, genres };
