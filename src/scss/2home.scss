@@ -14,3 +14,11 @@
 input[type='text']:not(.browser-default):focus:not([readonly]) {
   border-bottom: #ff6b08;
 }
+
+.input {
+  color: aliceblue;
+}
+.search-error__js {
+  visibility: hidden;
+  text-align: center;
+}
