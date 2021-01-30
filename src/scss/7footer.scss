@@ -10,16 +10,18 @@
 .copyright-text {
   @media screen and (max-width: 767px) {
     display: block;
+    margin-bottom: 10px;
   }
 }
 
-.link {
-  text-decoration: none;
-  color: inherit;
-}
-
 .heart-icon {
-  height: 12.75px;
+  margin-right: 10px;
+  margin-left: 10px;
   font-size: 14px;
   color: rgba(255, 107, 8, 1);
+}
+
+.modal-link {
+  text-decoration: underline;
+  color: inherit;
 }
