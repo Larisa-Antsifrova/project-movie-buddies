@@ -8,13 +8,16 @@
                 <img data-id="{{id}}" class="movie-image responsive-img" src="https://image.tmdb.org/t/p/w780{{ poster_path }}" alt="{{ name }}">
                 <h3 class="movie-name">{{ name }}</h3>
                 {{/if}}
+                <div class="movie-info"></div>
                 <p class="movie-genre">{{ genres_name }}</p>
+                <span class="separator">|</span>
                 {{#if release_date}}
                 <p class="movie-year">{{ getMovieYear release_date }}</p>
                 {{else}}
                 <p class="movie-year">{{ getMovieYear first_air_date }}</p>
                 {{/if}}
                 <p class="movie-rating">{{ vote_average }}</p>
+                </div>
         </a>
 </li>
 {{/each}}
