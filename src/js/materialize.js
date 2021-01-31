@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
   M.Tabs.init(tabs);
   var modals = document.querySelectorAll('.modal');
   M.Modal.init(modals);
+  var elems = document.querySelectorAll('.sidenav');
+  M.Sidenav.init(elems, { edge: 'right', draggable: true });
   // activeModal = M.Modal.getInstance('#details-modal');
   // activeModal.open();
   // const detailsModal = document.getElementById('details-modal');
