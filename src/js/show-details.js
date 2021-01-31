@@ -87,8 +87,12 @@ function showDetails(e) {
     //   console.log(el);
       const modalMarkup = detailTemplate(el);
       detailsModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
+      // let moviePopularity = el.popularity;
+      // popularityRef.textContent = moviePopularity.toFixed(1);
     });
 }
+// buttRef = document.querySelector('.watched-btn__js')
+// console.log(buttRef);
 
 // async function showDetails(e) {
 //   const id = +e.target.dataset.id;
