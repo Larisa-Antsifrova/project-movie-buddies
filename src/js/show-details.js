@@ -10,16 +10,24 @@ import {
 } from './firebase-firestore.js';
 console.log('REFS ', watchedBtnRef);
 
-Handlebars.registerHelper('getMovieYear', function (release_date) {
-  if (!release_date) {
-    return;
-  }
-  var movieYear = release_date.slice(0, 4);
-  return movieYear;
-});
+// Handlebars.registerHelper('getMovieYear', function (release_date) {
+//   if (!release_date) {
+//     return;
+//   }
+//   var movieYear = release_date.slice(0, 4);
+//   return movieYear;
+// });
+
+// Handlebars.registerHelper('getMovieDate', function (first_air_date) {
+//     if (!first_air_date) {
+//       return;
+//     }
+//     var movieDate = first_air_date.slice(0, 4);
+//     return movieDate;
+//   });
 
 Handlebars.registerHelper('roundUpPopularity', function (popularity) {
-  var roundValue = popularity.toFixed(1);
+  var roundValue = popularity;
   return roundValue;
 });
 
@@ -91,6 +99,8 @@ function showDetails(e) {
       console.log('REF IN FUNCT', watchedBtnRef);
     });
 }
+// buttRef = document.querySelector('.watched-btn__js')
+// console.log(buttRef);
 
 // async function showDetails(e) {
 //   const id = +e.target.dataset.id;
