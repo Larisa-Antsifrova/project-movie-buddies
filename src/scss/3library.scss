@@ -16,16 +16,19 @@
 .tabs .tab a:focus.active {
   background-color: #ff6b01;
   color: white;
+  border: 1px solid #ff6b01;
 }
 
 .tabs .tab a:hover,
 .tabs .tab a.active {
   background-color: #ff6b01;
   color: white;
+  border: 1px solid #ff6b01;
 }
 
 .tabs .indicator {
-  background-color: #ff6b01;
+  // background-color: #ff6b01;
+  display: none;
 }
 
 .message {
