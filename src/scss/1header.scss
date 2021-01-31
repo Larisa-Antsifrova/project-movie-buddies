@@ -1,7 +1,9 @@
-body {
+.bg {
+  height: 230px;
   background-image: url('../images/header-bg-main-desktop.jpg');
   background-position: top center;
   background-repeat: no-repeat;
+  background-size: cover;
 }
 
 // body {
