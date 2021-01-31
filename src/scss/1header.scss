@@ -13,8 +13,6 @@
   }
 
   @media screen and (min-width: 992px) {
-    max-width: 992px;
-
     background-image: linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
       url('../images/header-bg-main-tablet.jpg');
 
@@ -29,7 +27,6 @@
     }
   }
   @media screen and (min-width: 993px) {
-    max-width: 1200px;
     background-image: linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
       url('../images/header-bg-main-desktop.jpg');
 
@@ -57,6 +54,10 @@
   @media screen and (max-width: 992px) {
     text-align: center;
   }
+}
+
+nav {
+  box-shadow: none;
 }
 // body {
 //   max-width: $mobile;
