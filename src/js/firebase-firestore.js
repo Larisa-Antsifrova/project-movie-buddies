@@ -6,6 +6,10 @@ import { currentMoviesList, currentMovieItem, genres } from './movieApi';
 const watchedBtnRef = document.querySelector('.watched-btn__js');
 const queueBtnRef = document.querySelector('.queue-btn__js');
 const favoriteBtnRef = document.querySelector('.favorite-btn__js');
+const testAbout = document.querySelector('.title-about');
+
+console.log('TEST', testAbout);
+console.log('REF IN FIRE', watchedBtnRef);
 
 // Adding event listeners
 // watchedBtnRef.addEventListener('click', e => manageWatched(e));
@@ -43,19 +47,26 @@ async function manageWatched(currentMovieItem) {
 }
 
 // Function to set buttons UI
-async function updateWatchedBtn(currentMovieItem) {
-  let movieItem = await currentMovieItem;
-  console.log('ID in update', movieItem.id);
+function updateWatchedBtn(currentMovieItem) {
+  // let movieItem = await currentMovieItem;
+  console.log('ID in update', currentMovieItem.id);
 
   const user = auth.currentUser;
 
-  db.doc(`users/${user.uid}/watched/${movieItem.id}`)
+  console.log('USER ID IN ', user);
+
+  db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
     .get()
     .then(docSnapshot => {
       if (docSnapshot.exists) {
+        console.log('I am in EXISTS');
         watchedBtnRef.dataset.status = 'remove';
+
+        console.log('DATA STATUS', watchedBtnRef.dataset.status);
+        console.log('button', watchedBtnRef);
         watchedBtnRef.textContent = 'Remove from watched';
       } else {
+        console.log('I DONT EXIST');
         watchedBtnRef.dataset.status = 'add';
         watchedBtnRef.textContent = 'Add to watched';
       }
