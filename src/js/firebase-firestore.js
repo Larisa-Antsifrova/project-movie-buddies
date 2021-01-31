@@ -56,6 +56,13 @@ function updateWatchedBtn(currentMovieItem) {
     });
 }
 
+// db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`).onSnapshot(
+//   snapshot => {
+//     let changes = snapshot.docChanges();
+//     console.log(changes);
+//   },
+// );
+
 export {
   updateWatchedBtn,
   watchedBtnRef,
