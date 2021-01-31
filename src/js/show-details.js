@@ -8,6 +8,7 @@ import {
   favoriteBtnRef,
   manageWatched,
 } from './firebase-firestore.js';
+console.log('REFS ', watchedBtnRef);
 
 // Handlebars.registerHelper('getMovieYear', function (release_date) {
 //   if (!release_date) {
@@ -41,8 +42,11 @@ const releaseDateRef = document.querySelector('.release-date__js');
 const voteRef = document.querySelector('.vote__js');
 const votesRef = document.querySelector('.votes__js');
 const originalTitleRef = document.querySelector('.original-title__js');
+const modalContent = document.querySelector('.modal-content__js');
 
 const detailsModalRef = document.querySelector('#details-modal'); //доступ к модалке
+const innterModalRef = document.querySelector('.test-drive_js');
+homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 
 function onDetailsModalOpen(e) {
   showDetails(e);
@@ -50,32 +54,34 @@ function onDetailsModalOpen(e) {
 }
 
 async function manageLibrary(e) {
+  // updateWatchedBtn(currentMovieItem);
+
   currentMovieItem = await getCurrentMovieItem(e);
   console.log(currentMovieItem);
   let currentMovieItemId = currentMovieItem.id;
-  showDetails(e);
+
   console.log('current ID from event listeren', currentMovieItemId);
 
   updateWatchedBtn(currentMovieItem);
+
   watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem));
-  queueBtnRef.addEventListener('click', e => manageQueue(currentMovieItem));
-  favoriteBtnRef.addEventListener('click', e =>
-    manageFavorite(currentMovieItem),
-  );
+  console.log('Hello, button', watchedBtnRef);
+  // queueBtnRef.addEventListener('click', e => manageQueue(currentMovieItem));
+  // favoriteBtnRef.addEventListener('click', e =>
+  //   manageFavorite(currentMovieItem),
+  // );
 }
-homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 
 function showDetails(e) {
-  detailsModalRef.innerHTML = '';
   e.preventDefault();
-//   console.dir(e.target.nodeName);
+  //   console.dir(e.target.nodeName);
   // if (e.target.nodeName !== 'A') {
   //   return;
   // }
 
-//   console.log('hello');
+  //   console.log('hello');
   const id = +e.target.dataset.id;
-//   console.log(id);
+  //   console.log(id);
   // console.log(currentMoviesList);
   currentMoviesList
     .then(movies => {
@@ -83,12 +89,14 @@ function showDetails(e) {
       return movies.find(el => el.id === id);
     })
     .then(el => {
-    //   console.log('I element');
-    //   console.log(el);
+      //   console.log('I element');
+      //   console.log(el);
+      innterModalRef.innerHTML = '';
       const modalMarkup = detailTemplate(el);
-      detailsModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
-      // let moviePopularity = el.popularity;
-      // popularityRef.textContent = moviePopularity.toFixed(1);
+      innterModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
+    })
+    .then(() => {
+      console.log('REF IN FUNCT', watchedBtnRef);
     });
 }
 // buttRef = document.querySelector('.watched-btn__js')
