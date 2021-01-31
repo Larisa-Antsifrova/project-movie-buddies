@@ -1,0 +1,92 @@
+// tr {
+//   border-bottom: none !important;
+// }
+
+td {
+  padding: 10px 5px !important;
+}
+
+.modal.open {
+  top: 5% !important;
+  max-height: 90% !important;
+}
+
+.modal-overlay {
+  opacity: 0.8 !important;
+}
+
+.border-img {
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 5px;
+}
+
+.title-film {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.15;
+  margin-top: 30px !important;
+}
+
+.detailscaption {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  color: #8c8c8c;
+}
+
+.detailsinfo {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.17;
+}
+
+.vote-box {
+  width: 36px;
+  height: 16px;
+  padding: 1px 10px;
+  background: #ff6b01;
+  color: #ffffff;
+  border-radius: 5px;
+}
+
+.original-title {
+  text-transform: uppercase;
+}
+
+.title-about {
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  text-transform: uppercase;
+}
+
+.overview {
+  margin-top: 0 !important;
+  margin-bottom: 40px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.67;
+}
+
+.img-wrapper {
+  position: relative;
+}
+
+.btn-floating.halfway-fab {
+  position: absolute !important;
+  left: 30px !important;
+  bottom: 500px !important;
+}
+
+.btn-detail {
+  min-width: 70px;
+  height: 35px;
+  background: #ff6b01 !important;
+  border-radius: 5px;
+}
+
+.btn-detail:not(:last-child) {
+  margin-right: 5px;
+}
