@@ -228,7 +228,6 @@ function notFound() {
   setTimeout(clearError, 2000);
   clearInput();
   Api.resetPage();
-
   return renderPopularFilms()
 }
 
