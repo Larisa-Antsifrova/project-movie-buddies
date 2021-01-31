@@ -8,7 +8,6 @@ import {
   favoriteBtnRef,
   manageWatched,
 } from './firebase-firestore.js';
-console.log('REFS ', watchedBtnRef);
 
 // Handlebars.registerHelper('getMovieYear', function (release_date) {
 //   if (!release_date) {
@@ -55,11 +54,12 @@ function onDetailsModalOpen(e) {
 
 async function manageLibrary(e) {
   currentMovieItem = await getCurrentMovieItem(e);
-  let currentMovieItemId = currentMovieItem.id;
+
   updateWatchedBtn(currentMovieItem);
 
-  watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem));
-  console.log('Hello, button', watchedBtnRef);
+  watchedBtnRef.addEventListener('click', e =>
+    manageWatched(currentMovieItem, e),
+  );
   // queueBtnRef.addEventListener('click', e => manageQueue(currentMovieItem));
   // favoriteBtnRef.addEventListener('click', e =>
   //   manageFavorite(currentMovieItem),
