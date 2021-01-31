@@ -69,3 +69,24 @@ td {
   font-size: 12px;
   line-height: 1.67;
 }
+
+.img-wrapper {
+  position: relative;
+}
+
+.btn-floating.halfway-fab {
+  position: absolute !important;
+  left: 30px !important;
+  bottom: 500px !important;
+}
+
+.btn-detail {
+  min-width: 70px;
+  height: 35px;
+  background: #ff6b01 !important;
+  border-radius: 5px;
+}
+
+.btn-detail:not(:last-child) {
+  margin-right: 5px;
+}
