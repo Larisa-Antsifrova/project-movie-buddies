@@ -1,5 +1,4 @@
-        <div class="row">
-          <div class="col s12 m6">
+        <div class="img-wrapper">
           {{#if title}}
           <img
             src="https://image.tmdb.org/t/p/w500{{ poster_path }}"
@@ -16,7 +15,7 @@
           />
           {{/if}}
         </div>
-        <div class="col s12 m6">
+        <div class="img-description">
           {{#if title}}
           <h3 class="title-film title-film__js">{{ title }}</h3>
           {{else}}
@@ -84,4 +83,3 @@
           <h3 class="title-about">ABOUT</h3>
           <p class="overview overview__js">{{ overview }}</p>
       </div>
-        </div>

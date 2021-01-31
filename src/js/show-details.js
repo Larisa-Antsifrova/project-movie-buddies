@@ -26,10 +26,10 @@ console.log('REFS ', watchedBtnRef);
 //     return movieDate;
 //   });
 
-// Handlebars.registerHelper('roundUpPopularity', function (popularity) {
-//   var roundValue = popularity;
-//   return roundValue;
-// });
+Handlebars.registerHelper('roundUpPopularity', function (popularity) {
+  var roundValue = popularity;
+  return roundValue;
+});
 
 let currentMovieItem = {};
 
@@ -74,19 +74,23 @@ async function manageLibrary(e) {
 
 function showDetails(e) {
   e.preventDefault();
-
+  //   console.dir(e.target.nodeName);
   // if (e.target.nodeName !== 'A') {
   //   return;
   // }
 
+  //   console.log('hello');
   const id = +e.target.dataset.id;
-
+  //   console.log(id);
+  // console.log(currentMoviesList);
   currentMoviesList
     .then(movies => {
       console.log(movies);
       return movies.find(el => el.id === id);
     })
     .then(el => {
+      //   console.log('I element');
+      //   console.log(el);
       innterModalRef.innerHTML = '';
       const modalMarkup = detailTemplate(el);
       innterModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
@@ -95,6 +99,8 @@ function showDetails(e) {
       console.log('REF IN FUNCT', watchedBtnRef);
     });
 }
+// buttRef = document.querySelector('.watched-btn__js')
+// console.log(buttRef);
 
 // async function showDetails(e) {
 //   const id = +e.target.dataset.id;
