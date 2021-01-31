@@ -9,7 +9,7 @@ const Api = {
   apiKey: API_KEY,
   searchQuery: '',
   filmID: '',
-  perPage: 20,
+  currentPerPage: '',
   totalPages: 1,
   pageNumber: 1,
   images: {
@@ -123,7 +123,7 @@ async function combineFullMovieInfo(moviesList) {
 // Функция для отрисовки списка популярных фильмов
 function createMovieList(fullInfo) {
   const galleryListMarkup = galleryElementTemplate(fullInfo);
-  homeGalleryListRef.insertAdjacentHTML('beforeend', galleryListMarkup);
+  homeGalleryListRef.insertAdjacentHTML('afterbegin', galleryListMarkup);
 }
 
 async function getGenresInfo(moviesList) {
@@ -183,27 +183,27 @@ function toggleRenderPage() {
         behavior: 'smooth',
       });
   if (!Api.searchQuery.length) {
-    // тут начинаются проблемы!
-    renderPopularFilms().then(() => {
-      paginator.recalculate(Api.totalPages || 1);
-    });
+    // тут начинаются проблемы!==============================================================================
+    renderPopularFilms()
   } else {
-    renderSearchedFilms(Api.searchQuery).then(() => {
-      paginator.recalculate(Api.totalPages || 1);
-    });
+    renderSearchedFilms(Api.searchQuery)
   }
 };
 
 // функция рендера страницы запроса
 function renderSearchedFilms(inputValue) {
   currentMoviesList = Api.fetchSearchMovieList(inputValue);
-  return combineFullMovieInfo(currentMoviesList).then(createMovieList);
+  return combineFullMovieInfo(currentMoviesList).then(createMovieList).then(() => {
+      paginator.recalculate(Api.totalPages || 1);
+    });
 };
 
 // функция рендера страницы трендов
 function renderPopularFilms() {
   currentMoviesList = Api.fetchTrendingMoviesList();
-  return combineFullMovieInfo(currentMoviesList).then(createMovieList);
+  return combineFullMovieInfo(currentMoviesList).then(createMovieList).then(() => {
+      paginator.recalculate(Api.totalPages || 1);
+    });
 };
 
 function clearGallery(filmsList) {
@@ -229,9 +229,7 @@ function notFound() {
   clearInput();
   Api.resetPage();
 
-  return renderPopularFilms().then(() => {
-  paginator.recalculate(Api.totalPages);
-  });
+  return renderPopularFilms()
 }
 
 function clearError() {
@@ -580,9 +578,7 @@ class PaginationApi {
 const paginator = new PaginationApi(Api.totalPages);
 
 // Вызов самого первого fetch за популярными фильмами и его рендер
-renderPopularFilms().then(() => {
-  paginator.recalculate(Api.totalPages);
-});
+renderPopularFilms();
 
 // ==================================================
 export { Api, currentMoviesList, currentMovieItem, genres };
