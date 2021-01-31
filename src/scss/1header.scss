@@ -1,7 +1,9 @@
-body {
+.bg {
+  height: 230px;
   background-image: url('../images/header-bg-main-desktop.jpg');
   background-position: top center;
   background-repeat: no-repeat;
+  background-size: cover;
 }
 
 // body {
@@ -39,3 +41,25 @@ body {
 //     }
 //   }
 // }
+
+.item {
+  position: relative;
+
+  a {
+    display: inline;
+    padding: 0;
+    margin-right: 15px;
+    position: relative;
+  }
+}
+
+.current::after {
+  position: absolute;
+  bottom: -3px;
+  content: ' ';
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background-color: #ef6c00;
+}
