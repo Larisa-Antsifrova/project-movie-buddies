@@ -2,6 +2,7 @@ import axios from 'axios';
 import { API_KEY } from './apiKey.js';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
 import * as Handlebars from 'handlebars/runtime';
+import { preloader } from './preloader';
 
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
@@ -121,6 +122,7 @@ async function combineFullMovieInfo(moviesList) {
 
 // Функция для отрисовки списка популярных фильмов
 function createMovieList(fullInfo) {
+  preloader();
   const galleryListMarkup = galleryElementTemplate(fullInfo);
   homeGalleryListRef.insertAdjacentHTML('beforeend', galleryListMarkup);
 }

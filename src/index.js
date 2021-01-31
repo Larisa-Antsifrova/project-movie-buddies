@@ -18,3 +18,4 @@ import './js/movieApi.js';
 // import './js/show-details.js';
 import './js/buttonUp.js';
 import './js/navigation.js';
+import './js/preloader.js';
