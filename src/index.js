@@ -14,6 +14,6 @@ import './scss/main.scss';
 
 // Importing JS files
 import './js/movieApi.js';
-// import './js/show-details.js';
+import './js/show-details.js';
 import './js/buttonUp.js';
 import './js/navigation.js';

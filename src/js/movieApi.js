@@ -10,7 +10,7 @@ const Api = {
   apiKey: API_KEY,
   searchQuery: '',
   filmID: '',
-  perPage: 20,
+  currentPerPage: '',
   totalPages: 1,
   pageNumber: 1,
   images: {
@@ -181,7 +181,7 @@ function searchFilms(e) {
 function toggleRenderPage() {
   clearGallery(homeGalleryListRef);
 
-  if (Api.searchQuery.length === 0) {
+  if (!Api.searchQuery.length) {
     renderPopularFilms();
   } else {
     renderSearchedFilms(Api.searchQuery);
