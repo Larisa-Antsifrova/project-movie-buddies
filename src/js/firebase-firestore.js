@@ -1,15 +1,10 @@
 // Imports of firestore services and variables
 import { db, auth } from './firebase-init';
-import { currentMoviesList, currentMovieItem, genres } from './movieApi';
 
 // Getting references to DOM elements
 const watchedBtnRef = document.querySelector('.watched-btn__js');
 const queueBtnRef = document.querySelector('.queue-btn__js');
 const favoriteBtnRef = document.querySelector('.favorite-btn__js');
-const testAbout = document.querySelector('.title-about');
-
-console.log('TEST', testAbout);
-console.log('REF IN FIRE', watchedBtnRef);
 
 // Adding event listeners
 // watchedBtnRef.addEventListener('click', e => manageWatched(e));

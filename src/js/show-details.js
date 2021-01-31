@@ -46,14 +46,8 @@ function onDetailsModalOpen(e) {
 }
 
 async function manageLibrary(e) {
-  // updateWatchedBtn(currentMovieItem);
-
   currentMovieItem = await getCurrentMovieItem(e);
-  console.log(currentMovieItem);
   let currentMovieItemId = currentMovieItem.id;
-
-  console.log('current ID from event listeren', currentMovieItemId);
-
   updateWatchedBtn(currentMovieItem);
 
   watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem));
@@ -81,14 +75,9 @@ function showDetails(e) {
       return movies.find(el => el.id === id);
     })
     .then(el => {
-      //   console.log('I element');
-      //   console.log(el);
       innterModalRef.innerHTML = '';
       const modalMarkup = detailTemplate(el);
       innterModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
-    })
-    .then(() => {
-      console.log('REF IN FUNCT', watchedBtnRef);
     });
 }
 
