@@ -1,6 +1,6 @@
-.tabs-wrapper {
-  padding-top: 15px;
-}
+// .tabs-wrapper {
+//   padding-top: 15px;
+// }
 
 .tabs .tab a {
   color: white;
@@ -25,15 +25,13 @@
   color: white;
 }
 
-li.tab.col:not(:last-child) {
-  margin-right: 10px;
+// li.tab.col:not(:last-child) {
+//   margin-right: 2px;
 
-  @media screen and (min-width: 768px) {
-      margin-right: 15px;
-  }
-
-  
-}
+//   @media screen and (min-width: 768px) {
+//       margin-right: 15px;
+//   }
+// }
 
 .tabs .indicator {
   background-color: #ff6b01;
@@ -44,6 +42,7 @@ li.tab.col:not(:last-child) {
     font-size: 18px;
     text-align: center;
   }
+
 .tabs {
   background-color: transparent;
 }
