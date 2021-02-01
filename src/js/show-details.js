@@ -1,4 +1,4 @@
-import { auth } from './firebase-init';
+import { auth, db } from './firebase-init';
 import { currentMoviesList } from './fetch-functions.js';
 import * as Handlebars from 'handlebars/runtime';
 import detailTemplate from '../templates/4details.hbs';
@@ -34,54 +34,105 @@ const innerModalRef = document.querySelector('.test-drive_js');
 
 // Adding event listeners
 homeGalleryRef.addEventListener('click', onDetailsModalOpen);
-watchedGalleryRef.addEventListener('click', () => {});
-queueGalleryRef.addEventListener('click', () => {});
-favoriteGalleryRef.addEventListener('click', () => {});
+watchedGalleryRef.addEventListener('click', onDetailsModalOpen);
+queueGalleryRef.addEventListener('click', onDetailsModalOpen);
+favoriteGalleryRef.addEventListener('click', onDetailsModalOpen);
 
 async function onDetailsModalOpen(e) {
+  if (e.target.nodeName === 'UL') {
+    return;
+  }
+
+  const currentEventTarget = e.currentTarget;
   const user = auth.currentUser;
-  currentMovieItem = await getCurrentMovieItem(e);
+  const id = +e.target.parentElement.dataset.id;
+
+  currentMovieItem = await getCurrentMovieItem(e, user, currentEventTarget, id);
+
+  if (!currentMovieItem) {
+    return;
+  }
 
   updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, 'watched', e);
   updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, 'queue', e);
   updateFavoriteCollectionBtn(user, 'favorite', currentMovieItem, favoriteBtnRef, 'favorite', e);
-  showDetails(e);
+
+  showDetails(e, user, currentMovieItem, currentEventTarget, id);
 }
 
-function showDetails(e) {
+async function showDetails(e, user, currentMovieItem, currentEventTarget, id) {
   e.preventDefault();
-
-  console.log('CURRENT TARGET', e.currentTarget);
-  console.log('Just Target', e.target);
 
   if (e.target.parentElement.nodeName !== 'A') {
     return;
   }
 
-  const id = +e.target.parentElement.dataset.id;
+  if (currentEventTarget.classList.contains('home-gallery-list__js')) {
+    innerModalRef.innerHTML = '';
+    const modalMarkup = detailTemplate(currentMovieItem);
+    innerModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
+    return;
+  }
 
-  if (e.currentTarget.classList.contains('home-gallery-list__js')) {
-    currentMoviesList
-      .then(movies => {
-        return movies.find(movie => movie.id === id);
-      })
-      .then(movie => {
-        innerModalRef.innerHTML = '';
-        const modalMarkup = detailTemplate(movie);
-        innerModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
-      });
+  if (currentEventTarget.classList.contains('watched-gallery__js')) {
+    showLibraryMovieDetails(user, 'watched', id);
+    return;
+  }
+
+  if (e.currentTarget.classList.contains('queue-gallery__js')) {
+    showLibraryMovieDetails(user, 'queue', id);
+    return;
+  }
+  if (e.currentTarget.classList.contains('favorite-gallery__js')) {
+    showLibraryMovieDetails(user, 'favorite', id);
+    return;
   }
 }
 
-async function getCurrentMovieItem(e) {
-  const id = +e.target.dataset.id;
-  let movieList = await currentMoviesList;
-  let currentMovieItem = movieList.find(el => el.id === id);
+async function getCurrentMovieItem(e, user, currentEventTarget, id) {
+  if (currentEventTarget.classList.contains('home-gallery-list__js')) {
+    let movieList = await currentMoviesList;
+    currentMovieItem = movieList.find(el => el.id === id);
+    return currentMovieItem;
+  }
 
-  return currentMovieItem;
+  if (currentEventTarget.classList.contains('watched-gallery__js')) {
+    currentMovieItem = await db
+      .doc(`users/${user.uid}/watched/${id}`)
+      .get()
+      .then(doc => doc.data());
+    return currentMovieItem;
+  }
+
+  if (currentEventTarget.classList.contains('queue-gallery__js')) {
+    currentMovieItem = await db
+      .doc(`users/${user.uid}/queue/${id}`)
+      .get()
+      .then(doc => doc.data());
+    return currentMovieItem;
+  }
+
+  if (currentEventTarget.classList.contains('favorite-gallery__js')) {
+    currentMovieItem = await db
+      .doc(`users/${user.uid}/favorite/${id}`)
+      .get()
+      .then(doc => doc.data());
+    return currentMovieItem;
+  }
 }
 
-export { currentMovieItem };
+function showLibraryMovieDetails(user, libraryCollection, id) {
+  db.doc(`users/${user.uid}/${libraryCollection}/${id}`)
+    .get()
+    .then(doc => doc.data())
+    .then(movie => {
+      innerModalRef.innerHTML = '';
+      const modalMarkup = detailTemplate(movie);
+      innerModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
+    });
+}
+
+export { currentMovieItem, innerModalRef };
 
 // Закомментированные ранее отрывки кода
 // Handlebars.registerHelper('getMovieYear', function (release_date) {

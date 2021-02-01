@@ -1,6 +1,6 @@
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min';
-import { manageLibrary, homeGalleryRef } from './show-details.js';
+import { manageLibrary, homeGalleryRef, innerModalRef } from './show-details.js';
 // Здесь происходит инициализация компонентов materialize'а
 // Setting up materialize components
 
@@ -15,11 +15,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // activeModal = M.Modal.getInstance('#details-modal');
   // activeModal.open();
 
-  // const detailsModal = document.getElementById('details-modal');
-  // M.Modal.init(detailsModal, {
-  //   onCloseEnd: e => {
-  //     console.log('Event target in modal on close', e.target);
-  //     homeGalleryRef.removeEventListener('click', manageLibrary);
-  //   },
-  // });
+  const detailsModal = document.getElementById('details-modal');
+  M.Modal.init(detailsModal, {
+    onCloseEnd: () => {
+      innerModalRef.innerHTML = '';
+    },
+  });
 });

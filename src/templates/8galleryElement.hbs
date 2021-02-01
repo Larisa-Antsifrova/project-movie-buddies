@@ -1,5 +1,5 @@
 {{#each this}}
-<li class="gallery-element">
+<li class="gallery-element" data-id="{{id}}">
     <a class="modal-trigger" href="#details-modal" data-id="{{id}}">
         {{#if title}}
         <img data-id="{{id}}" class="movie-image responsive-img" src="{{ getPoster poster_path }}" alt="{{ title }}">
