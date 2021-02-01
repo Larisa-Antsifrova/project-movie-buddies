@@ -1,82 +1,96 @@
 // Imports of firestore services and variables
-import { db, auth } from './firebase-init';
-import { currentMoviesList, currentMovieItem, genres } from './movieApi';
+import { db } from './firebase-init';
 
-// Getting references to DOM elements
+// Imports of handlebars function to render gallery card
+import libraryGalleryElementTemplate from '../templates/10libraryGalleryElement.hbs';
+
+// Getting references to Buttons in details modal
 const watchedBtnRef = document.querySelector('.watched-btn__js');
 const queueBtnRef = document.querySelector('.queue-btn__js');
 const favoriteBtnRef = document.querySelector('.favorite-btn__js');
-const testAbout = document.querySelector('.title-about');
 
-console.log('TEST', testAbout);
-console.log('REF IN FIRE', watchedBtnRef);
+// Getting references to Library galleries
+const watchedGalleryRef = document.querySelector('.watched-gallery__js');
+const queueGalleryRef = document.querySelector('.queue-gallery__js');
+const favoriteGalleryRef = document.querySelector('.favorite-gallery__js');
 
-// Adding event listeners
-// watchedBtnRef.addEventListener('click', e => manageWatched(e));
+// Getting references to gallery messages
+const watchedMessageRef = document.querySelector('.watched-message__js');
+const queueMessageRef = document.querySelector('.queue-message__js');
+const favoriteMessageRef = document.querySelector('.favorite-message__js');
 
-// Function to manage Watched collection in DB
-async function manageWatched(currentMovieItem) {
-  let movieItem = await currentMovieItem;
-  console.log('CURRENT IN EVENT ON BUTTON', movieItem);
-  const user = auth.currentUser;
-  console.log(
-    'watched collections',
-    db
-      .collection('users')
-      .doc(user.uid)
-      .collection('watched')
-      .get()
-      .then(snapshot => console.log(snapshot.docs.map(doc => doc.data()))),
-  );
-  if (watchedBtnRef.dataset.status === 'add') {
-    db.doc(`users/${user.uid}/watched/${movieItem.id}`)
-      .set(movieItem)
+// Function to manage collection in DB
+function manageCollection(e, currentMovieItem, user, btnRef, collection, text) {
+  e.preventDefault();
+  if (btnRef.dataset.status === 'add') {
+    db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
+      .set(currentMovieItem)
       .then(() => {
-        updateWatchedBtn(currentMovieItem);
-        console.log('Document successfully written!');
+        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text);
+        console.log(`Movie is added to ${collection}!`);
       })
       .catch(error => console.log(error.message));
   } else {
-    db.doc(`users/${user.uid}/watched/${movieItem.id}`)
+    db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .delete()
       .then(() => {
-        updateWatchedBtn(currentMovieItem);
-        console.log('movie deleted');
+        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text);
+        console.log(`Movie is deleted from ${collection}!`);
       });
   }
 }
 
-// Function to set buttons UI
-function updateWatchedBtn(currentMovieItem) {
-  // let movieItem = await currentMovieItem;
-  console.log('ID in update', currentMovieItem.id);
-
-  const user = auth.currentUser;
-
-  console.log('USER ID IN ', user);
-
-  db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
+// Function to set library buttons UI
+function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text) {
+  db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
     .get()
     .then(docSnapshot => {
       if (docSnapshot.exists) {
-        console.log('I am in EXISTS');
-        watchedBtnRef.dataset.status = 'remove';
-
-        console.log('DATA STATUS', watchedBtnRef.dataset.status);
-        console.log('button', watchedBtnRef);
-        watchedBtnRef.textContent = 'Remove from watched';
+        console.log(`I am existing movie in ${collection}`);
+        btnRef.dataset.status = 'remove';
+        btnRef.textContent = `Remove from ${text}`;
       } else {
-        console.log('I DONT EXIST');
-        watchedBtnRef.dataset.status = 'add';
-        watchedBtnRef.textContent = 'Add to watched';
+        console.log(`I am NOT existing movie in ${collection}`);
+        btnRef.dataset.status = 'add';
+        btnRef.textContent = `Add to ${text}`;
       }
     });
 }
 
+function updateLibraryCollection(changes, libraryGalleryRef) {
+  changes.forEach(change => {
+    if (change.type === 'added') {
+      const galleryItem = libraryGalleryElementTemplate(change.doc.data());
+      libraryGalleryRef.insertAdjacentHTML('afterbegin', galleryItem);
+    } else if (change.type === 'removed') {
+      let li = libraryGalleryRef.querySelector(`[data-id="${change.doc.id}"]`);
+      libraryGalleryRef.removeChild(li);
+    }
+  });
+}
+
+function updateLibraryMessage(collectionRef, messageRef) {
+  collectionRef.get().then(snapshot => {
+    if (!snapshot.empty) {
+      messageRef.style.display = 'none';
+    } else {
+      messageRef.style.display = 'block';
+    }
+  });
+}
+
 export {
-  updateWatchedBtn,
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
-  manageWatched,
+  watchedGalleryRef,
+  queueGalleryRef,
+  favoriteGalleryRef,
+  watchedMessageRef,
+  queueMessageRef,
+  favoriteMessageRef,
+  manageCollection,
+  updateCollectionManagementdBtn,
+  updateLibraryCollection,
+  updateLibraryMessage,
 };

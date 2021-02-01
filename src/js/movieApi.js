@@ -69,7 +69,7 @@ const Api = {
       `/search/multi?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=${this.pageNumber}`,
     );
     this.totalPages = data.total_pages;
-    console.log(this.totalPages, 'this.totalPages');
+    // console.log(this.totalPages, 'this.totalPages');
     const respArr = await data.results;
     if (respArr.length === 0) {
       notFound();
@@ -85,7 +85,7 @@ const Api = {
     } else {
       return data.results.find(e => {
         if (e.type == 'Trailer') {
-          console.log('trailer', e);
+          // console.log('trailer', e);
           return e;
         }
       });
@@ -120,7 +120,7 @@ async function combineFullMovieInfo(moviesList) {
     return movie;
   });
 
-  console.log(fullInfo);
+  // console.log(fullInfo);
   return fullInfo;
 }
 
@@ -652,7 +652,7 @@ class PaginationApi {
   }
 
   recalculate(currentPage, totalPages) {
-    console.log('Recalculating', currentPage, totalPages);
+    // console.log('Recalculating', currentPage, totalPages);
 
     this.currentPage = currentPage;
     this.totalPages = totalPages;
@@ -684,7 +684,7 @@ class PaginationApi {
   }
 
   onPaginationClick(e) {
-    console.log(e.target);
+    // console.log(e.target);
     if (e.target.nodeName !== 'A' && e.target.nodeName !== 'I') {
       return;
     }
