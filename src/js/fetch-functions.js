@@ -2,12 +2,12 @@ import { Api } from './movieApi';
 import * as Handlebars from 'handlebars/runtime';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
 import Paginator from './paginator.js';
-
+import { spinner } from './spinner';
 
 const searchForm = document.querySelector('.search-form');
 const homeGalleryListRef = document.querySelector('.home-gallery-list__js');
 const errorArea = document.querySelector('.search-error__js');
-const paginator = new Paginator;
+const paginator = new Paginator();
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
 let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
 let currentMovieItem = null;
@@ -23,7 +23,7 @@ renderPopularFilms();
 function createMovieList(fullInfo) {
   const galleryListMarkup = galleryElementTemplate(fullInfo);
   homeGalleryListRef.insertAdjacentHTML('afterbegin', galleryListMarkup);
-};
+}
 
 // Функция для добавления декодированных жанров в обьект фильмов
 async function combineFullMovieInfo(moviesList) {
@@ -34,7 +34,7 @@ async function combineFullMovieInfo(moviesList) {
     return movie;
   });
   return fullInfo;
-};
+}
 
 async function getGenresInfo(moviesList) {
   const genresInfo = await Promise.all([moviesList, genres]);
@@ -93,21 +93,29 @@ function toggleRenderPage() {
 
 // функция рендера страницы запроса
 function renderSearchedFilms(inputValue) {
+  spinner.show();
   currentMoviesList = Api.fetchSearchMovieList(inputValue);
   return combineFullMovieInfo(currentMoviesList)
     .then(createMovieList)
     .then(() => {
       paginator.recalculate(Api.pageNumber || 1, Api.totalPages || 1);
+    })
+    .then(() => {
+      spinner.hide();
     });
 }
 
 // функция рендера страницы трендов
 function renderPopularFilms() {
+  spinner.show();
   currentMoviesList = Api.fetchTrendingMoviesList();
   return combineFullMovieInfo(currentMoviesList)
     .then(createMovieList)
     .then(() => {
       paginator.recalculate(Api.pageNumber, Api.totalPages);
+    })
+    .then(() => {
+      spinner.hide();
     });
 }
 
@@ -140,5 +148,4 @@ function clearError() {
   errorArea.style.visibility = 'hidden';
 }
 
-
-export { currentMoviesList, currentMovieItem, genres, toggleRenderPage, notFound};
+export { currentMoviesList, currentMovieItem, genres, toggleRenderPage, notFound };
