@@ -1,4 +1,13 @@
 import { db, auth, firebase } from './firebase-init';
+import {
+  updateWatchedBtn,
+  watchedBtnRef,
+  queueBtnRef,
+  favoriteBtnRef,
+  manageWatched,
+  updateWatchedGallery,
+} from './firebase-firestore.js';
+
 const signupForm = document.getElementById('signup-form');
 const loginForm = document.getElementById('login-form');
 const logout = document.querySelector('#logout');
@@ -11,8 +20,9 @@ const githubSigninRef = document.querySelector('.github-signin__js');
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
   if (user) {
-    console.log(user);
+    // console.log(user);
     setupUI(user);
+    updateWatchedGallery();
     // console.log('user logged in: ', user);
   } else {
     setupUI();

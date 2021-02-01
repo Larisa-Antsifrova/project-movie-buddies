@@ -7,6 +7,7 @@ import {
   queueBtnRef,
   favoriteBtnRef,
   manageWatched,
+  updateWatchedGallery,
 } from './firebase-firestore.js';
 
 // Handlebars.registerHelper('getMovieYear', function (release_date) {
@@ -50,6 +51,7 @@ homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 function onDetailsModalOpen(e) {
   showDetails(e);
   manageLibrary(e);
+  // updateWatchedGallery();
 }
 
 async function manageLibrary(e) {
