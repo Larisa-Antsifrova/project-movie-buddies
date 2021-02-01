@@ -25,10 +25,7 @@ auth.onAuthStateChanged(user => {
   if (user) {
     setupUI(user);
 
-    const watchedCollectionRef = db
-      .collection(`users`)
-      .doc(user.uid)
-      .collection('watched');
+    const watchedCollectionRef = db.collection(`users`).doc(user.uid).collection('watched');
 
     watchedCollectionRef.onSnapshot(snapshot => {
       let changes = snapshot.docChanges();
@@ -43,14 +40,10 @@ auth.onAuthStateChanged(user => {
 
       changes.forEach(change => {
         if (change.type === 'added') {
-          const watchedGalleryEl = libraryGalleryElementTemplate(
-            change.doc.data(),
-          );
+          const watchedGalleryEl = libraryGalleryElementTemplate(change.doc.data());
           watchedGalleryRef.insertAdjacentHTML('afterbegin', watchedGalleryEl);
         } else if (change.type === 'removed') {
-          let li = watchedGalleryRef.querySelector(
-            `[data-id="${change.doc.id}"]`,
-          );
+          let li = watchedGalleryRef.querySelector(`[data-id="${change.doc.id}"]`);
           watchedGalleryRef.removeChild(li);
         }
       });
