@@ -13,7 +13,7 @@ const favoriteBtnRef = document.querySelector('.favorite-btn__js');
 const watchedGalleryRef = document.querySelector('.watched-gallery__js');
 const queueGalleryRef = document.querySelector('.queue-gallery__js');
 const favoriteGalleryRef = document.querySelector('.favorite-gallery__js');
-
+console.log(favoriteGalleryRef);
 // Getting references to gallery messages
 const watchedMessageRef = document.querySelector('.watched-message__js');
 const queueMessageRef = document.querySelector('.queue-message__js');
@@ -123,7 +123,7 @@ export {
   favoriteMessageRef,
   manageCollection,
   updateCollectionManagementdBtn,
+  updateFavoriteCollectionBtn,
   updateLibraryCollection,
   updateLibraryMessage,
-  updateFavoriteCollectionBtn,
 };
