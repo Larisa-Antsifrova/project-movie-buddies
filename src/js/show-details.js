@@ -46,11 +46,12 @@ const modalContent = document.querySelector('.modal-content__js');
 
 const detailsModalRef = document.querySelector('#details-modal'); //доступ к модалке
 const innterModalRef = document.querySelector('.test-drive_js');
+
+// Adding event listeners
 homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 
 async function onDetailsModalOpen(e) {
   currentMovieItem = await getCurrentMovieItem(e);
-
   updateWatchedBtn(currentMovieItem);
   showDetails(e);
 }

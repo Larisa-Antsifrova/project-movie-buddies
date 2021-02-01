@@ -26,12 +26,16 @@ const githubSigninRef = document.querySelector('.github-signin__js');
 auth.onAuthStateChanged(user => {
   if (user) {
     setupUI(user);
+
     watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem, e));
+
     const watchedCollectionRef = db.collection(`users`).doc(user.uid).collection('watched');
+
     watchedCollectionRef.onSnapshot(snapshot => {
       const changes = snapshot.docChanges();
       updateLibraryMessage(watchedCollectionRef, watchedMessageRef);
       updateLibraryCollection(changes, watchedGalleryRef);
+      updateWatchedBtn(currentMovieItem);
     });
   } else {
     setupUI();

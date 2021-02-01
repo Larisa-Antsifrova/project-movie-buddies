@@ -48,7 +48,6 @@ function manageWatched(currentMovieItem, e) {
     db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
       .set(currentMovieItem)
       .then(() => {
-        updateWatchedBtn(currentMovieItem);
         console.log('Movie is added to watched!');
       })
       .catch(error => console.log(error.message));
@@ -56,7 +55,6 @@ function manageWatched(currentMovieItem, e) {
     db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
       .delete()
       .then(() => {
-        updateWatchedBtn(currentMovieItem);
         console.log('Movie is deleted from watched!');
       });
   }
