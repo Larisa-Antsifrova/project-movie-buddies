@@ -141,4 +141,4 @@ function clearError() {
 }
 
 
-export { currentMoviesList, currentMovieItem, genres, toggleRenderPage};
+export { currentMoviesList, currentMovieItem, genres, toggleRenderPage, notFound};

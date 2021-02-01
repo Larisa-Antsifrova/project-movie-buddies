@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_KEY } from './apiKey.js';
+import { notFound } from './fetch-functions.js';
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
 const Api = {

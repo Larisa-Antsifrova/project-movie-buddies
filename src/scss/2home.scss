@@ -79,3 +79,9 @@ nav .input-field input[type='date']:valid {
 .pagination li.active a {
   background-color: #ff6b08;
 }
+.pagination li a {
+  @media only screen and (max-width: 420px) {
+    font-size: 15px;
+    padding: 0 5px;
+  }
+}
