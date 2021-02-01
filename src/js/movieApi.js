@@ -140,8 +140,7 @@ async function getGenresInfo(moviesList) {
       }
       return acc;
     }, []);
-
-    return thisMovieGenres.slice(0, 2).join(', ');
+    return thisMovieGenres.join(', ');
   });
 
   return filmsGenres;
