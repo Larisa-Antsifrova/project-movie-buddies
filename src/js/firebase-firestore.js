@@ -2,7 +2,6 @@
 import { db, auth } from './firebase-init';
 
 // Imports of handlebars function to render gallery card
-import galleryElementTemplate from '../templates/8galleryElement.hbs';
 import libraryGalleryElementTemplate from '../templates/10libraryGalleryElement.hbs';
 
 // Getting references to Buttons in details modal
@@ -17,8 +16,10 @@ const favoriteGalleryRef = document.querySelector('.favorite-gallery__js');
 
 // Getting references to gallery messages
 const watchedMessageRef = document.querySelector('.watched-message__js');
+const queueMessageRef = document.querySelector('.queue-message__js');
+const favoriteMessageRef = document.querySelector('.favorite-message__js');
 
-// Function to set buttons UI
+// Function to set wathced button UI
 function updateWatchedBtn(currentMovieItem) {
   const user = auth.currentUser;
 
@@ -38,7 +39,7 @@ function updateWatchedBtn(currentMovieItem) {
 }
 
 // Function to manage Watched collection in DB
-async function manageWatched(currentMovieItem, e) {
+function manageWatched(currentMovieItem, e) {
   e.preventDefault();
   const user = auth.currentUser;
 
@@ -62,13 +63,14 @@ async function manageWatched(currentMovieItem, e) {
   }
 }
 
+// Function to update watched gallery UI
 function updateWatchedGallery() {
   const user = auth.currentUser;
 
   db.collection(`users`)
     .doc(user.uid)
     .collection('watched')
-    .limit(1)
+    // .limit(1)
     .get()
     .then(snapshot => {
       if (!snapshot.empty) {

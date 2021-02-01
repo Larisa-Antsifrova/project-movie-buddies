@@ -62,6 +62,7 @@ async function manageLibrary(e) {
   watchedBtnRef.addEventListener('click', e =>
     manageWatched(currentMovieItem, e),
   );
+
   // queueBtnRef.addEventListener('click', e => manageQueue(currentMovieItem));
   // favoriteBtnRef.addEventListener('click', e =>
   //   manageFavorite(currentMovieItem),
@@ -123,4 +124,4 @@ async function getCurrentMovieItem(e) {
   return currentMovieItem;
 }
 
-export { showDetails };
+export { manageLibrary };
