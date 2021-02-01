@@ -11,7 +11,7 @@ import {
   updateLibraryMessage,
   updateLibraryCollection,
 } from './firebase-firestore.js';
-import libraryGalleryElementTemplate from '../templates/10libraryGalleryElement.hbs';
+import { currentMovieItem } from './show-details.js';
 
 const signupForm = document.getElementById('signup-form');
 const loginForm = document.getElementById('login-form');
@@ -26,9 +26,8 @@ const githubSigninRef = document.querySelector('.github-signin__js');
 auth.onAuthStateChanged(user => {
   if (user) {
     setupUI(user);
-
+    watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem, e));
     const watchedCollectionRef = db.collection(`users`).doc(user.uid).collection('watched');
-
     watchedCollectionRef.onSnapshot(snapshot => {
       const changes = snapshot.docChanges();
       updateLibraryMessage(watchedCollectionRef, watchedMessageRef);
@@ -36,7 +35,6 @@ auth.onAuthStateChanged(user => {
     });
   } else {
     setupUI();
-    console.log('user logged out');
   }
 });
 

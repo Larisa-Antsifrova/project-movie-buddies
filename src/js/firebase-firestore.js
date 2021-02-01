@@ -49,7 +49,6 @@ function manageWatched(currentMovieItem, e) {
       .set(currentMovieItem)
       .then(() => {
         updateWatchedBtn(currentMovieItem);
-        // updateWatchedGallery();
         console.log('Movie is added to watched!');
       })
       .catch(error => console.log(error.message));
@@ -58,44 +57,10 @@ function manageWatched(currentMovieItem, e) {
       .delete()
       .then(() => {
         updateWatchedBtn(currentMovieItem);
-        // updateWatchedGallery();
         console.log('Movie is deleted from watched!');
       });
   }
 }
-
-// Function to update watched gallery UI
-// function updateWatchedGallery() {
-//   const user = auth.currentUser;
-
-//   db.collection(`users`)
-//     .doc(user.uid)
-//     .collection('watched')
-//     .get()
-//     .then(snapshot => {
-//       if (!snapshot.empty) {
-//         watchedMessageRef.style.display = 'none';
-//         watchedGalleryRef.innerHTML = '';
-//         snapshot.docs.forEach(doc => {
-//           const watchedGalleryItem = libraryGalleryElementTemplate(doc.data());
-//           watchedGalleryRef.insertAdjacentHTML(
-//             'afterbegin',
-//             watchedGalleryItem,
-//           );
-//         });
-//       } else {
-//         watchedGalleryRef.innerHTML = '';
-//         watchedMessageRef.style.display = 'block';
-//       }
-//     });
-// }
-
-// async function getCurrentUser() {
-//   const user = auth.currentUser;
-//   return user;
-// }
-
-// console.log(getCurrentUser());
 
 function updateLibraryMessage(collectionRef, messageRef) {
   collectionRef.get().then(snapshot => {
