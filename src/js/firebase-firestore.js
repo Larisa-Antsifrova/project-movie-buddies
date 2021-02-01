@@ -19,7 +19,7 @@ const watchedMessageRef = document.querySelector('.watched-message__js');
 const queueMessageRef = document.querySelector('.queue-message__js');
 const favoriteMessageRef = document.querySelector('.favorite-message__js');
 
-// Function to set wathced button UI
+// Function to set watched button UI
 function updateWatchedBtn(currentMovieItem) {
   const user = auth.currentUser;
 
@@ -41,6 +41,7 @@ function updateWatchedBtn(currentMovieItem) {
 // Function to manage Watched collection in DB
 function manageWatched(currentMovieItem, e) {
   e.preventDefault();
+
   const user = auth.currentUser;
 
   if (watchedBtnRef.dataset.status === 'add') {
@@ -48,7 +49,7 @@ function manageWatched(currentMovieItem, e) {
       .set(currentMovieItem)
       .then(() => {
         updateWatchedBtn(currentMovieItem);
-        updateWatchedGallery();
+        // updateWatchedGallery();
         console.log('Movie is added to watched!');
       })
       .catch(error => console.log(error.message));
@@ -57,44 +58,51 @@ function manageWatched(currentMovieItem, e) {
       .delete()
       .then(() => {
         updateWatchedBtn(currentMovieItem);
-        updateWatchedGallery();
+        // updateWatchedGallery();
         console.log('Movie is deleted from watched!');
       });
   }
 }
 
 // Function to update watched gallery UI
-function updateWatchedGallery() {
-  const user = auth.currentUser;
+// function updateWatchedGallery() {
+//   const user = auth.currentUser;
 
-  db.collection(`users`)
-    .doc(user.uid)
-    .collection('watched')
-    // .limit(1)
-    .get()
-    .then(snapshot => {
-      if (!snapshot.empty) {
-        watchedMessageRef.style.display = 'none';
-        watchedGalleryRef.innerHTML = '';
-        snapshot.docs.forEach(doc => {
-          const watchedGalleryItem = libraryGalleryElementTemplate(doc.data());
-          watchedGalleryRef.insertAdjacentHTML(
-            'afterbegin',
-            watchedGalleryItem,
-          );
-        });
-      } else {
-        watchedGalleryRef.innerHTML = '';
-        watchedMessageRef.style.display = 'block';
-      }
-    });
-}
+//   db.collection(`users`)
+//     .doc(user.uid)
+//     .collection('watched')
+//     .get()
+//     .then(snapshot => {
+//       if (!snapshot.empty) {
+//         watchedMessageRef.style.display = 'none';
+//         watchedGalleryRef.innerHTML = '';
+//         snapshot.docs.forEach(doc => {
+//           const watchedGalleryItem = libraryGalleryElementTemplate(doc.data());
+//           watchedGalleryRef.insertAdjacentHTML(
+//             'afterbegin',
+//             watchedGalleryItem,
+//           );
+//         });
+//       } else {
+//         watchedGalleryRef.innerHTML = '';
+//         watchedMessageRef.style.display = 'block';
+//       }
+//     });
+// }
 
+// async function getCurrentUser() {
+//   const user = auth.currentUser;
+//   return user;
+// }
+
+// console.log(getCurrentUser());
 export {
   updateWatchedBtn,
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
   manageWatched,
-  updateWatchedGallery,
+  watchedMessageRef,
+  watchedGalleryRef,
+  // updateWatchedGallery,
 };

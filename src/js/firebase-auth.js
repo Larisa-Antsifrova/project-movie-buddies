@@ -6,7 +6,10 @@ import {
   favoriteBtnRef,
   manageWatched,
   updateWatchedGallery,
+  watchedGalleryRef,
+  watchedMessageRef,
 } from './firebase-firestore.js';
+import libraryGalleryElementTemplate from '../templates/10libraryGalleryElement.hbs';
 
 const signupForm = document.getElementById('signup-form');
 const loginForm = document.getElementById('login-form');
@@ -20,10 +23,38 @@ const githubSigninRef = document.querySelector('.github-signin__js');
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
   if (user) {
-    // console.log(user);
     setupUI(user);
-    updateWatchedGallery();
-    // console.log('user logged in: ', user);
+
+    const watchedCollectionRef = db
+      .collection(`users`)
+      .doc(user.uid)
+      .collection('watched');
+
+    watchedCollectionRef.onSnapshot(snapshot => {
+      let changes = snapshot.docChanges();
+
+      watchedCollectionRef.get().then(snapshot => {
+        if (!snapshot.empty) {
+          watchedMessageRef.style.display = 'none';
+        } else {
+          watchedMessageRef.style.display = 'block';
+        }
+      });
+
+      changes.forEach(change => {
+        if (change.type === 'added') {
+          const watchedGalleryEl = libraryGalleryElementTemplate(
+            change.doc.data(),
+          );
+          watchedGalleryRef.insertAdjacentHTML('afterbegin', watchedGalleryEl);
+        } else if (change.type === 'removed') {
+          let li = watchedGalleryRef.querySelector(
+            `[data-id="${change.doc.id}"]`,
+          );
+          watchedGalleryRef.removeChild(li);
+        }
+      });
+    });
   } else {
     setupUI();
     console.log('user logged out');
