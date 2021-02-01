@@ -1,4 +1,4 @@
-import { currentMoviesList, genres } from './movieApi.js';
+import { currentMoviesList, genres } from './fetch-functions.js';
 import * as Handlebars from 'handlebars/runtime';
 import detailTemplate from '../templates/4details.hbs';
 import {
