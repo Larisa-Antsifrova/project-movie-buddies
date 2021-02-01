@@ -35,10 +35,14 @@ auth.onAuthStateChanged(user => {
     queueBtnRef.addEventListener('click', e =>
       manageCollection(e, currentMovieItem, user, queueBtnRef, 'queue', 'queue'),
     );
+    favoriteBtnRef.addEventListener('click', e =>
+      manageCollection(e, currentMovieItem, user, favoriteBtnRef, 'favorite'),
+    );
 
     // Getting references to Firestore collections of movies
     const watchedCollectionRef = db.collection(`users`).doc(user.uid).collection('watched');
     const queueCollectionRef = db.collection(`users`).doc(user.uid).collection('queue');
+    const favoriteCollectionRef = db.collection(`users`).doc(user.uid).collection('favorite');
 
     // Adding Firestore real time listeners to collections of movies
     watchedCollectionRef.onSnapshot(snapshot => {
@@ -51,6 +55,12 @@ auth.onAuthStateChanged(user => {
       const changes = snapshot.docChanges();
       updateLibraryMessage(queueCollectionRef, queueMessageRef);
       updateLibraryCollection(changes, queueGalleryRef);
+    });
+
+    favoriteCollectionRef.onSnapshot(snapshot => {
+      const changes = snapshot.docChanges();
+      updateLibraryMessage(favoriteCollectionRef, favoriteMessageRef);
+      updateLibraryCollection(changes, favoriteGalleryRef);
     });
   } else {
     setupUI();
