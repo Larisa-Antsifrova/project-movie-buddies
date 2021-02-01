@@ -26,7 +26,7 @@ function manageCollection(e, currentMovieItem, user, btnRef, collection, text) {
     db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .set(currentMovieItem)
       .then(() => {
-        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text);
+        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text, e);
         console.log(`Movie is added to ${collection}!`);
       })
       .catch(error => console.log(error.message));
@@ -34,25 +34,57 @@ function manageCollection(e, currentMovieItem, user, btnRef, collection, text) {
     db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .delete()
       .then(() => {
-        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text);
+        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text, e);
         console.log(`Movie is deleted from ${collection}!`);
       });
   }
 }
 
 // Function to set library buttons UI
-function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text) {
+function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text, e) {
+  db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
+    .get()
+    .then(docSnapshot => {
+      if (docSnapshot.exists) {
+        if (e.target.classList.contains('favorite-btn__js') || e.target.classList.contains('favorite-icon__js')) {
+          console.log(`I am existing movie in ${collection}`);
+          btnRef.dataset.status = 'remove';
+          const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
+          favoriteBtnIcon.textContent = 'favorite';
+        } else {
+          console.log(`I am existing movie in ${collection}`);
+          btnRef.dataset.status = 'remove';
+          btnRef.textContent = `Remove from ${text}`;
+        }
+      } else {
+        if (e.target.classList.contains('favorite-btn__js') || e.target.classList.contains('favorite-icon__js')) {
+          console.log(`I am NOT existing movie in ${collection}`);
+          btnRef.dataset.status = 'add';
+          const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
+          favoriteBtnIcon.textContent = 'favorite_border';
+        } else {
+          console.log(`I am NOT existing movie in ${collection}`);
+          btnRef.dataset.status = 'add';
+          btnRef.textContent = `Add to ${text}`;
+        }
+      }
+    });
+}
+
+function updateFavoriteCollectionBtn(user, collection, currentMovieItem, btnRef, text, e) {
   db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
     .get()
     .then(docSnapshot => {
       if (docSnapshot.exists) {
         console.log(`I am existing movie in ${collection}`);
         btnRef.dataset.status = 'remove';
-        btnRef.textContent = `Remove from ${text}`;
+        const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
+        favoriteBtnIcon.textContent = 'favorite';
       } else {
         console.log(`I am NOT existing movie in ${collection}`);
         btnRef.dataset.status = 'add';
-        btnRef.textContent = `Add to ${text}`;
+        const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
+        favoriteBtnIcon.textContent = 'favorite_border';
       }
     });
 }
@@ -93,4 +125,5 @@ export {
   updateCollectionManagementdBtn,
   updateLibraryCollection,
   updateLibraryMessage,
+  updateFavoriteCollectionBtn,
 };

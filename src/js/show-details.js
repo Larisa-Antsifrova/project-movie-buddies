@@ -16,6 +16,7 @@ import {
   updateCollectionManagementdBtn,
   updateLibraryCollection,
   updateLibraryMessage,
+  updateFavoriteCollectionBtn,
 } from './firebase-firestore.js';
 
 // Handlebars.registerHelper('getMovieYear', function (release_date) {
@@ -62,8 +63,9 @@ async function onDetailsModalOpen(e) {
   const user = auth.currentUser;
   currentMovieItem = await getCurrentMovieItem(e);
 
-  updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, 'watched');
-  updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, 'queue');
+  updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, 'watched', e);
+  updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, 'queue', e);
+  updateFavoriteCollectionBtn(user, 'favorite', currentMovieItem, favoriteBtnRef, 'favorite', e);
   showDetails(e);
 }
 
