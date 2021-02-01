@@ -1,13 +1,21 @@
+import { auth } from './firebase-init';
 import { currentMoviesList, genres } from './movieApi.js';
 import * as Handlebars from 'handlebars/runtime';
 import detailTemplate from '../templates/4details.hbs';
 import {
-  updateWatchedBtn,
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
-  manageWatched,
-  updateWatchedGallery,
+  watchedGalleryRef,
+  queueGalleryRef,
+  favoriteGalleryRef,
+  watchedMessageRef,
+  queueMessageRef,
+  favoriteMessageRef,
+  manageCollection,
+  updateCollectionManagementdBtn,
+  updateLibraryCollection,
+  updateLibraryMessage,
 } from './firebase-firestore.js';
 
 // Handlebars.registerHelper('getMovieYear', function (release_date) {
@@ -51,8 +59,11 @@ const innterModalRef = document.querySelector('.test-drive_js');
 homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 
 async function onDetailsModalOpen(e) {
+  const user = auth.currentUser;
   currentMovieItem = await getCurrentMovieItem(e);
-  updateWatchedBtn(currentMovieItem);
+
+  updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, 'watched');
+  updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, 'queue');
   showDetails(e);
 }
 

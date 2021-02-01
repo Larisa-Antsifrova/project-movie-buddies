@@ -1,5 +1,5 @@
 // Imports of firestore services and variables
-import { db, auth } from './firebase-init';
+import { db } from './firebase-init';
 
 // Imports of handlebars function to render gallery card
 import libraryGalleryElementTemplate from '../templates/10libraryGalleryElement.hbs';
@@ -19,55 +19,42 @@ const watchedMessageRef = document.querySelector('.watched-message__js');
 const queueMessageRef = document.querySelector('.queue-message__js');
 const favoriteMessageRef = document.querySelector('.favorite-message__js');
 
-// Function to set watched button UI
-function updateWatchedBtn(currentMovieItem) {
-  const user = auth.currentUser;
-
-  db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
-    .get()
-    .then(docSnapshot => {
-      if (docSnapshot.exists) {
-        console.log('I am existing movie');
-        watchedBtnRef.dataset.status = 'remove';
-        watchedBtnRef.textContent = 'Remove from watched';
-      } else {
-        console.log('I am NOT existing movie');
-        watchedBtnRef.dataset.status = 'add';
-        watchedBtnRef.textContent = 'Add to watched';
-      }
-    });
-}
-
-// Function to manage Watched collection in DB
-function manageWatched(currentMovieItem, e) {
+// Function to manage collection in DB
+function manageCollection(e, currentMovieItem, user, btnRef, collection, text) {
   e.preventDefault();
-
-  const user = auth.currentUser;
-
-  if (watchedBtnRef.dataset.status === 'add') {
-    db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
+  if (btnRef.dataset.status === 'add') {
+    db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .set(currentMovieItem)
       .then(() => {
-        console.log('Movie is added to watched!');
+        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text);
+        console.log(`Movie is added to ${collection}!`);
       })
       .catch(error => console.log(error.message));
   } else {
-    db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
+    db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .delete()
       .then(() => {
-        console.log('Movie is deleted from watched!');
+        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text);
+        console.log(`Movie is deleted from ${collection}!`);
       });
   }
 }
 
-function updateLibraryMessage(collectionRef, messageRef) {
-  collectionRef.get().then(snapshot => {
-    if (!snapshot.empty) {
-      messageRef.style.display = 'none';
-    } else {
-      messageRef.style.display = 'block';
-    }
-  });
+// Function to set library buttons UI
+function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text) {
+  db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
+    .get()
+    .then(docSnapshot => {
+      if (docSnapshot.exists) {
+        console.log(`I am existing movie in ${collection}`);
+        btnRef.dataset.status = 'remove';
+        btnRef.textContent = `Remove from ${text}`;
+      } else {
+        console.log(`I am NOT existing movie in ${collection}`);
+        btnRef.dataset.status = 'add';
+        btnRef.textContent = `Add to ${text}`;
+      }
+    });
 }
 
 function updateLibraryCollection(changes, libraryGalleryRef) {
@@ -82,15 +69,28 @@ function updateLibraryCollection(changes, libraryGalleryRef) {
   });
 }
 
+function updateLibraryMessage(collectionRef, messageRef) {
+  collectionRef.get().then(snapshot => {
+    if (!snapshot.empty) {
+      messageRef.style.display = 'none';
+    } else {
+      messageRef.style.display = 'block';
+    }
+  });
+}
+
 export {
-  updateWatchedBtn,
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
-  manageWatched,
-  watchedMessageRef,
   watchedGalleryRef,
-  updateLibraryMessage,
+  queueGalleryRef,
+  favoriteGalleryRef,
+  watchedMessageRef,
+  queueMessageRef,
+  favoriteMessageRef,
+  manageCollection,
+  updateCollectionManagementdBtn,
   updateLibraryCollection,
-  // updateWatchedGallery,
+  updateLibraryMessage,
 };
