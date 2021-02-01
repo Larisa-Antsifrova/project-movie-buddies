@@ -96,6 +96,29 @@ function manageWatched(currentMovieItem, e) {
 // }
 
 // console.log(getCurrentUser());
+
+function updateLibraryMessage(collectionRef, messageRef) {
+  collectionRef.get().then(snapshot => {
+    if (!snapshot.empty) {
+      messageRef.style.display = 'none';
+    } else {
+      messageRef.style.display = 'block';
+    }
+  });
+}
+
+function updateLibraryCollection(changes, libraryGalleryRef) {
+  changes.forEach(change => {
+    if (change.type === 'added') {
+      const galleryItem = libraryGalleryElementTemplate(change.doc.data());
+      libraryGalleryRef.insertAdjacentHTML('afterbegin', galleryItem);
+    } else if (change.type === 'removed') {
+      let li = libraryGalleryRef.querySelector(`[data-id="${change.doc.id}"]`);
+      libraryGalleryRef.removeChild(li);
+    }
+  });
+}
+
 export {
   updateWatchedBtn,
   watchedBtnRef,
@@ -104,5 +127,7 @@ export {
   manageWatched,
   watchedMessageRef,
   watchedGalleryRef,
+  updateLibraryMessage,
+  updateLibraryCollection,
   // updateWatchedGallery,
 };
