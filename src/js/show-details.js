@@ -57,10 +57,10 @@ async function onDetailsModalOpen(e) {
   updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, 'queue', e);
   updateFavoriteCollectionBtn(user, 'favorite', currentMovieItem, favoriteBtnRef, 'favorite', e);
 
-  showDetails(e, user, currentMovieItem, currentEventTarget, id);
+  showDetails(e, currentMovieItem, currentEventTarget);
 }
 
-async function showDetails(e, user, currentMovieItem, currentEventTarget, id) {
+async function showDetails(e, currentMovieItem, currentEventTarget) {
   e.preventDefault();
 
   if (e.target.parentElement.nodeName !== 'A') {
@@ -68,23 +68,24 @@ async function showDetails(e, user, currentMovieItem, currentEventTarget, id) {
   }
 
   if (currentEventTarget.classList.contains('home-gallery-list__js')) {
-    innerModalRef.innerHTML = '';
-    const modalMarkup = detailTemplate(currentMovieItem);
-    innerModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
+    renderMovieDetails(currentMovieItem);
     return;
   }
 
   if (currentEventTarget.classList.contains('watched-gallery__js')) {
-    showLibraryMovieDetails(user, 'watched', id);
+    console.log('Current e-target in watched', currentEventTarget);
+    renderMovieDetails(currentMovieItem);
     return;
   }
 
   if (e.currentTarget.classList.contains('queue-gallery__js')) {
-    showLibraryMovieDetails(user, 'queue', id);
+    console.log('Current e-target in queue', currentEventTarget);
+
+    renderMovieDetails(currentMovieItem);
     return;
   }
   if (e.currentTarget.classList.contains('favorite-gallery__js')) {
-    showLibraryMovieDetails(user, 'favorite', id);
+    renderMovieDetails(currentMovieItem);
     return;
   }
 }
@@ -121,15 +122,10 @@ async function getCurrentMovieItem(e, user, currentEventTarget, id) {
   }
 }
 
-function showLibraryMovieDetails(user, libraryCollection, id) {
-  db.doc(`users/${user.uid}/${libraryCollection}/${id}`)
-    .get()
-    .then(doc => doc.data())
-    .then(movie => {
-      innerModalRef.innerHTML = '';
-      const modalMarkup = detailTemplate(movie);
-      innerModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
-    });
+function renderMovieDetails(currentMovieItem) {
+  innerModalRef.innerHTML = '';
+  const modalMarkup = detailTemplate(currentMovieItem);
+  innerModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
 }
 
 export { currentMovieItem, innerModalRef };
