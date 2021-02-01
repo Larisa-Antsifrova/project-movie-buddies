@@ -48,23 +48,11 @@ const detailsModalRef = document.querySelector('#details-modal'); //доступ
 const innterModalRef = document.querySelector('.test-drive_js');
 homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 
-function onDetailsModalOpen(e) {
-  showDetails(e);
-  manageLibrary(e);
-  // updateWatchedGallery();
-}
-
-async function manageLibrary(e) {
+async function onDetailsModalOpen(e) {
   currentMovieItem = await getCurrentMovieItem(e);
 
   updateWatchedBtn(currentMovieItem);
-
-  // watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem, e));
-
-  // queueBtnRef.addEventListener('click', e => manageQueue(currentMovieItem));
-  // favoriteBtnRef.addEventListener('click', e =>
-  //   manageFavorite(currentMovieItem),
-  // );
+  showDetails(e);
 }
 
 function showDetails(e) {
@@ -122,4 +110,4 @@ async function getCurrentMovieItem(e) {
   return currentMovieItem;
 }
 
-export { manageLibrary, currentMovieItem };
+export { currentMovieItem };
