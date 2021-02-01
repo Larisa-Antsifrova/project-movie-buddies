@@ -1,15 +1,17 @@
 import { db, auth, firebase } from './firebase-init';
 import {
-  updateWatchedBtn,
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
-  manageWatched,
-  updateWatchedGallery,
   watchedGalleryRef,
+  queueGalleryRef,
+  favoriteGalleryRef,
   watchedMessageRef,
-  updateLibraryMessage,
+  queueMessageRef,
+  favoriteMessageRef,
+  manageCollection,
   updateLibraryCollection,
+  updateLibraryMessage,
 } from './firebase-firestore.js';
 import { currentMovieItem } from './show-details.js';
 
@@ -26,16 +28,29 @@ const githubSigninRef = document.querySelector('.github-signin__js');
 auth.onAuthStateChanged(user => {
   if (user) {
     setupUI(user);
+    // Adding event listeners to the movies collection management buttons
+    watchedBtnRef.addEventListener('click', e =>
+      manageCollection(e, currentMovieItem, user, watchedBtnRef, 'watched', 'watched'),
+    );
+    queueBtnRef.addEventListener('click', e =>
+      manageCollection(e, currentMovieItem, user, queueBtnRef, 'queue', 'queue'),
+    );
 
-    watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem, e));
-
+    // Getting references to Firestore collections of movies
     const watchedCollectionRef = db.collection(`users`).doc(user.uid).collection('watched');
+    const queueCollectionRef = db.collection(`users`).doc(user.uid).collection('queue');
 
+    // Adding Firestore real time listeners to collections of movies
     watchedCollectionRef.onSnapshot(snapshot => {
       const changes = snapshot.docChanges();
       updateLibraryMessage(watchedCollectionRef, watchedMessageRef);
       updateLibraryCollection(changes, watchedGalleryRef);
-      updateWatchedBtn(currentMovieItem);
+    });
+
+    queueCollectionRef.onSnapshot(snapshot => {
+      const changes = snapshot.docChanges();
+      updateLibraryMessage(queueCollectionRef, queueMessageRef);
+      updateLibraryCollection(changes, queueGalleryRef);
     });
   } else {
     setupUI();
