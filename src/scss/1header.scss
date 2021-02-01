@@ -12,7 +12,7 @@
       url('../images/header-bg-main-mobile@2x.jpg');
   }
 
-  @media screen and (min-width: 992px) {
+  @media screen and (min-width: 601px) {
     background-image: linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
       url('../images/header-bg-main-tablet.jpg');
 
@@ -43,19 +43,16 @@
 }
 
 .logo-title {
-  font-size: 18px;
+  font-size: 20px;
   vertical-align: top;
   justify-content: center;
 }
 .fa-film::before {
   margin-right: 10px;
 }
-.nav-wrapper {
-  @media screen and (max-width: 992px) {
-    text-align: center;
-  }
+.fa-film {
+  height: 0;
 }
-
 nav {
   box-shadow: none;
 }
