@@ -7,8 +7,8 @@ import {
   queueBtnRef,
   favoriteBtnRef,
   manageWatched,
+  updateWatchedGallery,
 } from './firebase-firestore.js';
-console.log('REFS ', watchedBtnRef);
 
 // Handlebars.registerHelper('getMovieYear', function (release_date) {
 //   if (!release_date) {
@@ -46,30 +46,14 @@ const modalContent = document.querySelector('.modal-content__js');
 
 const detailsModalRef = document.querySelector('#details-modal'); //доступ к модалке
 const innterModalRef = document.querySelector('.test-drive_js');
+
+// Adding event listeners
 homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 
-function onDetailsModalOpen(e) {
-  showDetails(e);
-  manageLibrary(e);
-}
-
-async function manageLibrary(e) {
-  // updateWatchedBtn(currentMovieItem);
-
+async function onDetailsModalOpen(e) {
   currentMovieItem = await getCurrentMovieItem(e);
-  console.log(currentMovieItem);
-  let currentMovieItemId = currentMovieItem.id;
-
-  console.log('current ID from event listeren', currentMovieItemId);
-
   updateWatchedBtn(currentMovieItem);
-
-  watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem));
-  console.log('Hello, button', watchedBtnRef);
-  // queueBtnRef.addEventListener('click', e => manageQueue(currentMovieItem));
-  // favoriteBtnRef.addEventListener('click', e =>
-  //   manageFavorite(currentMovieItem),
-  // );
+  showDetails(e);
 }
 
 function showDetails(e) {
@@ -90,9 +74,6 @@ function showDetails(e) {
       innterModalRef.innerHTML = '';
       const modalMarkup = detailTemplate(el);
       innterModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
-    })
-    .then(() => {
-      console.log('REF IN FUNCT', watchedBtnRef);
     });
 }
 
@@ -130,4 +111,4 @@ async function getCurrentMovieItem(e) {
   return currentMovieItem;
 }
 
-export { showDetails };
+export { currentMovieItem };

@@ -1,4 +1,18 @@
 import { db, auth, firebase } from './firebase-init';
+import {
+  updateWatchedBtn,
+  watchedBtnRef,
+  queueBtnRef,
+  favoriteBtnRef,
+  manageWatched,
+  updateWatchedGallery,
+  watchedGalleryRef,
+  watchedMessageRef,
+  updateLibraryMessage,
+  updateLibraryCollection,
+} from './firebase-firestore.js';
+import { currentMovieItem } from './show-details.js';
+
 const signupForm = document.getElementById('signup-form');
 const loginForm = document.getElementById('login-form');
 const logout = document.querySelector('#logout');
@@ -11,12 +25,20 @@ const githubSigninRef = document.querySelector('.github-signin__js');
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
   if (user) {
-    console.log(user);
     setupUI(user);
-    // console.log('user logged in: ', user);
+
+    watchedBtnRef.addEventListener('click', e => manageWatched(currentMovieItem, e));
+
+    const watchedCollectionRef = db.collection(`users`).doc(user.uid).collection('watched');
+
+    watchedCollectionRef.onSnapshot(snapshot => {
+      const changes = snapshot.docChanges();
+      updateLibraryMessage(watchedCollectionRef, watchedMessageRef);
+      updateLibraryCollection(changes, watchedGalleryRef);
+      updateWatchedBtn(currentMovieItem);
+    });
   } else {
     setupUI();
-    console.log('user logged out');
   }
 });
 

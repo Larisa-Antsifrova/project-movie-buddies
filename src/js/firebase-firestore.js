@@ -1,76 +1,85 @@
 // Imports of firestore services and variables
 import { db, auth } from './firebase-init';
-import { currentMoviesList, currentMovieItem, genres } from './movieApi';
 
-// Getting references to DOM elements
+// Imports of handlebars function to render gallery card
+import libraryGalleryElementTemplate from '../templates/10libraryGalleryElement.hbs';
+
+// Getting references to Buttons in details modal
 const watchedBtnRef = document.querySelector('.watched-btn__js');
 const queueBtnRef = document.querySelector('.queue-btn__js');
 const favoriteBtnRef = document.querySelector('.favorite-btn__js');
-const testAbout = document.querySelector('.title-about');
 
-console.log('TEST', testAbout);
-console.log('REF IN FIRE', watchedBtnRef);
+// Getting references to Library galleries
+const watchedGalleryRef = document.querySelector('.watched-gallery__js');
+const queueGalleryRef = document.querySelector('.queue-gallery__js');
+const favoriteGalleryRef = document.querySelector('.favorite-gallery__js');
 
-// Adding event listeners
-// watchedBtnRef.addEventListener('click', e => manageWatched(e));
+// Getting references to gallery messages
+const watchedMessageRef = document.querySelector('.watched-message__js');
+const queueMessageRef = document.querySelector('.queue-message__js');
+const favoriteMessageRef = document.querySelector('.favorite-message__js');
 
-// Function to manage Watched collection in DB
-async function manageWatched(currentMovieItem) {
-  let movieItem = await currentMovieItem;
-  console.log('CURRENT IN EVENT ON BUTTON', movieItem);
-  const user = auth.currentUser;
-  console.log(
-    'watched collections',
-    db
-      .collection('users')
-      .doc(user.uid)
-      .collection('watched')
-      .get()
-      .then(snapshot => console.log(snapshot.docs.map(doc => doc.data()))),
-  );
-  if (watchedBtnRef.dataset.status === 'add') {
-    db.doc(`users/${user.uid}/watched/${movieItem.id}`)
-      .set(movieItem)
-      .then(() => {
-        updateWatchedBtn(currentMovieItem);
-        console.log('Document successfully written!');
-      })
-      .catch(error => console.log(error.message));
-  } else {
-    db.doc(`users/${user.uid}/watched/${movieItem.id}`)
-      .delete()
-      .then(() => {
-        updateWatchedBtn(currentMovieItem);
-        console.log('movie deleted');
-      });
-  }
-}
-
-// Function to set buttons UI
+// Function to set watched button UI
 function updateWatchedBtn(currentMovieItem) {
-  // let movieItem = await currentMovieItem;
-  console.log('ID in update', currentMovieItem.id);
-
   const user = auth.currentUser;
-
-  console.log('USER ID IN ', user);
 
   db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
     .get()
     .then(docSnapshot => {
       if (docSnapshot.exists) {
-        console.log('I am in EXISTS');
+        console.log('I am existing movie');
         watchedBtnRef.dataset.status = 'remove';
-
-        console.log('DATA STATUS', watchedBtnRef.dataset.status);
-        console.log('button', watchedBtnRef);
         watchedBtnRef.textContent = 'Remove from watched';
       } else {
-        console.log('I DONT EXIST');
+        console.log('I am NOT existing movie');
         watchedBtnRef.dataset.status = 'add';
         watchedBtnRef.textContent = 'Add to watched';
       }
     });
+}
+
+// Function to manage Watched collection in DB
+function manageWatched(currentMovieItem, e) {
+  e.preventDefault();
+
+  const user = auth.currentUser;
+
+  if (watchedBtnRef.dataset.status === 'add') {
+    db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
+      .set(currentMovieItem)
+      .then(() => {
+        console.log('Movie is added to watched!');
+      })
+      .catch(error => console.log(error.message));
+  } else {
+    db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`)
+      .delete()
+      .then(() => {
+        console.log('Movie is deleted from watched!');
+      });
+  }
+}
+
+function updateLibraryMessage(collectionRef, messageRef) {
+  collectionRef.get().then(snapshot => {
+    if (!snapshot.empty) {
+      messageRef.style.display = 'none';
+    } else {
+      messageRef.style.display = 'block';
+    }
+  });
+}
+
+function updateLibraryCollection(changes, libraryGalleryRef) {
+  changes.forEach(change => {
+    if (change.type === 'added') {
+      const galleryItem = libraryGalleryElementTemplate(change.doc.data());
+      libraryGalleryRef.insertAdjacentHTML('afterbegin', galleryItem);
+    } else if (change.type === 'removed') {
+      let li = libraryGalleryRef.querySelector(`[data-id="${change.doc.id}"]`);
+      libraryGalleryRef.removeChild(li);
+    }
+  });
 }
 
 export {
@@ -79,4 +88,9 @@ export {
   queueBtnRef,
   favoriteBtnRef,
   manageWatched,
+  watchedMessageRef,
+  watchedGalleryRef,
+  updateLibraryMessage,
+  updateLibraryCollection,
+  // updateWatchedGallery,
 };
