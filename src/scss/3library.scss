@@ -1,3 +1,43 @@
+// .tabs-wrapper {
+//   margin-top: 100px;
+// }
+
+.tabs .tab a {
+  width: 92%;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 5px;
+  border: 1px solid #ffffff;
+  height: 44px;
+  background-color: transparent;
+}
+
+.tabs .tab a:focus,
+.tabs .tab a:focus.active {
+  background-color: #ff6b01;
+  color: white;
+  border: 1px solid #ff6b01;
+}
+
+.tabs .tab a:hover,
+.tabs .tab a.active {
+  background-color: #ff6b01;
+  color: white;
+  border: 1px solid #ff6b01;
+}
+
+.tabs .indicator {
+  // background-color: #ff6b01;
+  display: none;
+}
+
+.message {
+  margin-top: 30px;
+  font-size: 18px;
+  text-align: center;
+}
+
 .tabs {
   background-color: transparent;
 }

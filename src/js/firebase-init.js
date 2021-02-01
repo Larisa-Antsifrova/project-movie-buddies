@@ -23,4 +23,4 @@ const auth = firebase.auth();
 // update firestore settings
 db.settings({ timestampsInSnapshots: true });
 
-export { db, auth };
+export { db, auth, firebase };

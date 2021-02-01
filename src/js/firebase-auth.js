@@ -1,4 +1,4 @@
-import { db, auth } from './firebase-init';
+import { db, auth, firebase } from './firebase-init';
 const signupForm = document.getElementById('signup-form');
 const loginForm = document.getElementById('login-form');
 const logout = document.querySelector('#logout');
@@ -6,6 +6,7 @@ const loggedOutLinks = document.querySelectorAll('.logged-out__js');
 const loggedInLinks = document.querySelectorAll('.logged-in__js');
 const accountDetails = document.querySelector('.account-details__js');
 const homeNavLnk = document.querySelector('.home-page-link__js');
+const githubSigninRef = document.querySelector('.github-signin__js');
 
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
@@ -48,6 +49,41 @@ signupForm.addEventListener('submit', e => {
       signupForm.reset();
     });
 });
+// login github
+githubSigninRef.addEventListener('click', githubSignin);
+
+function githubSignin() {
+  const gitHub = new firebase.auth.GithubAuthProvider();
+  auth
+    .signInWithPopup(gitHub)
+
+    .then(function (result) {
+      const token = result.credential.accessToken;
+      const user = result.user;
+
+      console.log(token);
+      console.log(user);
+      db.collection('users').doc(user.uid).set({
+        library: [],
+        watched: [],
+        queue: [],
+        favorite: [],
+      });
+    })
+    .then(() => {
+      // close the signup modal & reset form
+      const modal = document.querySelector('#modal-signup');
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+    })
+    .catch(function (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+
+      console.log(error.code);
+      console.log(error.message);
+    });
+}
 
 // login
 

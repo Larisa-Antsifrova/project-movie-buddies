@@ -25,10 +25,10 @@ import {
 //     return movieDate;
 //   });
 
-Handlebars.registerHelper('roundUpPopularity', function (popularity) {
-  var roundValue = popularity;
-  return roundValue;
-});
+// Handlebars.registerHelper('roundUpPopularity', function (popularity) {
+//   var roundValue = popularity;
+//   return roundValue;
+// });
 
 let currentMovieItem = {};
 
@@ -68,15 +68,13 @@ async function manageLibrary(e) {
 
 function showDetails(e) {
   e.preventDefault();
-  //   console.dir(e.target.nodeName);
+
   // if (e.target.nodeName !== 'A') {
   //   return;
   // }
 
-  //   console.log('hello');
   const id = +e.target.dataset.id;
-  //   console.log(id);
-  // console.log(currentMoviesList);
+
   currentMoviesList
     .then(movies => {
       console.log(movies);
@@ -88,8 +86,6 @@ function showDetails(e) {
       innterModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
     });
 }
-// buttRef = document.querySelector('.watched-btn__js')
-// console.log(buttRef);
 
 // async function showDetails(e) {
 //   const id = +e.target.dataset.id;
