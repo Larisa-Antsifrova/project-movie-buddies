@@ -1,6 +1,9 @@
 .home-section {
   padding: 20px 0;
 }
+.input {
+  color: #ffffff;
+}
 
 .input-field .prefix {
   right: 0.1rem;
@@ -59,9 +62,6 @@ nav .input-field input[type='date']:valid {
   padding: 20px 0;
 }
 
-.input {
-  color: aliceblue;
-}
 .search-error__js {
   visibility: hidden;
   text-align: center;

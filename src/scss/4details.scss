@@ -1,7 +1,3 @@
-// tr {
-//   border-bottom: none !important;
-// }
-
 td {
   padding: 10px 5px !important;
 }
@@ -9,6 +5,7 @@ td {
 .modal.open {
   top: 5% !important;
   max-height: 90% !important;
+  z-index: 10000 !important;
 }
 
 .modal-overlay {
