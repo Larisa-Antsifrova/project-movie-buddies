@@ -3,6 +3,7 @@ import {
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
+  buddyBtnRef,
   watchedBtnIconRef,
   queueBtnIconRef,
   favoriteBtnIconRef,
@@ -32,6 +33,10 @@ const logoutMobRef = document.querySelector('#logoutMobile__js');
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
   if (user) {
+    watchedBtnRef.classList.remove('disabled');
+    queueBtnRef.classList.remove('disabled');
+    favoriteBtnRef.classList.remove('disabled');
+    buddyBtnRef.classList.remove('disabled');
     setupUI(user);
     // Adding event listeners to the movies collection management buttons
     watchedBtnRef.addEventListener('click', e =>
@@ -68,6 +73,10 @@ auth.onAuthStateChanged(user => {
       updateLibraryCollection(changes, favoriteGalleryRef);
     });
   } else {
+    watchedBtnRef.classList.add('disabled');
+    queueBtnRef.classList.add('disabled');
+    favoriteBtnRef.classList.add('disabled');
+    buddyBtnRef.classList.add('disabled');
     setupUI();
   }
 });
