@@ -14,10 +14,9 @@ function findBuddy(e) {
   M.Modal.getInstance(detailsModal).close();
 
   const user = auth.currentUser;
-  const id = currentMovieItem.id;
+  const movieId = currentMovieItem.id;
 
-  const buddies = db.collection('users').where('movies', 'array-contains', id);
-
+  const buddies = db.collection('users').where('movies', 'array-contains', movieId);
   buddies.get().then(querySnapshot => {
     const fragment = document.createDocumentFragment();
     querySnapshot.forEach(doc => {
@@ -30,7 +29,7 @@ function findBuddy(e) {
   });
 }
 
-function renderBuddy(doc, fragment) {
+function renderBuddy(doc, fragment, userId, collection, id) {
   const name = doc.data().name;
   const email = doc.data().email;
 
@@ -39,6 +38,13 @@ function renderBuddy(doc, fragment) {
 
   const span = document.createElement('span');
   span.textContent = name;
+
+  const watchedSpan = document.createElement('span');
+  watchedSpan.textContent = 'in watched';
+  const queueSpan = document.createElement('span');
+  queueSpan.textContent = 'in queue';
+  const favoriteSpan = document.createElement('span');
+  favoriteSpan.textContent = 'in favorite';
 
   const a = document.createElement('a');
   a.setAttribute('href', `mailto:${email}`);
@@ -50,9 +56,27 @@ function renderBuddy(doc, fragment) {
 
   a.appendChild(i);
   li.appendChild(span);
+
+  const isInWatched = isInCollection(userId, 'watched', id);
+  if (isInWatched) {
+    li.appendChild(watchedSpan);
+  }
+  const isInQueue = isInCollection(userId, 'queue', id);
+  if (isInQueue) {
+    li.appendChild(queueSpan);
+  }
+  const isInFavorite = isInCollection(userId, 'favorite', id);
+  if (isInFavorite) {
+    li.appendChild(favoriteSpan);
+  }
+
   li.appendChild(a);
 
   fragment.appendChild(li);
+}
+
+function isInCollection(userId, collection, id) {
+  // body
 }
 
 export { findBuddyBtnRef, findBuddy };
