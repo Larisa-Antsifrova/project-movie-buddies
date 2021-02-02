@@ -22,14 +22,15 @@ function findBuddy(e) {
     querySnapshot.forEach(doc => {
       if (doc.id !== user.uid) {
         console.log(doc.data());
-        renderBuddy(doc, fragment);
+        renderBuddy(doc, fragment, doc.id, movieId);
       }
     });
+    buddiesList.innerHTML = '';
     buddiesList.appendChild(fragment);
   });
 }
 
-function renderBuddy(doc, fragment, userId, collection, id) {
+async function renderBuddy(doc, fragment, userId, movieId) {
   const name = doc.data().name;
   const email = doc.data().email;
 
@@ -57,26 +58,36 @@ function renderBuddy(doc, fragment, userId, collection, id) {
   a.appendChild(i);
   li.appendChild(span);
 
-  const isInWatched = isInCollection(userId, 'watched', id);
-  if (isInWatched) {
-    li.appendChild(watchedSpan);
-  }
-  const isInQueue = isInCollection(userId, 'queue', id);
-  if (isInQueue) {
-    li.appendChild(queueSpan);
-  }
-  const isInFavorite = isInCollection(userId, 'favorite', id);
-  if (isInFavorite) {
-    li.appendChild(favoriteSpan);
-  }
+  // const isInWatched = await isInCollection(userId, 'watched', movieId);
+  // if (isInWatched) {
+  //   console.log('isInWatched', isInWatched);
+  //   li.appendChild(watchedSpan);
+  // }
+  // const isInQueue = await isInCollection(userId, 'queue', movieId);
+  // if (isInQueue) {
+  //   console.log('isInQueue', isInQueue);
+  //   li.appendChild(queueSpan);
+  // }
+  // const isInFavorite = await isInCollection(userId, 'favorite', movieId);
+  // if (isInFavorite) {
+  //   console.log('isInFavorite', isInFavorite);
+  //   li.appendChild(favoriteSpan);
+  // }
 
   li.appendChild(a);
 
   fragment.appendChild(li);
 }
 
-function isInCollection(userId, collection, id) {
-  // body
+async function isInCollection(userId, collection, movieId) {
+  const movie = await db.doc(`users/${userId}/${collection}/${movieId}`);
+  const movieInCollection = await movie.get();
+
+  if (movieInCollection.exists) {
+    console.log('Movie in Collection inside', movieInCollection);
+    return true;
+  }
+  return false;
 }
 
 export { findBuddyBtnRef, findBuddy };
