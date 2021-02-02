@@ -150,4 +150,12 @@ function clearError() {
   errorArea.style.visibility = 'hidden';
 }
 
-export { currentMoviesList, currentMovieItem, genres, toggleRenderPage, notFound };
+export {
+  currentMoviesList,
+  currentMovieItem,
+  genres,
+  toggleRenderPage,
+  notFound,
+  combineFullMovieInfo,
+  createMovieList,
+};
