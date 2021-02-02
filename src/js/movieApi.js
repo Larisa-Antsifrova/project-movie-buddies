@@ -96,3 +96,5 @@ const Api = {
 Api.calculatePosterImgSize();
 
 export { Api };
+
+Api.fetchTrailersAPI(464052);

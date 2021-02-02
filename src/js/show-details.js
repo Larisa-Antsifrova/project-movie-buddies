@@ -14,6 +14,8 @@ import {
   favoriteGalleryRef,
   updateCollectionManagementdBtn,
 } from './firebase-firestore.js';
+// import { trailer } from './trailer.js';
+import { Api } from './movieApi.js';
 
 //Getting access to DOM elements
 const homeGalleryRef = document.querySelector('.home-gallery__js');
@@ -38,16 +40,14 @@ async function onDetailsModalOpen(e) {
   const id = +e.target.parentElement.dataset.id;
 
   currentMovieItem = await getCurrentMovieItem(e, user, id);
-
   if (!currentMovieItem) {
     return;
   }
-
+console.log('currentMovieItem', currentMovieItem);
   // updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef);
   updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, watchedBtnIconRef);
   updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, queueBtnIconRef);
   updateCollectionManagementdBtn(user, 'favorite', currentMovieItem, favoriteBtnRef, favoriteBtnIconRef);
-
   showDetails(e, currentMovieItem);
 }
 
@@ -69,6 +69,9 @@ async function getCurrentMovieItem(e, user, id) {
   if (e.currentTarget.classList.contains('home-gallery__js')) {
     let movieList = await currentMoviesList;
     currentMovieItem = movieList.find(el => el.id === id);
+    const trailerKey = await Api.fetchTrailersAPI(currentMovieItem.id);
+    currentMovieItem['trailer_key'] = trailerKey.id;
+    console.log(currentMovieItem);
     return currentMovieItem;
   } else {
     currentMovieItem =
