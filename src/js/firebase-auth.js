@@ -70,9 +70,13 @@ auth.onAuthStateChanged(user => {
     });
 
     libraryCollectionRef.onSnapshot(snapshot => {
-      const libraryIndexes = [];
-      snapshot.docs.forEach(doc => libraryIndexes.push(+doc.id));
-      console.log(libraryIndexes);
+      const libraryIndexes = snapshot.docs.map(doc => +doc.id);
+      db.collection(`users`)
+        .doc(user.uid)
+        .set({ movies: libraryIndexes }, { merge: true })
+        .then(() => {
+          console.log(`DONE UPDATING libraryInd`);
+        });
     });
   } else {
     setupUI();
@@ -96,7 +100,7 @@ signupForm.addEventListener('submit', e => {
         displayName: signupForm['signup-name'].value,
       });
       db.collection('users').doc(userData.user.uid).set({
-        library: [],
+        movies: [],
       });
     })
     .then(() => {
