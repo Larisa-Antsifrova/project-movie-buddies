@@ -36,12 +36,25 @@ function manageCollection(e, currentMovieItem, user, collection, btnRef, btnIcon
         console.log(`Movie is added to ${collection}!`);
       })
       .catch(error => console.log(error.message));
+
+    db.doc(`users/${user.uid}/library/${currentMovieItem.id}`)
+      .set(currentMovieItem)
+      .then(() => {
+        console.log(`Movie is added to LIBRARY!`);
+      })
+      .catch(error => console.log(error.message));
   } else {
     db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .delete()
       .then(() => {
         updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef);
         console.log(`Movie is deleted from ${collection}!`);
+      });
+
+    db.doc(`users/${user.uid}/library/${currentMovieItem.id}`)
+      .delete()
+      .then(() => {
+        console.log(`Movie is deleted from LIBRARY!`);
       });
   }
 }
