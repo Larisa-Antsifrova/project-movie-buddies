@@ -123,7 +123,7 @@ export {
   favoriteMessageRef,
   manageCollection,
   updateCollectionManagementdBtn,
+  updateFavoriteCollectionBtn,
   updateLibraryCollection,
   updateLibraryMessage,
-  updateFavoriteCollectionBtn,
 };

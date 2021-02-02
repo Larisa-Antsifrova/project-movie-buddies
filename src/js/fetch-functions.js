@@ -5,7 +5,7 @@ import Paginator from './paginator.js';
 import { spinner } from './spinner';
 
 const searchForm = document.querySelector('.search-form');
-const homeGalleryListRef = document.querySelector('.home-gallery-list__js');
+const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const errorArea = document.querySelector('.search-error__js');
 const paginator = new Paginator();
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
