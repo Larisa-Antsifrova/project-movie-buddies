@@ -11,6 +11,7 @@ const paginator = new Paginator();
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
 let currentMoviesList = null; //Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
 let currentMovieItem = null;
+let currentMovies = Api.fetchTrendingMoviesList();
 
 searchForm.addEventListener('click', onInputFocus);
 searchForm.addEventListener('submit', searchFilms);
@@ -151,7 +152,8 @@ function clearError() {
 }
 
 export {
-  currentMoviesList,
+  // currentMoviesList,
+  currentMovies,
   currentMovieItem,
   genres,
   toggleRenderPage,
