@@ -16,6 +16,7 @@ import {
   updateLibraryCollection,
   updateLibraryMessage,
 } from './firebase-firestore.js';
+import { findBuddyBtnRef, findBuddy } from './firebase-buddy.js';
 import { currentMovieItem } from './show-details.js';
 
 const signupForm = document.getElementById('signup-form');
@@ -26,13 +27,13 @@ const loggedInLinks = document.querySelectorAll('.logged-in__js');
 const accountDetails = document.querySelector('.account-details__js');
 const homeNavLnk = document.querySelector('.home-page-link__js');
 const githubSigninRef = document.querySelector('.github-signin__js');
-
 const logoutMobRef = document.querySelector('#logoutMobile__js');
 
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
   if (user) {
     setupUI(user);
+
     // Adding event listeners to the movies collection management buttons
     watchedBtnRef.addEventListener('click', e =>
       manageCollection(e, currentMovieItem, user, 'watched', watchedBtnRef, watchedBtnIconRef),
@@ -43,6 +44,9 @@ auth.onAuthStateChanged(user => {
     favoriteBtnRef.addEventListener('click', e =>
       manageCollection(e, currentMovieItem, user, 'favorite', favoriteBtnRef, favoriteBtnIconRef),
     );
+
+    // Adding event listener to the Find Buddy button
+    findBuddyBtnRef.addEventListener('click', e => findBuddy(e));
 
     // Getting references to Firestore collections of movies
     const watchedCollectionRef = db.collection(`users`).doc(user.uid).collection('watched');
@@ -84,7 +88,6 @@ auth.onAuthStateChanged(user => {
 });
 
 // signup
-
 signupForm.addEventListener('submit', e => {
   e.preventDefault();
 
@@ -113,6 +116,7 @@ signupForm.addEventListener('submit', e => {
       signupForm.reset();
     });
 });
+
 // login github
 githubSigninRef.addEventListener('click', githubSignin);
 
@@ -151,7 +155,6 @@ function githubSignin() {
 }
 
 // login
-
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
   // get user info
@@ -167,8 +170,8 @@ loginForm.addEventListener('submit', e => {
     loginForm.reset();
   });
 });
-// logout
 
+// logout
 logoutRef.addEventListener('click', logout);
 logoutMobRef.addEventListener('click', logout);
 

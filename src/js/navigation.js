@@ -65,3 +65,5 @@ function toggleActiveLink(link) {
   }
   link.classList.add('current');
 }
+
+export { activeBuddyPage };
