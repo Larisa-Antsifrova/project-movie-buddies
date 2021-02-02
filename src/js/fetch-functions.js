@@ -9,7 +9,7 @@ const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const errorArea = document.querySelector('.search-error__js');
 const paginator = new Paginator();
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
-let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
+let currentMoviesList = null; //Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
 let currentMovieItem = null;
 
 searchForm.addEventListener('click', onInputFocus);
@@ -30,7 +30,7 @@ async function combineFullMovieInfo(moviesList) {
   const moviesFullInfo = await moviesList;
   const genres_info = await getGenresInfo(moviesList);
   const fullInfo = await moviesFullInfo.map((movie, ind) => {
-      movie['genres_name'] = genres_info[ind];
+    movie['genres_name'] = genres_info[ind];
     return movie;
   });
   return fullInfo;
@@ -94,6 +94,7 @@ function toggleRenderPage() {
 // функция рендера страницы запроса
 function renderSearchedFilms(inputValue) {
   spinner.show();
+  Api.calculateMoviesPerPage();
   currentMoviesList = Api.fetchSearchMovieList(inputValue);
   return combineFullMovieInfo(currentMoviesList)
     .then(createMovieList)
@@ -108,6 +109,7 @@ function renderSearchedFilms(inputValue) {
 // функция рендера страницы трендов
 function renderPopularFilms() {
   spinner.show();
+  Api.calculateMoviesPerPage();
   currentMoviesList = Api.fetchTrendingMoviesList();
   return combineFullMovieInfo(currentMoviesList)
     .then(createMovieList)

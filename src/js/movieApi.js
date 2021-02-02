@@ -11,6 +11,7 @@ const Api = {
   currentPerPage: '',
   totalPages: 1,
   pageNumber: 1,
+  perPage: '',
   images: {
     baseImageUrl: 'https://image.tmdb.org/t/p/',
     defaultPosterImg: '',
@@ -50,9 +51,22 @@ const Api = {
       this.images.defaultPosterImg = './images/default/poster-mobile.jpg';
     }
   },
+
+  calculateMoviesPerPage() {
+    if (window.visualViewport.width >= 1024) {
+      this.perPage = 9;
+    }
+    if (window.visualViewport.width >= 768 && window.visualViewport.width < 1024) {
+      this.perPage = 8;
+    }
+    if (window.visualViewport.width < 768) {
+      this.perPage = 4;
+    }
+  },
   async fetchTrendingMoviesList() {
-    const { data } = await axios.get(`/trending/all/week?api_key=${API_KEY}&language=en-US&page=${this.pageNumber}`);
-    console.log(data);
+    // const { data } = await axios.get(`/trending/all/week?api_key=${API_KEY}&language=en-US&page=${this.pageNumber}`);
+    const data = await this.fetchTrendingMovies(this.pageNumber, this.perPage);
+    console.log('it is data', data);
     this.totalPages = data.total_pages;
     const respArr = await data.results;
     return respArr;
@@ -92,29 +106,37 @@ const Api = {
   },
 
   async fetchTrendingMovies(pageNumber, perPage) {
+    console.log('+++++++', pageNumber, perPage);
     let firstItemIdx = perPage * (pageNumber - 1);
     let lastItemIdx = perPage * pageNumber - 1;
     const firstPage = Math.floor(firstItemIdx / 20) + 1;
     const lastPage = Math.floor(lastItemIdx / 20) + 1;
     console.log(firstPage, 'firstPage', lastPage, 'lastPage');
     console.log(firstItemIdx, 'firstItemIdx', lastItemIdx, 'lastItemIdx');
-
+    firstItemIdx = firstItemIdx % 20;
+    lastItemIdx = lastItemIdx % 20;
+    console.log(firstItemIdx, 'firstItemIdx after', lastItemIdx, 'lastItemIdx after');
     const data = await this.fetchTrendingMovies_(firstPage);
     let results = {
-      data: data.results.slice(firstItemIdx, lastItemIdx + 1),
+      results: data.results.slice(firstItemIdx, lastItemIdx < firstItemIdx ? 20 : lastItemIdx + 1),
       total_pages: Math.ceil((data.total_pages * 20) / perPage),
     };
+
+    console.log(results, 'results');
     if (firstPage !== lastPage) {
       const data2 = await this.fetchTrendingMovies_(lastPage);
+
       // const remainder = lastItemIdx % 20;
       // console.log(remainder, 'remainder');
-      let moviesToAdd = data2.results.slice(0, lastItemIdx - 20 + 1);
-      console.log(moviesToAdd, 'with data2');
-      moviesToAdd.unshift(...data.results.slice(firstItemIdx, 20));
-      console.log(moviesToAdd, 'with both data');
-      results.data = moviesToAdd;
+      results.results.push(...data2.results.slice(0, lastItemIdx - 20 + 1));
+      const foo = data2.results.slice(0, lastItemIdx - 20 + 1);
+      console.log(foo, 'foo');
+      // console.log(moviesToAdd, 'with data2');
+      // moviesToAdd.unshift(...data.results.slice(firstItemIdx, 20));
+      // console.log(moviesToAdd, 'with both data');
+      // results.results = moviesToAdd;
     }
-
+    console.log('***********11111111**********');
     return results;
 
     // const remainder = lastItemIdx % 20;
@@ -144,4 +166,4 @@ export { Api };
 
 // makeSmallerPages(2, 8);
 
-Api.fetchTrendingMovies(3, 9).then(console.log);
+// Api.fetchTrendingMovies(3, 9).then(console.log);
