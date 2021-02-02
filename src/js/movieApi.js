@@ -104,19 +104,23 @@ const Api = {
     return data.genres;
   },
 
+  //Функция, которая служит интерфейсом между fetchTrendingMoviesList() и дальнейшой обработкой
+  // массива фильмов. Аргументами принимает текущую страницу, требуемое количество фильмов на странице
+  // и функцию, которая делает непосредственный фетч-запрос
   async smartFetchMovies(pageNumber, perPage, fetchMovies) {
-    pageNumber -= 1;
-    const bigPerPage = 20;
-    const startIdx = pageNumber * perPage;
-    const bigStartPage = Math.floor(startIdx / bigPerPage);
+    pageNumber -= 1; // нумерация страниц начинается с 0
+    const bigPerPage = 20; // количество обьектов, которое получаем с API
+    const startIdx = pageNumber * perPage; //индекс первого элемента
+    const bigStartPage = Math.floor(startIdx / bigPerPage); // требуемая страница запроса с API
 
     const startData = await fetchMovies(bigStartPage + 1);
 
-    const lastIdx = startData.total_results - 1;
-    const totalPages = Math.floor(lastIdx / perPage) + 1;
-    const endIdx = Math.min(lastIdx, startIdx + perPage - 1);
-    const bigEndPage = Math.floor(endIdx / bigPerPage);
-
+    const lastIdx = startData.total_results - 1; // индекс последнего элемента. Важно, если последняя
+    // страница содержит меньше bigPerPage элементов
+    const totalPages = Math.floor(lastIdx / perPage) + 1; // общее количество пересчитанных страниц
+    const endIdx = Math.min(lastIdx, startIdx + perPage - 1); // индекс последнего элемента на странице
+    const bigEndPage = Math.floor(endIdx / bigPerPage); // последняя требуемая страница запроса с API
+    // индексы требуемых элементов
     const is = startIdx % bigPerPage;
     const ie = endIdx % bigPerPage;
     // console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
@@ -125,13 +129,13 @@ const Api = {
     // console.log('is-ie', is, ie);
     // console.log('bigPage', bigStartPage, bigEndPage);
     // console.log('totalPages', totalPages);
-
+    // Проверка условия надо ли подгружать ещё фильмов с API
     const twoPages = bigStartPage !== bigEndPage;
     const data = {
-      results: startData.results.slice(is, twoPages ? bigPerPage : ie + 1),
+      results: startData.results.slice(is, twoPages ? bigPerPage : ie + 1), // обьект результатов
       total_pages: totalPages,
     };
-
+    // Если надо подгружать фильмы, второй фетч-запрос и добавление результатов в массив
     if (twoPages) {
       const endData = await fetchMovies(bigEndPage + 1);
       data.results.push(...endData.results.slice(0, ie + 1));
