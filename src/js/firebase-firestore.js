@@ -25,13 +25,14 @@ const queueMessageRef = document.querySelector('.queue-message__js');
 const favoriteMessageRef = document.querySelector('.favorite-message__js');
 
 // Function to manage collection in DB
-function manageCollection(e, currentMovieItem, user, btnRef, collection, text) {
+function manageCollection(e, currentMovieItem, user, collection, btnRef, btnIconRef) {
   e.preventDefault();
+
   if (btnRef.dataset.status === 'add') {
     db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .set(currentMovieItem)
       .then(() => {
-        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text, e);
+        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef);
         console.log(`Movie is added to ${collection}!`);
       })
       .catch(error => console.log(error.message));
@@ -39,66 +40,32 @@ function manageCollection(e, currentMovieItem, user, btnRef, collection, text) {
     db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .delete()
       .then(() => {
-        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text, e);
+        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef);
         console.log(`Movie is deleted from ${collection}!`);
       });
   }
 }
 
 // Function to set library buttons UI
-function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text, e) {
+function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef) {
   if (!user) {
     return;
   }
+
   db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
     .get()
     .then(docSnapshot => {
       if (docSnapshot.exists) {
-        if (e.target.classList.contains('favorite-btn__js') || e.target.classList.contains('favorite-icon__js')) {
-          console.log(`I am existing movie in ${collection}`);
-          btnRef.dataset.status = 'remove';
-          const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
-          favoriteBtnIcon.textContent = 'favorite';
-        } else {
-          console.log(`I am existing movie in ${collection}`);
-          btnRef.dataset.status = 'remove';
-          btnRef.textContent = `Remove from ${text}`;
-        }
+        console.log(`I am existing movie in ${collection}`);
+        btnRef.dataset.status = 'remove';
+        btnIconRef.textContent = 'remove_circle';
       } else {
-        if (e.target.classList.contains('favorite-btn__js') || e.target.classList.contains('favorite-icon__js')) {
-          console.log(`I am NOT existing movie in ${collection}`);
-          btnRef.dataset.status = 'add';
-          const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
-          favoriteBtnIcon.textContent = 'favorite_border';
-        } else {
-          console.log(`I am NOT existing movie in ${collection}`);
-          btnRef.dataset.status = 'add';
-          btnRef.textContent = `Add to ${text}`;
-        }
+        console.log(`I am NOT existing movie in ${collection}`);
+        btnRef.dataset.status = 'add';
+        btnIconRef.textContent = 'add_circle';
       }
     });
 }
-
-// function updateFavoriteCollectionBtn(user, collection, currentMovieItem, btnRef, text, e) {
-//   if (!user) {
-//     return;
-//   }
-//   db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
-//     .get()
-//     .then(docSnapshot => {
-//       if (docSnapshot.exists) {
-//         console.log(`I am existing movie in ${collection}`);
-//         btnRef.dataset.status = 'remove';
-//         const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
-//         favoriteBtnIcon.textContent = 'favorite';
-//       } else {
-//         console.log(`I am NOT existing movie in ${collection}`);
-//         btnRef.dataset.status = 'add';
-//         const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
-//         favoriteBtnIcon.textContent = 'favorite_border';
-//       }
-//     });
-// }
 
 function updateLibraryCollection(changes, libraryGalleryRef) {
   changes.forEach(change => {
@@ -126,6 +93,9 @@ export {
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
+  watchedBtnIconRef,
+  queueBtnIconRef,
+  favoriteBtnIconRef,
   watchedGalleryRef,
   queueGalleryRef,
   favoriteGalleryRef,
@@ -134,40 +104,6 @@ export {
   favoriteMessageRef,
   manageCollection,
   updateCollectionManagementdBtn,
-  updateFavoriteCollectionBtn,
   updateLibraryCollection,
   updateLibraryMessage,
 };
-
-// function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text, e) {
-//   if (!user) {
-//     return;
-//   }
-//   db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
-//     .get()
-//     .then(docSnapshot => {
-//       if (docSnapshot.exists) {
-//         if (e.target.classList.contains('favorite-btn__js') || e.target.classList.contains('favorite-icon__js')) {
-//           console.log(`I am existing movie in ${collection}`);
-//           btnRef.dataset.status = 'remove';
-//           const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
-//           favoriteBtnIcon.textContent = 'favorite';
-//         } else {
-//           console.log(`I am existing movie in ${collection}`);
-//           btnRef.dataset.status = 'remove';
-//           btnRef.textContent = `Remove from ${text}`;
-//         }
-//       } else {
-//         if (e.target.classList.contains('favorite-btn__js') || e.target.classList.contains('favorite-icon__js')) {
-//           console.log(`I am NOT existing movie in ${collection}`);
-//           btnRef.dataset.status = 'add';
-//           const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
-//           favoriteBtnIcon.textContent = 'favorite_border';
-//         } else {
-//           console.log(`I am NOT existing movie in ${collection}`);
-//           btnRef.dataset.status = 'add';
-//           btnRef.textContent = `Add to ${text}`;
-//         }
-//       }
-//     });
-// }
