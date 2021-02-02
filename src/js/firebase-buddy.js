@@ -7,7 +7,11 @@ const buddiesList = document.querySelector('.buddies-list__js');
 
 function findBuddy(e) {
   e.preventDefault();
+
   activeBuddyPage();
+
+  const detailsModal = document.querySelector('#details-modal');
+  M.Modal.getInstance(detailsModal).close();
 
   const user = auth.currentUser;
   const id = currentMovieItem.id;
