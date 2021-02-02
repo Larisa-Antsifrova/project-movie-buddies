@@ -6,11 +6,13 @@ import {
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
+  watchedBtnIconRef,
+  queueBtnIconRef,
+  favoriteBtnIconRef,
   watchedGalleryRef,
   queueGalleryRef,
   favoriteGalleryRef,
   updateCollectionManagementdBtn,
-  updateFavoriteCollectionBtn,
 } from './firebase-firestore.js';
 
 //Getting access to DOM elements
@@ -41,9 +43,10 @@ async function onDetailsModalOpen(e) {
     return;
   }
 
-  updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, 'watched', e);
-  updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, 'queue', e);
-  updateFavoriteCollectionBtn(user, 'favorite', currentMovieItem, favoriteBtnRef, 'favorite', e);
+  // updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef);
+  updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, watchedBtnIconRef);
+  updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, queueBtnIconRef);
+  updateCollectionManagementdBtn(user, 'favorite', currentMovieItem, favoriteBtnRef, favoriteBtnIconRef);
 
   showDetails(e, currentMovieItem);
 }

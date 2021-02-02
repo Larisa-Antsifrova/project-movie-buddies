@@ -3,6 +3,9 @@ import {
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
+  watchedBtnIconRef,
+  queueBtnIconRef,
+  favoriteBtnIconRef,
   watchedGalleryRef,
   queueGalleryRef,
   favoriteGalleryRef,
@@ -32,13 +35,13 @@ auth.onAuthStateChanged(user => {
     setupUI(user);
     // Adding event listeners to the movies collection management buttons
     watchedBtnRef.addEventListener('click', e =>
-      manageCollection(e, currentMovieItem, user, watchedBtnRef, 'watched', 'watched'),
+      manageCollection(e, currentMovieItem, user, 'watched', watchedBtnRef, watchedBtnIconRef),
     );
     queueBtnRef.addEventListener('click', e =>
-      manageCollection(e, currentMovieItem, user, queueBtnRef, 'queue', 'queue'),
+      manageCollection(e, currentMovieItem, user, 'queue', queueBtnRef, queueBtnIconRef),
     );
     favoriteBtnRef.addEventListener('click', e =>
-      manageCollection(e, currentMovieItem, user, favoriteBtnRef, 'favorite'),
+      manageCollection(e, currentMovieItem, user, 'favorite', favoriteBtnRef, favoriteBtnIconRef),
     );
 
     // Getting references to Firestore collections of movies
