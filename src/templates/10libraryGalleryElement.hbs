@@ -1,5 +1,5 @@
-<li class="gallery-element col s12 m6 l4" data-id="{{id}}">
-  <a class="modal-trigger" href="#details-modal">
+<li class="gallery-element" data-id="{{id}}">
+  <a class="modal-trigger" href="#details-modal" data-id="{{id}}">
     {{#if title}}
     <img data-id="{{id}}" class="movie-image responsive-img" src="{{ getPoster poster_path }}" alt="{{ title }}">
     <h3 class="movie-name">{{ title }}</h3>
