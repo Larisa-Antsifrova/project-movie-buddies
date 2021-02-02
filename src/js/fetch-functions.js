@@ -30,7 +30,7 @@ async function combineFullMovieInfo(moviesList) {
   const moviesFullInfo = await moviesList;
   const genres_info = await getGenresInfo(moviesList);
   const fullInfo = await moviesFullInfo.map((movie, ind) => {
-      movie['genres_name'] = genres_info[ind];
+    movie['genres_name'] = genres_info[ind];
     return movie;
   });
   return fullInfo;
@@ -148,4 +148,12 @@ function clearError() {
   errorArea.style.visibility = 'hidden';
 }
 
-export { currentMoviesList, currentMovieItem, genres, toggleRenderPage, notFound };
+export {
+  currentMoviesList,
+  currentMovieItem,
+  genres,
+  toggleRenderPage,
+  notFound,
+  combineFullMovieInfo,
+  createMovieList,
+};
