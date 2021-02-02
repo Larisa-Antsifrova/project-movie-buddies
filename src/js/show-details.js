@@ -14,7 +14,7 @@ import {
 } from './firebase-firestore.js';
 
 //Getting access to DOM elements
-const homeGalleryRef = document.querySelector('.home-gallery-list__js');
+const homeGalleryRef = document.querySelector('.home-gallery__js');
 const innerModalRef = document.querySelector('.test-drive_js');
 
 //Global lonely variable, but super important one :)
@@ -63,7 +63,7 @@ async function showDetails(e, currentMovieItem) {
 
 // Funtion to get the current movie selected for review
 async function getCurrentMovieItem(e, user, id) {
-  if (e.currentTarget.classList.contains('home-gallery-list__js')) {
+  if (e.currentTarget.classList.contains('home-gallery__js')) {
     let movieList = await currentMoviesList;
     currentMovieItem = movieList.find(el => el.id === id);
     return currentMovieItem;
