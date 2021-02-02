@@ -42,6 +42,9 @@ function manageCollection(e, currentMovieItem, user, btnRef, collection, text) {
 
 // Function to set library buttons UI
 function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text, e) {
+  if (!user) {
+    return;
+  }
   db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
     .get()
     .then(docSnapshot => {
@@ -72,6 +75,9 @@ function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnR
 }
 
 function updateFavoriteCollectionBtn(user, collection, currentMovieItem, btnRef, text, e) {
+  if (!user) {
+    return;
+  }
   db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
     .get()
     .then(docSnapshot => {
