@@ -17,12 +17,14 @@ import { currentMovieItem } from './show-details.js';
 
 const signupForm = document.getElementById('signup-form');
 const loginForm = document.getElementById('login-form');
-const logout = document.querySelector('#logout');
+const logoutRef = document.querySelector('#logout');
 const loggedOutLinks = document.querySelectorAll('.logged-out__js');
 const loggedInLinks = document.querySelectorAll('.logged-in__js');
 const accountDetails = document.querySelector('.account-details__js');
 const homeNavLnk = document.querySelector('.home-page-link__js');
 const githubSigninRef = document.querySelector('.github-signin__js');
+
+const logoutMobRef = document.querySelector('#logoutMobile__js');
 
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
@@ -91,6 +93,8 @@ signupForm.addEventListener('submit', e => {
       });
     })
     .then(() => {
+      const nav = document.querySelector('#mobile-links');
+      M.Sidenav.getInstance(nav).close();
       const modal = document.querySelector('#modal-signup');
       M.Modal.getInstance(modal).close();
       signupForm.reset();
@@ -119,6 +123,8 @@ function githubSignin() {
     })
     .then(() => {
       // close the signup modal & reset form
+      const nav = document.querySelector('#mobile-links');
+      M.Sidenav.getInstance(nav).close();
       const modal = document.querySelector('#modal-signup');
       M.Modal.getInstance(modal).close();
       loginForm.reset();
@@ -142,6 +148,8 @@ loginForm.addEventListener('submit', e => {
   // log the user in
   auth.signInWithEmailAndPassword(email, password).then(cred => {
     // close the signup modal & reset form
+    const nav = document.querySelector('#mobile-links');
+    M.Sidenav.getInstance(nav).close();
     const modal = document.querySelector('#modal-login');
     M.Modal.getInstance(modal).close();
     loginForm.reset();
@@ -149,11 +157,15 @@ loginForm.addEventListener('submit', e => {
 });
 // logout
 
-logout.addEventListener('click', e => {
+logoutRef.addEventListener('click', logout);
+logoutMobRef.addEventListener('click', logout);
+
+function logout(e) {
   e.preventDefault();
-  console.log('logout');
+  logoutMobRef.classList.add('sidenav-close');
   auth.signOut();
-});
+  location.reload();
+}
 
 function setupUI(user) {
   if (user) {
