@@ -1,54 +1,44 @@
-        <div class="row">
-          <div class="col s12 m6">
-          {{#if title}}
-          <img
-            src="https://image.tmdb.org/t/p/w500{{ poster_path }}"
-            alt="{{ title }}"
-            class="responsive-img border-img"
-            {{!-- width="426" --}}
-          />
+<div class="row">
+  <div class="col s12 m6">
+    {{#if poster_path}}
+    {{#if title}} <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="{{ title }}"
+      class="responsive-img border-img" {{!-- width="426" --}} />
+    {{else}}
+    <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="{{ name }}" class="responsive-img border-img"
+      {{!-- width="426" --}} />
+    {{/if}}
+    {{else}}
+    <img src="https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg" alt="{{ title }}"
+      class="responsive-img border-img" />
+    {{/if}}
+  </div>
+  <div class="col s12 m6">
+    {{#if title}}
+    <h3 class="title-film title-film__js">{{ title }}</h3>
+    {{else}}
+    <h3 class="title-film title-film__js">{{ name }}</h3>
+    {{/if}}
+    <table>
+      <tbody>
+        <tr class="table-light-rows">
+          <td class="detailscaption">Vote / Votes</td>
+          <td id="detailspopularity" class="detailsinfo" class="vote__js"><span class="vote-box">
+              {{vote_average}}</span> <span class="detailscaption">/</span> {{vote_count}}
+          </td>
+        </tr>
+        <tr class="table-dark-rows">
+          <td class="detailscaption">Release Date</td>
+          {{#if release_date}}
+          <td d="detailsvote" class="detailsinfo release-date__js">
+            {{ getMovieYear release_date }}
+          </td>
           {{else}}
-          <img
-            src="https://image.tmdb.org/t/p/w500{{ poster_path }}"
-            alt="{{ name }}"
-            class="responsive-img border-img"
-            {{!-- width="426" --}}
-          />
+          <td d="detailsvote" class="detailsinfo release-date__js">
+            {{ first_air_date }}
+          </td>
           {{/if}}
-        </div>
-        <div class="col s12 m6">
-          {{#if title}}
-          <h3 class="title-film title-film__js">{{ title }}</h3>
-          {{else}}
-          <h3 class="title-film title-film__js">{{ name }}</h3>
-          {{/if}}
-          <table>
-            <tbody>
-              <tr class="table-light-rows">
-                <td class="detailscaption">Vote / Votes</td>
-                <td id="detailspopularity" class="detailsinfo" class="vote__js"><span class="vote-box">
-                  {{vote_average}}</span> <span class="detailscaption">/</span> {{vote_count}}
-                </td>
-              </tr>
-              <tr class="table-dark-rows">
-                <td class="detailscaption">Release Date</td>
-                {{#if release_date}}
-                <td
-                  d="detailsvote"
-                  class="detailsinfo release-date__js"
-                >
-                  {{ getMovieYear release_date }}
-                </td>
-                {{else}}
-                <td
-                  d="detailsvote"
-                  class="detailsinfo release-date__js"
-                >
-                  {{ first_air_date }}
-                </td>
-                {{/if}}
-              </tr>
-              {{!-- <tr class="table-light-rows">
+        </tr>
+        {{!-- <tr class="table-light-rows">
                 <td class="detailscaption">Popularity</td>
                 <td
                   id="detailspopularity"
@@ -56,32 +46,26 @@
                 >
                   {{ popularity }}
                 </td> --}}
-              </tr>
-              <tr class="table-light-rows">
-                <td class="detailscaption">Original Title</td>
-                {{#if original_name}}
-                <td
-                  id="detailspopularity"
-                  class="detailsinfo original-title original-title__js"
-                >
-                  {{ original_name }}
-                </td>
-                {{else}}
-                <td
-                  id="detailspopularity"
-                  class="detailsinfo original-title original-title__js"
-                >
-                  {{ original_title }}
-                </td>
-                {{/if}}
-              </tr>
-              <tr class="table-dark-rows">
-                <td class="detailscaption">Genre</td>
-                <td id="detailsgenre" class="detailsinfo">{{genres_name}}</td>
-              </tr>
-            </tbody>
-          </table>
-          <h3 class="title-about">ABOUT</h3>
-          <p class="overview overview__js">{{ overview }}</p>
-      </div>
-        </div>
+        </tr>
+        <tr class="table-light-rows">
+          <td class="detailscaption">Original Title</td>
+          {{#if original_name}}
+          <td id="detailspopularity" class="detailsinfo original-title original-title__js">
+            {{ original_name }}
+          </td>
+          {{else}}
+          <td id="detailspopularity" class="detailsinfo original-title original-title__js">
+            {{ original_title }}
+          </td>
+          {{/if}}
+        </tr>
+        <tr class="table-dark-rows">
+          <td class="detailscaption">Genre</td>
+          <td id="detailsgenre" class="detailsinfo">{{genres_name}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3 class="title-about">ABOUT</h3>
+    <p class="overview overview__js">{{ overview }}</p>
+  </div>
+</div>
