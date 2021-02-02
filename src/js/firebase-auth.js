@@ -48,6 +48,7 @@ auth.onAuthStateChanged(user => {
     const watchedCollectionRef = db.collection(`users`).doc(user.uid).collection('watched');
     const queueCollectionRef = db.collection(`users`).doc(user.uid).collection('queue');
     const favoriteCollectionRef = db.collection(`users`).doc(user.uid).collection('favorite');
+    const libraryCollectionRef = db.collection(`users`).doc(user.uid).collection('library');
 
     // Adding Firestore real time listeners to collections of movies
     watchedCollectionRef.onSnapshot(snapshot => {
@@ -66,6 +67,12 @@ auth.onAuthStateChanged(user => {
       const changes = snapshot.docChanges();
       updateLibraryMessage(favoriteCollectionRef, favoriteMessageRef);
       updateLibraryCollection(changes, favoriteGalleryRef);
+    });
+
+    libraryCollectionRef.onSnapshot(snapshot => {
+      const libraryIndexes = [];
+      snapshot.docs.forEach(doc => libraryIndexes.push(+doc.id));
+      console.log(libraryIndexes);
     });
   } else {
     setupUI();

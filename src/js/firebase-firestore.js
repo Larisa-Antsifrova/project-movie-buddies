@@ -69,15 +69,6 @@ async function manageCollection(e, currentMovieItem, user, collection, btnRef, b
   }
 }
 
-// const cityRef = db.collection('cities').doc('SF');
-// const doc = await cityRef.get();
-
-// if (!doc.exists) {
-//   console.log('No such document!');
-// } else {
-//   console.log('Document data:', doc.data());
-// }
-
 // Function to set library buttons UI
 function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef) {
   if (!user) {
