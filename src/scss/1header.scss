@@ -147,3 +147,10 @@ nav {
   border-radius: 2px;
   background-color: #ef6c00;
 }
+.sidenav {
+  height: 300px;
+}
+
+.sidenav li:first-child {
+  padding-top: 20px;
+}
