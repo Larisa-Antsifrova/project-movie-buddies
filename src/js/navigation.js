@@ -1,3 +1,5 @@
+import { Api } from './movieApi';
+import { combineFullMovieInfo, createMovieList } from './fetch-functions';
 const logoNavRef = document.querySelector('.logo__js');
 const homeNavLinkRef = document.querySelector('.home-page-link__js');
 const homeSectionRef = document.querySelector('.home__js');
@@ -24,7 +26,8 @@ buddyMobNavRef.addEventListener('click', activeBuddyPage);
 
 function activeHomePage(e) {
   homeMobNavRef.classList.add('sidenav-close');
-  location.reload();
+  Api.resetPage();
+  combineFullMovieInfo(Api.fetchTrendingMoviesList()).then(createMovieList);
   toggleActiveLink(homeNavLinkRef.firstElementChild);
   homeSectionRef.classList.remove('hide');
   librarySectionRef.classList.add('hide');
@@ -56,6 +59,7 @@ function activeBuddyPage(e) {
   headerNavRef.classList.add('bg-buddies');
   headerNavRef.classList.remove('bg-home');
   headerNavRef.classList.remove('bg-library');
+  tabsLibrary.classList.add('hide');
 }
 
 function toggleActiveLink(link) {
