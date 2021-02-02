@@ -25,7 +25,7 @@ const queueMessageRef = document.querySelector('.queue-message__js');
 const favoriteMessageRef = document.querySelector('.favorite-message__js');
 
 // Function to manage collection in DB
-function manageCollection(e, currentMovieItem, user, collection, btnRef, btnIconRef) {
+async function manageCollection(e, currentMovieItem, user, collection, btnRef, btnIconRef) {
   e.preventDefault();
 
   if (btnRef.dataset.status === 'add') {
@@ -51,13 +51,32 @@ function manageCollection(e, currentMovieItem, user, collection, btnRef, btnIcon
         console.log(`Movie is deleted from ${collection}!`);
       });
 
-    db.doc(`users/${user.uid}/library/${currentMovieItem.id}`)
-      .delete()
-      .then(() => {
-        console.log(`Movie is deleted from LIBRARY!`);
-      });
+    // Condition to remove movie from a library
+    const movieInWatchedRef = db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`);
+    const movieInWatched = await movieInWatchedRef.get();
+    const movieInQueueRef = db.doc(`users/${user.uid}/queue/${currentMovieItem.id}`);
+    const movieInQueue = await movieInQueueRef.get();
+    const movieInFavoriteRef = db.doc(`users/${user.uid}/favorite/${currentMovieItem.id}`);
+    const movieInFavorite = await movieInFavoriteRef.get();
+
+    if (!movieInWatched.exists && !movieInQueue.exists && !movieInFavorite.exists) {
+      db.doc(`users/${user.uid}/library/${currentMovieItem.id}`)
+        .delete()
+        .then(() => {
+          console.log(`Movie is deleted from LIBRARY!`);
+        });
+    }
   }
 }
+
+// const cityRef = db.collection('cities').doc('SF');
+// const doc = await cityRef.get();
+
+// if (!doc.exists) {
+//   console.log('No such document!');
+// } else {
+//   console.log('Document data:', doc.data());
+// }
 
 // Function to set library buttons UI
 function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef) {
