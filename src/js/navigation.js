@@ -8,6 +8,7 @@ const buddySectionRef = document.querySelector('.buddies__js');
 const navigationRefs = document.querySelector('.navigation__js');
 const searchForm = document.querySelector('.search-form__js');
 const tabsLibrary = document.querySelector('.tabs__js');
+const headerNavRef = document.querySelector('.header__js');
 // mobile menu
 const homeMobNavRef = document.querySelector('.home-page-link-mobile__js');
 const libraryMobNavRef = document.querySelector('.library-page-link-mobile__js');
@@ -30,6 +31,9 @@ function activeHomePage(e) {
   buddySectionRef.classList.add('hide');
   searchForm.classList.remove('hide');
   tabsLibrary.classList.add('hide');
+  headerNavRef.classList.add('bg-home');
+  headerNavRef.classList.remove('bg-buddies');
+  headerNavRef.classList.remove('bg-library');
 }
 function activeLibraryPage(e) {
   libraryMobNavRef.classList.add('sidenav-close');
@@ -39,6 +43,9 @@ function activeLibraryPage(e) {
   homeSectionRef.classList.add('hide');
   buddySectionRef.classList.add('hide');
   tabsLibrary.classList.remove('hide');
+  headerNavRef.classList.remove('bg-home');
+  headerNavRef.classList.add('bg-library');
+  headerNavRef.classList.remove('bg-buddies');
 }
 function activeBuddyPage(e) {
   buddyMobNavRef.classList.add('sidenav-close');
@@ -46,6 +53,9 @@ function activeBuddyPage(e) {
   buddySectionRef.classList.remove('hide');
   homeSectionRef.classList.add('hide');
   librarySectionRef.classList.add('hide');
+  headerNavRef.classList.add('bg-buddies');
+  headerNavRef.classList.remove('bg-home');
+  headerNavRef.classList.remove('bg-library');
 }
 
 function toggleActiveLink(link) {
