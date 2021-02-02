@@ -9,6 +9,11 @@ const watchedBtnRef = document.querySelector('.watched-btn__js');
 const queueBtnRef = document.querySelector('.queue-btn__js');
 const favoriteBtnRef = document.querySelector('.favorite-btn__js');
 
+// Getting references to icons in Buttions in details modal
+const watchedBtnIconRef = document.querySelector('.watched-btn-icon__js');
+const queueBtnIconRef = document.querySelector('.queue-btn-icon__js');
+const favoriteBtnIconRef = document.querySelector('.favorite-btn-icon__js');
+
 // Getting references to Library galleries
 const watchedGalleryRef = document.querySelector('.watched-gallery__js');
 const queueGalleryRef = document.querySelector('.queue-gallery__js');
@@ -20,13 +25,14 @@ const queueMessageRef = document.querySelector('.queue-message__js');
 const favoriteMessageRef = document.querySelector('.favorite-message__js');
 
 // Function to manage collection in DB
-function manageCollection(e, currentMovieItem, user, btnRef, collection, text) {
+function manageCollection(e, currentMovieItem, user, collection, btnRef, btnIconRef) {
   e.preventDefault();
+
   if (btnRef.dataset.status === 'add') {
     db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .set(currentMovieItem)
       .then(() => {
-        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text);
+        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef);
         console.log(`Movie is added to ${collection}!`);
       })
       .catch(error => console.log(error.message));
@@ -34,25 +40,29 @@ function manageCollection(e, currentMovieItem, user, btnRef, collection, text) {
     db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .delete()
       .then(() => {
-        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text);
+        updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef);
         console.log(`Movie is deleted from ${collection}!`);
       });
   }
 }
 
 // Function to set library buttons UI
-function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text) {
+function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef) {
+  if (!user) {
+    return;
+  }
+
   db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
     .get()
     .then(docSnapshot => {
       if (docSnapshot.exists) {
         console.log(`I am existing movie in ${collection}`);
         btnRef.dataset.status = 'remove';
-        btnRef.textContent = `Remove from ${text}`;
+        btnIconRef.textContent = 'remove_circle';
       } else {
         console.log(`I am NOT existing movie in ${collection}`);
         btnRef.dataset.status = 'add';
-        btnRef.textContent = `Add to ${text}`;
+        btnIconRef.textContent = 'add_circle';
       }
     });
 }
@@ -83,6 +93,9 @@ export {
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
+  watchedBtnIconRef,
+  queueBtnIconRef,
+  favoriteBtnIconRef,
   watchedGalleryRef,
   queueGalleryRef,
   favoriteGalleryRef,

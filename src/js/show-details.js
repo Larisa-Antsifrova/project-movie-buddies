@@ -1,125 +1,91 @@
-import { auth } from './firebase-init';
-import { currentMoviesList, genres } from './movieApi.js';
-import * as Handlebars from 'handlebars/runtime';
+// Imports of firestore services, template, and variables
+import { auth, db } from './firebase-init';
+import { currentMoviesList } from './fetch-functions.js';
 import detailTemplate from '../templates/4details.hbs';
 import {
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
+  watchedBtnIconRef,
+  queueBtnIconRef,
+  favoriteBtnIconRef,
   watchedGalleryRef,
   queueGalleryRef,
   favoriteGalleryRef,
-  watchedMessageRef,
-  queueMessageRef,
-  favoriteMessageRef,
-  manageCollection,
   updateCollectionManagementdBtn,
-  updateLibraryCollection,
-  updateLibraryMessage,
 } from './firebase-firestore.js';
 
-// Handlebars.registerHelper('getMovieYear', function (release_date) {
-//   if (!release_date) {
-//     return;
-//   }
-//   var movieYear = release_date.slice(0, 4);
-//   return movieYear;
-// });
+//Getting access to DOM elements
+const homeGalleryRef = document.querySelector('.home-gallery__js');
+const innerModalRef = document.querySelector('.test-drive_js');
 
-// Handlebars.registerHelper('getMovieDate', function (first_air_date) {
-//     if (!first_air_date) {
-//       return;
-//     }
-//     var movieDate = first_air_date.slice(0, 4);
-//     return movieDate;
-//   });
-
-// Handlebars.registerHelper('roundUpPopularity', function (popularity) {
-//   var roundValue = popularity;
-//   return roundValue;
-// });
-
+//Global lonely variable, but super important one :)
 let currentMovieItem = {};
-
-const sectionDetails = document.querySelector('.details__js'); // доступ к секции с деталями в html
-const homeGalleryRef = document.querySelector('.home-gallery-list__js'); //доступ к ul галлереи для слушателя модалки
-const titleFilmRef = document.querySelector('.title-film__js');
-const overviewRef = document.querySelector('.overview__js');
-const popularityRef = document.querySelector('.popularity__js');
-const releaseDateRef = document.querySelector('.release-date__js');
-const voteRef = document.querySelector('.vote__js');
-const votesRef = document.querySelector('.votes__js');
-const originalTitleRef = document.querySelector('.original-title__js');
-const modalContent = document.querySelector('.modal-content__js');
-
-const detailsModalRef = document.querySelector('#details-modal'); //доступ к модалке
-const innterModalRef = document.querySelector('.test-drive_js');
 
 // Adding event listeners
 homeGalleryRef.addEventListener('click', onDetailsModalOpen);
+watchedGalleryRef.addEventListener('click', onDetailsModalOpen);
+queueGalleryRef.addEventListener('click', onDetailsModalOpen);
+favoriteGalleryRef.addEventListener('click', onDetailsModalOpen);
 
+// Function to carry out open modal scenario
 async function onDetailsModalOpen(e) {
-  const user = auth.currentUser;
-  currentMovieItem = await getCurrentMovieItem(e);
+  if (e.target.nodeName === 'UL') {
+    return;
+  }
 
-  updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, 'watched');
-  updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, 'queue');
-  showDetails(e);
+  const user = auth.currentUser;
+  const id = +e.target.parentElement.dataset.id;
+
+  currentMovieItem = await getCurrentMovieItem(e, user, id);
+
+  if (!currentMovieItem) {
+    return;
+  }
+
+  // updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef);
+  updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, watchedBtnIconRef);
+  updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, queueBtnIconRef);
+  updateCollectionManagementdBtn(user, 'favorite', currentMovieItem, favoriteBtnRef, favoriteBtnIconRef);
+
+  showDetails(e, currentMovieItem);
 }
 
-function showDetails(e) {
+// Function to render movie details in details modal
+async function showDetails(e, currentMovieItem) {
   e.preventDefault();
 
-  // if (e.target.nodeName !== 'A') {
-  //   return;
-  // }
+  if (e.target.parentElement.nodeName !== 'A' && e.target.parentElement.nodeName !== 'LI') {
+    return;
+  }
 
-  const id = +e.target.dataset.id;
-
-  currentMoviesList
-    .then(movies => {
-      console.log(movies);
-      return movies.find(el => el.id === id);
-    })
-    .then(el => {
-      innterModalRef.innerHTML = '';
-      const modalMarkup = detailTemplate(el);
-      innterModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
-    });
+  innerModalRef.innerHTML = '';
+  const modalMarkup = detailTemplate(currentMovieItem);
+  innerModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
 }
 
-// async function showDetails(e) {
-//   const id = +e.target.dataset.id;
-
-//   let movieList = await currentMoviesList;
-//   let currentMovieItem = movieList.find(el => el.id === id);
-//   let movieTitle = (await currentMovieItem.title) || currentMovieItem.name;
-//   let movieOverview = await currentMovieItem.overview;
-//   let moviePopularity = await currentMovieItem.popularity;
-//   let movieReleaseDate =
-//     (await currentMovieItem.release_date) || currentMovieItem.first_air_date;
-//   let movieVote = await currentMovieItem.vote_average;
-//   let movieVotes = await currentMovieItem.vote_count;
-//   let movieOriginalTitle =
-//     (await currentMovieItem.original_name) || currentMovieItem.original_title;
-//   // console.log(currentMovieItem);
-
-//   titleFilmRef.textContent = movieTitle;
-//   overviewRef.textContent = movieOverview;
-//   popularityRef.textContent = moviePopularity.toFixed(1);
-//   releaseDateRef.textContent = movieReleaseDate;
-//   voteRef.textContent = movieVote;
-//   votesRef.textContent = movieVotes;
-//   originalTitleRef.textContent = movieOriginalTitle;
-// }
-
-async function getCurrentMovieItem(e) {
-  const id = +e.target.dataset.id;
-
-  let movieList = await currentMoviesList;
-  let currentMovieItem = movieList.find(el => el.id === id);
-
-  return currentMovieItem;
+// Funtion to get the current movie selected for review
+async function getCurrentMovieItem(e, user, id) {
+  if (e.currentTarget.classList.contains('home-gallery__js')) {
+    let movieList = await currentMoviesList;
+    currentMovieItem = movieList.find(el => el.id === id);
+    return currentMovieItem;
+  } else {
+    currentMovieItem =
+      (await db
+        .doc(`users/${user.uid}/watched/${id}`)
+        .get()
+        .then(doc => doc.data())) ||
+      (await db
+        .doc(`users/${user.uid}/queue/${id}`)
+        .get()
+        .then(doc => doc.data())) ||
+      (await db
+        .doc(`users/${user.uid}/favorite/${id}`)
+        .get()
+        .then(doc => doc.data()));
+    return currentMovieItem;
+  }
 }
 
-export { currentMovieItem };
+export { currentMovieItem, innerModalRef };
