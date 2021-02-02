@@ -174,7 +174,12 @@ function setupUI(user) {
   if (user) {
     accountDetails.innerHTML = `
     <div> Logged in as: ${user.email}</div>
-    <div> User Name: ${user.displayName}</div>
+    <div> User Name: ${user.displayName}
+      <img src="${
+        user.photoURL ||
+        'https://rdihub.b-cdn.net/wp-content/uploads/2020/01/black-and-white-panda-logo-users-group-encapsulated-postscript-user-profile-group-png-clip-art.png'
+      }" alt="photoUser" width="250" height="250"> 
+    </div>
     `;
 
     // toggle user UI elements
