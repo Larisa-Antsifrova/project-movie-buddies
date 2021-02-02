@@ -91,31 +91,57 @@ const Api = {
     return data;
   },
 
-  async fetchTrendingMovies(pageNumber, perPage) {},
+  async fetchTrendingMovies(pageNumber, perPage) {
+    let firstItemIdx = perPage * (pageNumber - 1);
+    let lastItemIdx = perPage * pageNumber - 1;
+    const firstPage = Math.floor(firstItemIdx / 20) + 1;
+    const lastPage = Math.floor(lastItemIdx / 20) + 1;
+    console.log(firstPage, 'firstPage', lastPage, 'lastPage');
+    console.log(firstItemIdx, 'firstItemIdx', lastItemIdx, 'lastItemIdx');
+
+    const data = await this.fetchTrendingMovies_(firstPage);
+    let results = {
+      data: data.results.slice(firstItemIdx, lastItemIdx + 1),
+      total_pages: Math.ceil((data.total_pages * 20) / perPage),
+    };
+    if (firstPage !== lastPage) {
+      const data2 = await this.fetchTrendingMovies_(lastPage);
+      // const remainder = lastItemIdx % 20;
+      // console.log(remainder, 'remainder');
+      let moviesToAdd = data2.results.slice(0, lastItemIdx - 20 + 1);
+      console.log(moviesToAdd, 'with data2');
+      moviesToAdd.unshift(...data.results.slice(firstItemIdx, 20));
+      console.log(moviesToAdd, 'with both data');
+      results.data = moviesToAdd;
+    }
+
+    return results;
+
+    // const remainder = lastItemIdx % 20;
+    // const requiredPages = remainder > perPage ? currentPage : [currentPage - 1, currentPage];
+  },
 };
 Api.calculatePosterImgSize();
 
 export { Api };
 
-function makeSmallerPages(pageNumber, perPage) {
-  const lastItemIdx = perPage * pageNumber - 1;
-  console.log(lastItemIdx, 'lastItemIdx');
+// function makeSmallerPages(pageNumber, perPage) {
+//   const lastItemIdx = perPage * pageNumber - 1;
+//   console.log(lastItemIdx, 'lastItemIdx');
 
-  const firstItemIdx = perPage * (pageNumber - 1);
-  console.log(firstItemIdx, 'firstItemIdx');
+//   const firstItemIdx = perPage * (pageNumber - 1);
+//   console.log(firstItemIdx, 'firstItemIdx');
 
-  const currentPage = Math.floor(lastItemIdx / 20) + 1;
-  console.log(currentPage, 'currentPage');
+//   const currentPage = Math.floor(lastItemIdx / 20) + 1;
+//   console.log(currentPage, 'currentPage');
 
-  const remainder = lastItemIdx % 20;
-  const requiredPages = remainder > perPage ? currentPage : [currentPage - 1, currentPage];
-  console.log(requiredPages, 'requiredPages from default fetch');
+//   const remainder = lastItemIdx % 20;
+//   const requiredPages = remainder > perPage ? currentPage : [currentPage - 1, currentPage];
+//   console.log(requiredPages, 'requiredPages from default fetch');
 
-  return requiredPages;
-}
+//   return requiredPages;
+// }
 
-makeSmallerPages(2, 8);
-console.log(Api.fetchTrendingMovies_(makeSmallerPages(4, 8)));
-Api.fetchTrendingMovies_(makeSmallerPages(4, 8)).then(({ results }) => console.log('results', results));
+// makeSmallerPages(2, 8);
 
-async function selectMoviesToRender(moviesObjects) {}
+Api.fetchTrendingMovies(3, 9).then(console.log);
