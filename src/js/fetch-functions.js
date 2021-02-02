@@ -94,7 +94,7 @@ function toggleRenderPage() {
 // функция рендера страницы запроса
 function renderSearchedFilms(inputValue) {
   spinner.show();
-  Api.calculateMoviesPerPage();
+
   currentMoviesList = Api.fetchSearchMovieList(inputValue);
   return combineFullMovieInfo(currentMoviesList)
     .then(createMovieList)
@@ -109,7 +109,7 @@ function renderSearchedFilms(inputValue) {
 // функция рендера страницы трендов
 function renderPopularFilms() {
   spinner.show();
-  Api.calculateMoviesPerPage();
+
   currentMoviesList = Api.fetchTrendingMoviesList();
   return combineFullMovieInfo(currentMoviesList)
     .then(createMovieList)
