@@ -9,17 +9,14 @@ import {
   watchedGalleryRef,
   queueGalleryRef,
   favoriteGalleryRef,
-  manageCollection,
   updateCollectionManagementdBtn,
   updateFavoriteCollectionBtn,
-  updateLibraryCollection,
-  updateLibraryMessage,
 } from './firebase-firestore.js';
 
 let currentMovieItem = {};
 
-const sectionDetails = document.querySelector('.details__js'); // доступ к секции с деталями в html
 const homeGalleryRef = document.querySelector('.home-gallery-list__js'); //доступ к ul галлереи для слушателя модалки
+const sectionDetails = document.querySelector('.details__js'); // доступ к секции с деталями в html
 const titleFilmRef = document.querySelector('.title-film__js');
 const overviewRef = document.querySelector('.overview__js');
 const popularityRef = document.querySelector('.popularity__js');
@@ -29,8 +26,8 @@ const votesRef = document.querySelector('.votes__js');
 const originalTitleRef = document.querySelector('.original-title__js');
 const modalContent = document.querySelector('.modal-content__js');
 
-const detailsModalRef = document.querySelector('#details-modal'); //доступ к модалке
 const innerModalRef = document.querySelector('.test-drive_js');
+const detailsModalRef = document.querySelector('#details-modal'); //доступ к модалке
 
 // Adding event listeners
 homeGalleryRef.addEventListener('click', onDetailsModalOpen);
@@ -43,11 +40,10 @@ async function onDetailsModalOpen(e) {
     return;
   }
 
-  const currentEventTarget = e.currentTarget;
   const user = auth.currentUser;
   const id = +e.target.parentElement.dataset.id;
 
-  currentMovieItem = await getCurrentMovieItem(e, user, currentEventTarget, id);
+  currentMovieItem = await getCurrentMovieItem(e, user, id);
 
   if (!currentMovieItem) {
     return;
@@ -57,67 +53,38 @@ async function onDetailsModalOpen(e) {
   updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, 'queue', e);
   updateFavoriteCollectionBtn(user, 'favorite', currentMovieItem, favoriteBtnRef, 'favorite', e);
 
-  showDetails(e, currentMovieItem, currentEventTarget);
+  showDetails(e, currentMovieItem);
 }
 
-async function showDetails(e, currentMovieItem, currentEventTarget) {
+async function showDetails(e, currentMovieItem) {
   e.preventDefault();
 
   if (e.target.parentElement.nodeName !== 'A') {
     return;
   }
 
-  if (currentEventTarget.classList.contains('home-gallery-list__js')) {
-    renderMovieDetails(currentMovieItem);
-    return;
-  }
-
-  if (currentEventTarget.classList.contains('watched-gallery__js')) {
-    console.log('Current e-target in watched', currentEventTarget);
-    renderMovieDetails(currentMovieItem);
-    return;
-  }
-
-  if (e.currentTarget.classList.contains('queue-gallery__js')) {
-    console.log('Current e-target in queue', currentEventTarget);
-
-    renderMovieDetails(currentMovieItem);
-    return;
-  }
-  if (e.currentTarget.classList.contains('favorite-gallery__js')) {
-    renderMovieDetails(currentMovieItem);
-    return;
-  }
+  renderMovieDetails(currentMovieItem);
 }
 
-async function getCurrentMovieItem(e, user, currentEventTarget, id) {
-  if (currentEventTarget.classList.contains('home-gallery-list__js')) {
+async function getCurrentMovieItem(e, user, id) {
+  if (e.currentTarget.classList.contains('home-gallery-list__js')) {
     let movieList = await currentMoviesList;
     currentMovieItem = movieList.find(el => el.id === id);
     return currentMovieItem;
-  }
-
-  if (currentEventTarget.classList.contains('watched-gallery__js')) {
-    currentMovieItem = await db
-      .doc(`users/${user.uid}/watched/${id}`)
-      .get()
-      .then(doc => doc.data());
-    return currentMovieItem;
-  }
-
-  if (currentEventTarget.classList.contains('queue-gallery__js')) {
-    currentMovieItem = await db
-      .doc(`users/${user.uid}/queue/${id}`)
-      .get()
-      .then(doc => doc.data());
-    return currentMovieItem;
-  }
-
-  if (currentEventTarget.classList.contains('favorite-gallery__js')) {
-    currentMovieItem = await db
-      .doc(`users/${user.uid}/favorite/${id}`)
-      .get()
-      .then(doc => doc.data());
+  } else {
+    currentMovieItem =
+      (await db
+        .doc(`users/${user.uid}/watched/${id}`)
+        .get()
+        .then(doc => doc.data())) ||
+      (await db
+        .doc(`users/${user.uid}/queue/${id}`)
+        .get()
+        .then(doc => doc.data())) ||
+      (await db
+        .doc(`users/${user.uid}/favorite/${id}`)
+        .get()
+        .then(doc => doc.data()));
     return currentMovieItem;
   }
 }
