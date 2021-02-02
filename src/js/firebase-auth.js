@@ -91,15 +91,17 @@ signupForm.addEventListener('submit', e => {
   // get user info
   const email = signupForm['signup-email'].value;
   const password = signupForm['signup-password'].value;
-
+  const displayName = signupForm['signup-name'].value;
   // sign up the user
   auth
     .createUserWithEmailAndPassword(email, password)
     .then(userData => {
       userData.user.updateProfile({
-        displayName: signupForm['signup-name'].value,
+        displayName: displayName,
       });
       db.collection('users').doc(userData.user.uid).set({
+        name: displayName,
+        email: email,
         movies: [],
       });
     })
@@ -126,6 +128,8 @@ function githubSignin() {
       console.log(token);
       console.log(user);
       db.collection('users').doc(user.uid).set({
+        name: displayName,
+        email: email,
         movies: [],
       });
     })
