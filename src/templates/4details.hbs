@@ -11,14 +11,24 @@
     <img src="https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg" alt="{{ title }}"
       class="responsive-img border-img" />
     {{/if}}
-    {{!-- <div class="trailer__box">
+    {{#if trailer_key}}
+    <div class="trailer__box">
       <ul class="trailer">
         <li class="trailer__ref">
           <a href="https://www.youtube.com//embed/{{ trailer_key }}" class='waves-effect waves-light btn-small pink'><i
               class="material-icons left">videocam</i>Watch me!</a>
         </li>
       </ul>
-    </div> --}}
+    </div>
+    {{else}}
+    <div class="trailer__box">
+      <ul class="trailer">
+        <li class="trailer__ref">
+          <a href="#" class='disabled btn-small '><i class="material-icons left">videocam_off</i> No trailer</a>
+        </li>
+      </ul>
+    </div>
+    {{/if}}
   </div>
   <div class="col s12 m6">
     {{#if title}}
