@@ -126,10 +126,7 @@ function githubSignin() {
       console.log(token);
       console.log(user);
       db.collection('users').doc(user.uid).set({
-        library: [],
-        watched: [],
-        queue: [],
-        favorite: [],
+        movies: [],
       });
     })
     .then(() => {
