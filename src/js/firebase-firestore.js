@@ -9,6 +9,11 @@ const watchedBtnRef = document.querySelector('.watched-btn__js');
 const queueBtnRef = document.querySelector('.queue-btn__js');
 const favoriteBtnRef = document.querySelector('.favorite-btn__js');
 
+// Getting references to icons in Buttions in details modal
+const watchedBtnIconRef = document.querySelector('.watched-btn-icon__js');
+const queueBtnIconRef = document.querySelector('.queue-btn-icon__js');
+const favoriteBtnIconRef = document.querySelector('.favorite-btn-icon__js');
+
 // Getting references to Library galleries
 const watchedGalleryRef = document.querySelector('.watched-gallery__js');
 const queueGalleryRef = document.querySelector('.queue-gallery__js');
@@ -74,26 +79,26 @@ function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnR
     });
 }
 
-function updateFavoriteCollectionBtn(user, collection, currentMovieItem, btnRef, text, e) {
-  if (!user) {
-    return;
-  }
-  db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
-    .get()
-    .then(docSnapshot => {
-      if (docSnapshot.exists) {
-        console.log(`I am existing movie in ${collection}`);
-        btnRef.dataset.status = 'remove';
-        const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
-        favoriteBtnIcon.textContent = 'favorite';
-      } else {
-        console.log(`I am NOT existing movie in ${collection}`);
-        btnRef.dataset.status = 'add';
-        const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
-        favoriteBtnIcon.textContent = 'favorite_border';
-      }
-    });
-}
+// function updateFavoriteCollectionBtn(user, collection, currentMovieItem, btnRef, text, e) {
+//   if (!user) {
+//     return;
+//   }
+//   db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
+//     .get()
+//     .then(docSnapshot => {
+//       if (docSnapshot.exists) {
+//         console.log(`I am existing movie in ${collection}`);
+//         btnRef.dataset.status = 'remove';
+//         const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
+//         favoriteBtnIcon.textContent = 'favorite';
+//       } else {
+//         console.log(`I am NOT existing movie in ${collection}`);
+//         btnRef.dataset.status = 'add';
+//         const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
+//         favoriteBtnIcon.textContent = 'favorite_border';
+//       }
+//     });
+// }
 
 function updateLibraryCollection(changes, libraryGalleryRef) {
   changes.forEach(change => {
@@ -133,3 +138,36 @@ export {
   updateLibraryCollection,
   updateLibraryMessage,
 };
+
+// function updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, text, e) {
+//   if (!user) {
+//     return;
+//   }
+//   db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
+//     .get()
+//     .then(docSnapshot => {
+//       if (docSnapshot.exists) {
+//         if (e.target.classList.contains('favorite-btn__js') || e.target.classList.contains('favorite-icon__js')) {
+//           console.log(`I am existing movie in ${collection}`);
+//           btnRef.dataset.status = 'remove';
+//           const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
+//           favoriteBtnIcon.textContent = 'favorite';
+//         } else {
+//           console.log(`I am existing movie in ${collection}`);
+//           btnRef.dataset.status = 'remove';
+//           btnRef.textContent = `Remove from ${text}`;
+//         }
+//       } else {
+//         if (e.target.classList.contains('favorite-btn__js') || e.target.classList.contains('favorite-icon__js')) {
+//           console.log(`I am NOT existing movie in ${collection}`);
+//           btnRef.dataset.status = 'add';
+//           const favoriteBtnIcon = document.querySelector('.favorite-icon__js');
+//           favoriteBtnIcon.textContent = 'favorite_border';
+//         } else {
+//           console.log(`I am NOT existing movie in ${collection}`);
+//           btnRef.dataset.status = 'add';
+//           btnRef.textContent = `Add to ${text}`;
+//         }
+//       }
+//     });
+// }
