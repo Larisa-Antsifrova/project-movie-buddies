@@ -9,8 +9,9 @@ const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const errorArea = document.querySelector('.search-error__js');
 const paginator = new Paginator();
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
-let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
+let currentMoviesList = null; //Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
 let currentMovieItem = null;
+let currentMovies = Api.fetchTrendingMoviesList();
 
 searchForm.addEventListener('click', onInputFocus);
 searchForm.addEventListener('submit', searchFilms);
@@ -94,6 +95,7 @@ function toggleRenderPage() {
 // функция рендера страницы запроса
 function renderSearchedFilms(inputValue) {
   spinner.show();
+
   currentMoviesList = Api.fetchSearchMovieList(inputValue);
   return combineFullMovieInfo(currentMoviesList)
     .then(createMovieList)
@@ -108,6 +110,7 @@ function renderSearchedFilms(inputValue) {
 // функция рендера страницы трендов
 function renderPopularFilms() {
   spinner.show();
+
   currentMoviesList = Api.fetchTrendingMoviesList();
   return combineFullMovieInfo(currentMoviesList)
     .then(createMovieList)
@@ -149,7 +152,8 @@ function clearError() {
 }
 
 export {
-  currentMoviesList,
+  // currentMoviesList,
+  currentMovies,
   currentMovieItem,
   genres,
   toggleRenderPage,
