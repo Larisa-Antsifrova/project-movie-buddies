@@ -61,7 +61,7 @@ homeGalleryRef.addEventListener('click', onDetailsModalOpen);
 async function onDetailsModalOpen(e) {
   const user = auth.currentUser;
   currentMovieItem = await getCurrentMovieItem(e);
-
+  
   updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, 'watched');
   updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, 'queue');
   showDetails(e);
@@ -78,7 +78,6 @@ function showDetails(e) {
 
   currentMoviesList
     .then(movies => {
-      console.log(movies);
       return movies.find(el => el.id === id);
     })
     .then(el => {

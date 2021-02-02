@@ -30,7 +30,7 @@ async function combineFullMovieInfo(moviesList) {
   const moviesFullInfo = await moviesList;
   const genres_info = await getGenresInfo(moviesList);
   const fullInfo = await moviesFullInfo.map((movie, ind) => {
-    movie['genres_name'] = genres_info[ind];
+      movie['genres_name'] = genres_info[ind];
     return movie;
   });
   return fullInfo;
@@ -63,7 +63,7 @@ Handlebars.registerHelper('getMovieYear', function (release_date) {
 
 Handlebars.registerHelper('getPoster', function (poster_path) {
   if (!poster_path) {
-    const defaultImgUrl = `${Api.images.baseImageUrl}${Api.images.currentSizes.posterSize}/wwemzKWzjKYJFfCeiB57q3r4Bcm.png`;
+    const defaultImgUrl = `https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg`;
     return defaultImgUrl;
   } else {
     const imgUrl = `${Api.images.baseImageUrl}${Api.images.currentSizes.posterSize}/${poster_path}`;
