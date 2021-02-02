@@ -5,6 +5,7 @@ import './js/templates.js';
 import './js/firebase-init.js';
 import './js/firebase-auth.js';
 import './js/firebase-firestore.js';
+import './js/firebase-buddy.js';
 
 // Importing Materialize files
 import './js/materialize.js';

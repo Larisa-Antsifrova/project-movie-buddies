@@ -87,9 +87,6 @@ signupForm.addEventListener('submit', e => {
       });
       db.collection('users').doc(userData.user.uid).set({
         library: [],
-        watched: [],
-        queue: [],
-        favorite: [],
       });
     })
     .then(() => {
