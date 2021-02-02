@@ -8,36 +8,40 @@
     <link rel="shortcut icon" href="./images/favicon.png" type="image/png" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <header class="header__js bg"></header>
+    <header class="header__js bg-home"></header>
     <main>
       <section class="home-section home__js">
         <div class="container">
-          <ul id="home-gallery" class="home-gallery-list home-gallery-list__js"></ul>
-          <!-- Pagination Materialized -->
+          <ul id="home-gallery" class="gallery-list home-gallery__js"></ul>
+
+          <!-- PAGINATOR-TERMINATOR -->
           <div class="pagination-container"></div>
         </div>
       </section>
       <section class="library__js hide"></section>
       <section class="buddies__js hide"></section>
       <section class="team__js hide"></section>
-      <!-- <section class="details__js"> -->
+
+      <!-- SHOW DETAILS MODAL -->
       <div class="modal details-modal__js" id="details-modal">
         <div class="modal-content modal-content__js">
           <div class="test-drive_js"></div>
-          <a href="#" class="waves-effect waves-light btn btn-detail watched-btn__js" data-status="add"></a>
-          <a href="#" class="waves-effect waves-light btn btn-detail queue-btn__js" data-status="add"></a>
-          <a
-            href="#"
-            class="btn-floating halfway-fab waves-effect waves-light orange accent-4 favorite-btn__js"
-            data-status="add"
-            ><i class="material-icons favorite-icon__js">favorite_border</i></a
+          <a href="#" class="waves-effect waves-light btn btn-detail watched-btn__js" data-status="add"
+            ><i class="material-icons watched-btn-icon__js">add_circle</i><span>watched</span></a
           >
-          <a href="#" class="waves-effect waves-light btn btn-detail">find buddy</a>
+          <a href="#" class="waves-effect waves-light btn btn-detail queue-btn__js" data-status="add"
+            ><i class="material-icons queue-btn-icon__js">add_circle</i><span>queue</span></a
+          >
+          <a href="#" class="waves-effect waves-light btn btn-detail favorite-btn__js" data-status="add"
+            ><i class="material-icons favorite-btn-icon__js">add_circle</i><span>favorite</span></a
+          >
+          <a href="#" class="waves-effect waves-light btn btn-detail buddy-btn__js">find buddy</a>
         </div>
       </div>
-      <!-- </section> -->
     </main>
     <footer class="footer__js site-footer"></footer>
   </body>
