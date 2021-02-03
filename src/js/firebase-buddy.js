@@ -49,8 +49,8 @@ function renderBuddy(doc, fragment, userId, movieId) {
 
   // Creating element to hold Buddy's name
   const nameSpan = document.createElement('span');
+  nameSpan.classList.add('col', 's4', 'buddy-name');
   nameSpan.textContent = name;
-  nameSpan.classList.add('col', 's4');
 
   // Creating element to contain collection chips
   const collectionDiv = document.createElement('div');
