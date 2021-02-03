@@ -64,7 +64,7 @@ const Api = {
   },
   async fetchTrendingMoviesList() {
     const data = await this.smartFetchMovies(this.pageNumber, this.getMoviesPerPage(), async pageNumber => {
-      return (await axios.get(`/trending/all/week?api_key=${this.apiKey}&language=en-US&page=${pageNumber}`)).data;
+      return (await axios.get(`/trending/movie/week?api_key=${this.apiKey}&language=en-US&page=${pageNumber}`)).data;
     });
     this.totalPages = data.total_pages;
     const respArr = await data.results;
@@ -75,7 +75,7 @@ const Api = {
     const data = await this.smartFetchMovies(this.pageNumber, this.getMoviesPerPage(), async pageNumber => {
       return (
         await axios.get(
-          `/search/multi?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=${pageNumber}`,
+          `/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=${pageNumber}`,
         )
       ).data;
     });
