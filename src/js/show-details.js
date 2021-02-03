@@ -1,6 +1,6 @@
 // Imports of firestore services, template, and variables
 import { auth, db } from './firebase-init';
-import { currentMovies } from './fetch-functions.js';
+import { currentMoviesList } from './fetch-functions.js';
 import detailTemplate from '../templates/4details.hbs';
 import {
   watchedBtnRef,
@@ -67,7 +67,7 @@ async function showDetails(e, currentMovieItem) {
 // Funtion to get the current movie selected for review
 async function getCurrentMovieItem(e, user, id) {
   if (e.currentTarget.classList.contains('home-gallery__js')) {
-    let movieList = await currentMovies;
+    let movieList = await currentMoviesList;
     currentMovieItem = movieList.find(el => el.id === id);
     return currentMovieItem;
   } else {
