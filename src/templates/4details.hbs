@@ -46,26 +46,34 @@
                 >
                   {{ popularity }}
                 </td> --}}
-        </tr>
-        <tr class="table-light-rows">
-          <td class="detailscaption">Original Title</td>
-          {{#if original_name}}
-          <td id="detailspopularity" class="detailsinfo original-title original-title__js">
-            {{ original_name }}
-          </td>
-          {{else}}
-          <td id="detailspopularity" class="detailsinfo original-title original-title__js">
-            {{ original_title }}
-          </td>
-          {{/if}}
-        </tr>
-        <tr class="table-dark-rows">
-          <td class="detailscaption">Genre</td>
-          <td id="detailsgenre" class="detailsinfo">{{genres_name}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <h3 class="title-about">ABOUT</h3>
-    <p class="overview overview__js">{{ overview }}</p>
-  </div>
-</div>
+              </tr>
+              <tr class="table-light-rows">
+                <td class="detailscaption">Original Title</td>
+                {{#if original_name}}
+                <td
+                  id="detailspopularity"
+                  class="detailsinfo original-title original-title__js"
+                >
+                  {{ original_name }}
+                </td>
+                {{else}}
+                <td
+                  id="detailspopularity"
+                  class="detailsinfo original-title original-title__js"
+                >
+                  {{ original_title }}
+                </td>
+                {{/if}}
+              </tr>
+              <tr class="table-dark-rows">
+                <td class="detailscaption">Genre</td>
+                <td id="detailsgenre" class="detailsinfo">{{genres_name}}</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          <div class="col s12">
+            <h3 class="title-about">ABOUT</h3>
+          <p class="overview overview__js">{{ overview }}</p>
+          </div>
+        </div>

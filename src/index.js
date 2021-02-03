@@ -20,3 +20,4 @@ import './js/paginator.js';
 import './js/show-details.js';
 import './js/buttonUp.js';
 import './js/navigation.js';
+import './js/theme.js';
