@@ -15,11 +15,11 @@ import {
   updateCollectionManagementdBtn,
 } from './firebase-firestore.js';
 
-//Getting access to DOM elements
+// Getting access to DOM elements
 const homeGalleryRef = document.querySelector('.home-gallery__js');
 const innerModalRef = document.querySelector('.test-drive_js');
 
-//Global lonely variable, but super important one :)
+// Global lonely variable, but super important one :)
 let currentMovieItem = {};
 
 // Adding event listeners
