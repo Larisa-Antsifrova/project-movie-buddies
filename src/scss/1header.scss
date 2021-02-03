@@ -154,3 +154,14 @@ nav {
 .sidenav li:first-child {
   padding-top: 20px;
 }
+
+
+main.light-theme {
+  background-color: #fff;
+  color: #333333;
+}
+
+main.dark-theme {
+  background-color: #333333;
+  color: #fff;
+}

@@ -1,3 +1,7 @@
+table {
+  margin-top: 5 .0px !important;
+}
+
 td {
   padding: 10px 5px !important;
 }
@@ -62,33 +66,97 @@ td {
   font-size: 12px;
   line-height: 1.33;
   text-transform: uppercase;
+  color: #ff6b01;
 }
 
 .overview {
   margin-top: 0 !important;
-  margin-bottom: 40px;
-  font-weight: 500;
+  // margin-bottom: 40px;
+  font-weight: 500 !important;
   font-size: 12px;
   line-height: 1.67;
 }
 
-.img-wrapper {
-  position: relative;
+.icon-pozition {
+  margin-right: 0 !important;
 }
+// .img-wrapper {
+//   position: relative;
+// }
 
-.btn-floating.halfway-fab {
-  position: absolute !important;
-  left: 40px !important;
-  top: 30px !important;
-}
+// .btn-floating.halfway-fab {
+//   position: absolute !important;
+//   left: 40px !important;
+//   top: 30px !important;
+// }
 
 .btn-detail {
-  min-width: 70px;
-  height: 35px;
+  width: 100% !important;
+  height: 40px;
   background: #ff6b01 !important;
   border-radius: 5px;
+  border: none;
+
+  color: #ffffff;
+  padding: 2px 10px !important;
+  font-size: 8px !important;
+  font-weight: 500;
+}
+.btn-detail {
+  @media screen and (min-width: 360px) and (max-width: 389px) {
+    font-size: 10px !important;
+  }
+  @media screen and (min-width: 390px) {
+    font-size: 14px !important;
+  }
+  @media screen and (min-width: 690px) {
+    font-size: 18px !important;
+  }
 }
 
-.btn-detail:not(:last-child) {
-  margin-right: 5px;
+.btn-detail:hover {
+  background: #fc7210 !important;
+  border: 1px solid rgb(187, 186, 186);
+  color: black;
+}
+
+.btn-fav {
+  background: #f13343 !important;
+}
+.btn-fav:hover {
+  background: #fa1c2f !important;
+}
+
+.btn-fb {
+  background: #4627f3 !important;
+}
+.btn-fb:hover {
+  background: #3204ff !important;
+}
+.wrap-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: -10px;
+}
+
+.wrap-item-button {
+  width: calc((100% - 4 * 10px) / 2);
+  margin: 10px;
+}
+
+.wrap-item-button {
+  @media screen and (min-width: 570px) {
+    width: calc((100% - 4 * 30px) / 2);
+  }
+  @media screen and (min-width: 720px) {
+    width: calc((100% - 4 * 50px) / 2);
+  }
+  @media screen and (min-width: 840px) {
+    width: calc((100% - 4 * 60px) / 2);
+  }
+  @media screen and (min-width: 950px) {
+    width: calc((100% - 4 * 50px) / 2);
+  }
 }
