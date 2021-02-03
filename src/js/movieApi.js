@@ -76,8 +76,14 @@ const Api = {
     const { data } = await axios.get(
       `movie/${el}/videos?api_key=${this.apiKey}&language=en-US`,
     );
-    if (!data.results) {
-      return;
+    console.log(data.results.length);
+    if (!data.results.length) {
+      return
+      // return fetch(`${this.baseUrl}tv/${this.filmID}/videos?api_key=${this.apiKey}&language=en-US`)
+      //       .then(res => res.json()).then(resp => {
+      //         console.log('TV',resp);
+      //         return resp
+      //       })
     } else {
       return data.results.find(e => {
         if (e.type == 'Trailer') {
@@ -97,4 +103,4 @@ Api.calculatePosterImgSize();
 
 export { Api };
 
-Api.fetchTrailersAPI(464052);
+// Api.fetchTrailersAPI(464052);

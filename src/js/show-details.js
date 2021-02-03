@@ -14,7 +14,7 @@ import {
   favoriteGalleryRef,
   updateCollectionManagementdBtn,
 } from './firebase-firestore.js';
-// import { trailer } from './trailer.js';
+import { modalWindow } from './trailer.js';
 import { Api } from './movieApi.js';
 
 //Getting access to DOM elements
@@ -58,25 +58,27 @@ async function showDetails(e, currentMovieItem) {
     return;
   }
 
+      const trailerKey = await Api.fetchTrailersAPI(currentMovieItem.id).catch(error => {
+      console.error("Error: ", error);
+      });
+      if (!trailerKey) {
+      currentMovieItem['trailer_key'] = '';
+    } else {
+      currentMovieItem['trailer_key'] = trailerKey.key;
+    };
+
   innerModalRef.innerHTML = '';
   const modalMarkup = detailTemplate(currentMovieItem);
   innerModalRef.insertAdjacentHTML('afterbegin', modalMarkup);
-}
 
+  const trailerBtn = document.querySelector('.trailer__ref');
+  trailerBtn.addEventListener('click', modalWindow.openModal.bind(modalWindow));
+}
 // Funtion to get the current movie selected for review
 async function getCurrentMovieItem(e, user, id) {
   if (e.currentTarget.classList.contains('home-gallery__js')) {
     let movieList = await currentMoviesList;
     currentMovieItem = movieList.find(el => el.id === id);
-    console.log('currentMovieItem.id',currentMovieItem.id);
-    const trailerKey = await Api.fetchTrailersAPI(currentMovieItem.id);
-    console.log('trailerKey', trailerKey.status_code);
-    if (!trailerKey) {
-      currentMovieItem['trailer_key'] = '';
-    } else {
-      currentMovieItem['trailer_key'] = trailerKey.id;
-    }
-    console.log(currentMovieItem);
     return currentMovieItem;
   } else {
     currentMovieItem =
