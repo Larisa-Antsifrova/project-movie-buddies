@@ -40,13 +40,15 @@ function findBuddy(e) {
   });
 }
 
+// Function to render movies previews
 function renderMoviePreview(currentMovieItem) {
+  moviesToDiscussListRef.innerHTML = '';
+
   const title = currentMovieItem.title || currentMovieItem.name;
 
-  const li = document.createElement('li');
-  li.classList.add('collection-item', 'valign-wrapper', 'avatar');
-
-  // const a = document.createElement('a');
+  const a = document.createElement('a');
+  a.classList.add('collection-item', 'valign-wrapper', 'avatar');
+  a.setAttribute('href', '#!');
 
   const img = document.createElement('img');
   img.setAttribute('src', `https://image.tmdb.org/t/p/w500${currentMovieItem.backdrop_path}`);
@@ -57,11 +59,12 @@ function renderMoviePreview(currentMovieItem) {
   titleSpan.classList.add('movie-title', 'title');
 
   titleSpan.textContent = title;
-  li.appendChild(img);
-  li.appendChild(titleSpan);
-  return li;
+  a.appendChild(img);
+  a.appendChild(titleSpan);
+  return a;
 }
 
+// Function to render one Buddy preview
 function renderBuddy(doc, fragment, userId, movieId) {
   // Getting info to fill in Buddy search result
   const name = doc.data().name;
@@ -155,6 +158,7 @@ function renderBuddy(doc, fragment, userId, movieId) {
   fragment.appendChild(li);
 }
 
+// Function to check what collection the chosen movie is in
 async function isInCollection(userId, collection, movieId) {
   const movie = db.doc(`users/${userId}/${collection}/${movieId}`);
   const movieInCollection = await movie.get();
@@ -166,6 +170,7 @@ async function isInCollection(userId, collection, movieId) {
   return false;
 }
 
+// Funtion to get user's device to provide with corresponding messanger link
 const getDeviceType = () => {
   const ua = navigator.userAgent;
   if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
