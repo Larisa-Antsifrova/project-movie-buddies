@@ -78,6 +78,7 @@ auth.onAuthStateChanged(user => {
       updateLibraryCollection(changes, favoriteGalleryRef);
     });
 
+    // Adding real time listener to the general library collection
     libraryCollectionRef.onSnapshot(snapshot => {
       const libraryIndexes = snapshot.docs.map(doc => +doc.id);
       db.collection(`users`)
