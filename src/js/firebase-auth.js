@@ -3,6 +3,7 @@ import {
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
+  buddyBtnRef,
   watchedBtnIconRef,
   queueBtnIconRef,
   favoriteBtnIconRef,
@@ -16,6 +17,7 @@ import {
   updateLibraryCollection,
   updateLibraryMessage,
 } from './firebase-firestore.js';
+import { findBuddyBtnRef, findBuddy } from './firebase-buddy.js';
 import { currentMovieItem } from './show-details.js';
 
 const signupForm = document.getElementById('signup-form');
@@ -26,13 +28,17 @@ const loggedInLinks = document.querySelectorAll('.logged-in__js');
 const accountDetails = document.querySelector('.account-details__js');
 const homeNavLnk = document.querySelector('.home-page-link__js');
 const githubSigninRef = document.querySelector('.github-signin__js');
-
 const logoutMobRef = document.querySelector('#logoutMobile__js');
 
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
   if (user) {
+    watchedBtnRef.classList.remove('disabled');
+    queueBtnRef.classList.remove('disabled');
+    favoriteBtnRef.classList.remove('disabled');
+    buddyBtnRef.classList.remove('disabled');
     setupUI(user);
+
     // Adding event listeners to the movies collection management buttons
     watchedBtnRef.addEventListener('click', e =>
       manageCollection(e, currentMovieItem, user, 'watched', watchedBtnRef, watchedBtnIconRef),
@@ -44,10 +50,14 @@ auth.onAuthStateChanged(user => {
       manageCollection(e, currentMovieItem, user, 'favorite', favoriteBtnRef, favoriteBtnIconRef),
     );
 
+    // Adding event listener to the Find Buddy button
+    findBuddyBtnRef.addEventListener('click', e => findBuddy(e));
+
     // Getting references to Firestore collections of movies
     const watchedCollectionRef = db.collection(`users`).doc(user.uid).collection('watched');
     const queueCollectionRef = db.collection(`users`).doc(user.uid).collection('queue');
     const favoriteCollectionRef = db.collection(`users`).doc(user.uid).collection('favorite');
+    const libraryCollectionRef = db.collection(`users`).doc(user.uid).collection('library');
 
     // Adding Firestore real time listeners to collections of movies
     watchedCollectionRef.onSnapshot(snapshot => {
@@ -67,32 +77,45 @@ auth.onAuthStateChanged(user => {
       updateLibraryMessage(favoriteCollectionRef, favoriteMessageRef);
       updateLibraryCollection(changes, favoriteGalleryRef);
     });
+
+    // Adding real time listener to the general library collection
+    libraryCollectionRef.onSnapshot(snapshot => {
+      const libraryIndexes = snapshot.docs.map(doc => +doc.id);
+      db.collection(`users`)
+        .doc(user.uid)
+        .set({ movies: libraryIndexes }, { merge: true })
+        .then(() => {
+          console.log(`DONE UPDATING libraryInd`);
+        });
+    });
   } else {
+    watchedBtnRef.classList.add('disabled');
+    queueBtnRef.classList.add('disabled');
+    favoriteBtnRef.classList.add('disabled');
+    buddyBtnRef.classList.add('disabled');
     setupUI();
   }
 });
 
 // signup
-
 signupForm.addEventListener('submit', e => {
   e.preventDefault();
 
   // get user info
   const email = signupForm['signup-email'].value;
   const password = signupForm['signup-password'].value;
-
+  const displayName = signupForm['signup-name'].value;
   // sign up the user
   auth
     .createUserWithEmailAndPassword(email, password)
     .then(userData => {
       userData.user.updateProfile({
-        displayName: signupForm['signup-name'].value,
+        displayName: displayName,
       });
       db.collection('users').doc(userData.user.uid).set({
-        library: [],
-        watched: [],
-        queue: [],
-        favorite: [],
+        name: displayName,
+        email: email,
+        movies: [],
       });
     })
     .then(() => {
@@ -103,6 +126,7 @@ signupForm.addEventListener('submit', e => {
       signupForm.reset();
     });
 });
+
 // login github
 githubSigninRef.addEventListener('click', githubSignin);
 
@@ -118,10 +142,9 @@ function githubSignin() {
       console.log(token);
       console.log(user);
       db.collection('users').doc(user.uid).set({
-        library: [],
-        watched: [],
-        queue: [],
-        favorite: [],
+        name: displayName,
+        email: email,
+        movies: [],
       });
     })
     .then(() => {
@@ -142,7 +165,6 @@ function githubSignin() {
 }
 
 // login
-
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
   // get user info
@@ -158,8 +180,8 @@ loginForm.addEventListener('submit', e => {
     loginForm.reset();
   });
 });
-// logout
 
+// logout
 logoutRef.addEventListener('click', logout);
 logoutMobRef.addEventListener('click', logout);
 
@@ -174,7 +196,12 @@ function setupUI(user) {
   if (user) {
     accountDetails.innerHTML = `
     <div> Logged in as: ${user.email}</div>
-    <div> User Name: ${user.displayName}</div>
+    <div> User Name: ${user.displayName}
+      <img src="${
+        user.photoURL ||
+        'https://rdihub.b-cdn.net/wp-content/uploads/2020/01/black-and-white-panda-logo-users-group-encapsulated-postscript-user-profile-group-png-clip-art.png'
+      }" alt="photoUser" width="250" height="250"> 
+    </div>
     `;
 
     // toggle user UI elements

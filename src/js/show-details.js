@@ -14,12 +14,13 @@ import {
   favoriteGalleryRef,
   updateCollectionManagementdBtn,
 } from './firebase-firestore.js';
+import { Api } from './movieApi.js';
 
-//Getting access to DOM elements
+// Getting access to DOM elements
 const homeGalleryRef = document.querySelector('.home-gallery__js');
 const innerModalRef = document.querySelector('.test-drive_js');
 
-//Global lonely variable, but super important one :)
+// Global lonely variable, but super important one :)
 let currentMovieItem = {};
 
 // Adding event listeners
@@ -38,16 +39,13 @@ async function onDetailsModalOpen(e) {
   const id = +e.target.parentElement.dataset.id;
 
   currentMovieItem = await getCurrentMovieItem(e, user, id);
-
   if (!currentMovieItem) {
     return;
   }
-
   // updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef);
   updateCollectionManagementdBtn(user, 'watched', currentMovieItem, watchedBtnRef, watchedBtnIconRef);
   updateCollectionManagementdBtn(user, 'queue', currentMovieItem, queueBtnRef, queueBtnIconRef);
   updateCollectionManagementdBtn(user, 'favorite', currentMovieItem, favoriteBtnRef, favoriteBtnIconRef);
-
   showDetails(e, currentMovieItem);
 }
 
@@ -58,6 +56,16 @@ async function showDetails(e, currentMovieItem) {
   if (e.target.parentElement.nodeName !== 'A' && e.target.parentElement.nodeName !== 'LI') {
     return;
   }
+
+  const trailerKey = await Api.fetchTrailersAPI(currentMovieItem.id).catch(error => {
+        console.log(currentMovieItem);
+      console.error("Error: ", error);
+      });
+      if (!trailerKey) {
+      currentMovieItem['trailer_key'] = '';
+    } else {
+      currentMovieItem['trailer_key'] = trailerKey.key;
+    };
 
   innerModalRef.innerHTML = '';
   const modalMarkup = detailTemplate(currentMovieItem);

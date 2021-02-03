@@ -158,3 +158,13 @@ nav {
 form .login-button {
   background-color: rgba(255, 107, 8, 1);
 }
+
+main.light-theme {
+  background-color: #fff;
+  color: #333333;
+}
+
+main.dark-theme {
+  background-color: #333333;
+  // color: #fff;
+}

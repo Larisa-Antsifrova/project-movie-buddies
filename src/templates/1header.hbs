@@ -31,6 +31,11 @@
                 <li class="logged-in__js" style="display: none;">
                     <a href="#" class="" id="logout">Logout</a>
                 </li>
+                <li>
+                    <a href="#" data-action-togle>
+                        <i class="material-icons right">brightness_6</i>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="row search-form__js">
@@ -38,14 +43,15 @@
                 <div class="input-field">
                     <input type="text" name="query" id="search" class="input" autocomplete="off" />
                     <label for="search" class="rigth label-text">Let's find a movie for you!</label>
-                    <i class="material-icons prefix">search</i>
+                    {{!-- <a class="btn-floating btn-large pulse search-btn-click__js" type="submit"> --}}
+                        <i class="material-icons prefix">search</i>
+                        {{!-- </a> --}}
                 </div>
             </form>
             <p class="col s12 center-align red-text text-darken-4 search-error__js">
                 No matches found. Try again!
             </p>
         </div>
-
         <div class="row tabs__js hide tabs-wrapper">
             <div class="col s12 m6 offset-m3">
                 <ul class="tabs">
@@ -99,16 +105,16 @@
         </div>
         <form id="signup-form">
             <div class="input-field">
+                <input type="text" id="signup-name" required />
+                <label for="signup-name">Enter your name</label>
+            </div>
+            <div class="input-field">
                 <input type="email" id="signup-email" required />
                 <label for="signup-email">Email address</label>
             </div>
             <div class="input-field">
                 <input type="password" id="signup-password" required />
                 <label for="signup-password">Choose password</label>
-            </div>
-            <div class="input-field">
-                <input type="text" id="signup-name" required />
-                <label for="signup-name">Enter your name</label>
             </div>
             <button class="btn yellow darken-2 z-depth-0">Sign up</button>
         </form>

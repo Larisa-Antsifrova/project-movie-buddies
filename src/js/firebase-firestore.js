@@ -8,7 +8,7 @@ import libraryGalleryElementTemplate from '../templates/10libraryGalleryElement.
 const watchedBtnRef = document.querySelector('.watched-btn__js');
 const queueBtnRef = document.querySelector('.queue-btn__js');
 const favoriteBtnRef = document.querySelector('.favorite-btn__js');
-
+const buddyBtnRef = document.querySelector('.buddy-btn__js');
 // Getting references to icons in Buttions in details modal
 const watchedBtnIconRef = document.querySelector('.watched-btn-icon__js');
 const queueBtnIconRef = document.querySelector('.queue-btn-icon__js');
@@ -25,7 +25,7 @@ const queueMessageRef = document.querySelector('.queue-message__js');
 const favoriteMessageRef = document.querySelector('.favorite-message__js');
 
 // Function to manage collection in DB
-function manageCollection(e, currentMovieItem, user, collection, btnRef, btnIconRef) {
+async function manageCollection(e, currentMovieItem, user, collection, btnRef, btnIconRef) {
   e.preventDefault();
 
   if (btnRef.dataset.status === 'add') {
@@ -36,6 +36,13 @@ function manageCollection(e, currentMovieItem, user, collection, btnRef, btnIcon
         console.log(`Movie is added to ${collection}!`);
       })
       .catch(error => console.log(error.message));
+
+    db.doc(`users/${user.uid}/library/${currentMovieItem.id}`)
+      .set(currentMovieItem)
+      .then(() => {
+        console.log(`Movie is added to LIBRARY!`);
+      })
+      .catch(error => console.log(error.message));
   } else {
     db.doc(`users/${user.uid}/${collection}/${currentMovieItem.id}`)
       .delete()
@@ -43,6 +50,22 @@ function manageCollection(e, currentMovieItem, user, collection, btnRef, btnIcon
         updateCollectionManagementdBtn(user, collection, currentMovieItem, btnRef, btnIconRef);
         console.log(`Movie is deleted from ${collection}!`);
       });
+
+    // Condition to remove movie from a library
+    const movieInWatchedRef = db.doc(`users/${user.uid}/watched/${currentMovieItem.id}`);
+    const movieInWatched = await movieInWatchedRef.get();
+    const movieInQueueRef = db.doc(`users/${user.uid}/queue/${currentMovieItem.id}`);
+    const movieInQueue = await movieInQueueRef.get();
+    const movieInFavoriteRef = db.doc(`users/${user.uid}/favorite/${currentMovieItem.id}`);
+    const movieInFavorite = await movieInFavoriteRef.get();
+
+    if (!movieInWatched.exists && !movieInQueue.exists && !movieInFavorite.exists) {
+      db.doc(`users/${user.uid}/library/${currentMovieItem.id}`)
+        .delete()
+        .then(() => {
+          console.log(`Movie is deleted from LIBRARY!`);
+        });
+    }
   }
 }
 
@@ -93,6 +116,7 @@ export {
   watchedBtnRef,
   queueBtnRef,
   favoriteBtnRef,
+  buddyBtnRef,
   watchedBtnIconRef,
   queueBtnIconRef,
   favoriteBtnIconRef,
