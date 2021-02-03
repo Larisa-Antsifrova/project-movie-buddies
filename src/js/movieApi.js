@@ -13,7 +13,6 @@ const Api = {
   pageNumber: 1,
   images: {
     baseImageUrl: 'https://image.tmdb.org/t/p/',
-    defaultPosterImg: '',
     currentSizes: {
       posterSize: '',
     },
@@ -39,15 +38,12 @@ const Api = {
   calculatePosterImgSize() {
     if (window.visualViewport.width >= 1024) {
       this.images.currentSizes.posterSize = this.images.posterSizes.desktop;
-      this.images.defaultPosterImg = './images/default/poster-desktop.jpg';
     }
     if (window.visualViewport.width >= 768 && window.visualViewport.width < 1024) {
       this.images.currentSizes.posterSize = this.images.posterSizes.tablet;
-      this.images.defaultPosterImg = './images/default/poster-tablet.jpg';
     }
     if (window.visualViewport.width < 768) {
       this.images.currentSizes.posterSize = this.images.posterSizes.mobile;
-      this.images.defaultPosterImg = './images/default/poster-mobile.jpg';
     }
   },
 
@@ -88,9 +84,11 @@ const Api = {
     return respArr;
   },
   async fetchTrailersAPI(el) {
-    const { data } = await axios.get(`movie/${el}/videos?api_key=${this.apiKey}&language=en-US`);
-    if (!data.results) {
-      return;
+    const { data } = await axios.get(
+      `movie/${el}/videos?api_key=${this.apiKey}&language=en-US`,
+    );
+    if (!data.results.length) {
+      return
     } else {
       return data.results.find(e => {
         if (e.type == 'Trailer') {
@@ -147,3 +145,5 @@ const Api = {
 Api.calculatePosterImgSize();
 
 export { Api };
+
+// Api.fetchTrailersAPI(97175);
