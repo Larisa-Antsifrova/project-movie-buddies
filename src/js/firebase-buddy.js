@@ -17,6 +17,9 @@ function findBuddy(e) {
   const detailsModal = document.querySelector('#details-modal');
   M.Modal.getInstance(detailsModal).close();
 
+  const moviePreview = renderMoviePreview(currentMovieItem);
+  moviesToDiscussListRef.appendChild(moviePreview);
+
   const user = auth.currentUser;
   const movieId = currentMovieItem.id;
 
@@ -35,6 +38,28 @@ function findBuddy(e) {
     buddiesListRef.innerHTML = '';
     buddiesListRef.appendChild(fragment);
   });
+}
+
+function renderMoviePreview(currentMovieItem) {
+  const title = currentMovieItem.title || currentMovieItem.name;
+
+  const li = document.createElement('li');
+  li.classList.add('collection-item', 'valign-wrapper', 'avatar');
+
+  // const a = document.createElement('a');
+
+  const img = document.createElement('img');
+  img.setAttribute('src', `https://image.tmdb.org/t/p/w500${currentMovieItem.backdrop_path}`);
+  img.setAttribute('alt', `${title}`);
+  img.classList.add('circle');
+
+  const titleSpan = document.createElement('span');
+  titleSpan.classList.add('movie-title', 'title');
+
+  titleSpan.textContent = title;
+  li.appendChild(img);
+  li.appendChild(titleSpan);
+  return li;
 }
 
 function renderBuddy(doc, fragment, userId, movieId) {
