@@ -29,6 +29,9 @@ const accountDetails = document.querySelector('.account-details__js');
 const homeNavLnk = document.querySelector('.home-page-link__js');
 const githubSigninRef = document.querySelector('.github-signin__js');
 const logoutMobRef = document.querySelector('#logoutMobile__js');
+const githubLoginRef = document.querySelector('.github-login__js');
+const checkBox = document.querySelector('#checkbox__js');
+const telegramName = document.querySelector('#signup-telegram-name__js');
 
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
@@ -97,6 +100,14 @@ auth.onAuthStateChanged(user => {
   }
 });
 
+checkBox.addEventListener('click', e => {
+  if (e.target.checked) {
+    telegramName.disabled = false;
+  } else {
+    telegramName.disabled = true;
+  }
+});
+
 // signup
 signupForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -105,6 +116,7 @@ signupForm.addEventListener('submit', e => {
   const email = signupForm['signup-email'].value;
   const password = signupForm['signup-password'].value;
   const displayName = signupForm['signup-name'].value;
+  const telegramName = signupForm['signup-telegram-name__js'].value;
   // sign up the user
   auth
     .createUserWithEmailAndPassword(email, password)
@@ -112,11 +124,14 @@ signupForm.addEventListener('submit', e => {
       userData.user.updateProfile({
         displayName: displayName,
       });
-      db.collection('users').doc(userData.user.uid).set({
-        name: displayName,
-        email: email,
-        movies: [],
-      });
+      db.collection('users')
+        .doc(userData.user.uid)
+        .set({
+          name: displayName,
+          telegramName: telegramName === '@' ? null : telegramName,
+          email: email,
+          movies: [],
+        });
     })
     .then(() => {
       const nav = document.querySelector('#mobile-links');
@@ -129,12 +144,25 @@ signupForm.addEventListener('submit', e => {
 
 // login github
 githubSigninRef.addEventListener('click', githubSignin);
+githubLoginRef.addEventListener('click', githubSignin);
 
 function githubSignin() {
   const gitHub = new firebase.auth.GithubAuthProvider();
   auth
     .signInWithPopup(gitHub)
-
+    .then(() => {
+      // close the signup modal & reset form
+      const nav = document.querySelector('#mobile-links');
+      M.Sidenav.getInstance(nav).close();
+      const modal = document.querySelector('#modal-signup');
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+    })
+    .then(() => {
+      const modal = document.querySelector('#modal-login');
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+    })
     .then(function (result) {
       const token = result.credential.accessToken;
       const user = result.user;
@@ -146,14 +174,6 @@ function githubSignin() {
         email: email,
         movies: [],
       });
-    })
-    .then(() => {
-      // close the signup modal & reset form
-      const nav = document.querySelector('#mobile-links');
-      M.Sidenav.getInstance(nav).close();
-      const modal = document.querySelector('#modal-signup');
-      M.Modal.getInstance(modal).close();
-      loginForm.reset();
     })
     .catch(function (error) {
       const errorCode = error.code;
