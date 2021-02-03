@@ -30,7 +30,7 @@ async function combineFullMovieInfo(moviesList) {
   const moviesFullInfo = await moviesList;
   const genres_info = await getGenresInfo(moviesList);
   const fullInfo = await moviesFullInfo.map((movie, ind) => {
-      movie['genres_name'] = genres_info[ind];
+    movie['genres_name'] = genres_info[ind];
     return movie;
   });
   return fullInfo;
@@ -94,6 +94,7 @@ function toggleRenderPage() {
 // функция рендера страницы запроса
 function renderSearchedFilms(inputValue) {
   spinner.show();
+
   currentMoviesList = Api.fetchSearchMovieList(inputValue);
   return combineFullMovieInfo(currentMoviesList)
     .then(createMovieList)
@@ -108,6 +109,7 @@ function renderSearchedFilms(inputValue) {
 // функция рендера страницы трендов
 function renderPopularFilms() {
   spinner.show();
+
   currentMoviesList = Api.fetchTrendingMoviesList();
   return combineFullMovieInfo(currentMoviesList)
     .then(createMovieList)
@@ -148,4 +150,12 @@ function clearError() {
   errorArea.style.visibility = 'hidden';
 }
 
-export { currentMoviesList, currentMovieItem, genres, toggleRenderPage, notFound };
+export {
+  currentMoviesList,
+  currentMovieItem,
+  genres,
+  toggleRenderPage,
+  notFound,
+  combineFullMovieInfo,
+  createMovieList,
+};
