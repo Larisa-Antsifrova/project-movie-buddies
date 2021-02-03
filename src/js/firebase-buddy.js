@@ -1,7 +1,7 @@
 // Imports of Firebase services and required variables/functions
 import { db, auth } from './firebase-init';
 import { currentMovieItem } from './show-details.js';
-import { activeBuddyPage } from './navigation.js';
+import { activeBuddyPage } from './fetch-functions.js';
 
 // Getting access to DOM elements
 const findBuddyBtnRef = document.querySelector('.buddy-btn__js');
