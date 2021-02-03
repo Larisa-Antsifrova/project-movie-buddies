@@ -9,7 +9,7 @@ const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const errorArea = document.querySelector('.search-error__js');
 const paginator = new Paginator();
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
-let currentMoviesList = null; //Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
+let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
 let currentMovieItem = null;
 
 searchForm.addEventListener('click', onInputFocus);
