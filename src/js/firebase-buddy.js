@@ -1,9 +1,12 @@
+// Imports of Firebase services and required variables/functions
 import { db, auth } from './firebase-init';
 import { currentMovieItem } from './show-details.js';
 import { activeBuddyPage } from './navigation.js';
 
+// Getting access to DOM elements
 const findBuddyBtnRef = document.querySelector('.buddy-btn__js');
-const buddiesList = document.querySelector('.buddies-list__js');
+const moviesToDiscussListRef = document.querySelector('.movies-list__js');
+const buddiesListRef = document.querySelector('.buddies-list__js');
 
 // Function that finds buddies in the scenario of details modal
 function findBuddy(e) {
@@ -29,8 +32,8 @@ function findBuddy(e) {
       }
     });
 
-    buddiesList.innerHTML = '';
-    buddiesList.appendChild(fragment);
+    buddiesListRef.innerHTML = '';
+    buddiesListRef.appendChild(fragment);
   });
 }
 
@@ -40,26 +43,44 @@ function renderBuddy(doc, fragment, userId, movieId) {
   const telegram = doc.data().telegram;
 
   const li = document.createElement('li');
-  li.classList.add('collection-item');
-  li.classList.add('row');
+  li.classList.add('collection-item', 'row', 'valign-wrapper');
 
-  const span = document.createElement('span');
-  span.textContent = name;
-  span.classList.add('col', 's4');
+  const nameSpan = document.createElement('span');
+  nameSpan.textContent = name;
+  nameSpan.classList.add('col', 's4');
 
   const collectionDiv = document.createElement('div');
   collectionDiv.classList.add('col', 's4');
   collectionDiv.classList.add('center');
 
   const watchedSpan = document.createElement('span');
-  watchedSpan.textContent = 'in watched';
+  watchedSpan.classList.add('chip', 'orange', 'darken-2', 'white-text');
+  watchedSpan.textContent = 'watched';
   const queueSpan = document.createElement('span');
-  queueSpan.textContent = 'in queue';
+  queueSpan.textContent = 'queue';
+  queueSpan.classList.add('chip', 'orange', 'darken-2', 'white-text');
+
   const favoriteSpan = document.createElement('span');
-  favoriteSpan.textContent = 'in favorite';
-  collectionDiv.appendChild(watchedSpan);
-  collectionDiv.appendChild(queueSpan);
-  collectionDiv.appendChild(favoriteSpan);
+  favoriteSpan.textContent = 'favorite';
+  favoriteSpan.classList.add('chip', 'orange', 'darken-2', 'white-text');
+
+  isInCollection(userId, 'watched', movieId).then(reply => {
+    if (reply) {
+      collectionDiv.appendChild(watchedSpan);
+    }
+  });
+
+  isInCollection(userId, 'queue', movieId).then(reply => {
+    if (reply) {
+      collectionDiv.appendChild(queueSpan);
+    }
+  });
+
+  isInCollection(userId, 'favorite', movieId).then(reply => {
+    if (reply) {
+      collectionDiv.appendChild(favoriteSpan);
+    }
+  });
 
   const contactDiv = document.createElement('div');
   contactDiv.classList.add('col', 's4');
@@ -91,35 +112,11 @@ function renderBuddy(doc, fragment, userId, movieId) {
   }
   contactDiv.appendChild(toMail);
 
-  li.appendChild(span);
+  li.appendChild(nameSpan);
   li.appendChild(collectionDiv);
   li.appendChild(contactDiv);
   // li.appendChild(queueSpan);
   // li.appendChild(favoriteSpan);
-
-  isInCollection(userId, 'watched', movieId).then(reply => {
-    if (reply) {
-      watchedSpan.style.display = 'inline-block';
-    } else {
-      watchedSpan.style.display = 'none';
-    }
-  });
-
-  isInCollection(userId, 'queue', movieId).then(reply => {
-    if (reply) {
-      queueSpan.style.display = 'inline-block';
-    } else {
-      queueSpan.style.display = 'none';
-    }
-  });
-
-  isInCollection(userId, 'favorite', movieId).then(reply => {
-    if (reply) {
-      favoriteSpan.style.display = 'inline-block';
-    } else {
-      favoriteSpan.style.display = 'none';
-    }
-  });
 
   // li.appendChild(toMail);
 
@@ -137,6 +134,18 @@ async function isInCollection(userId, collection, movieId) {
   return false;
 }
 
-export { findBuddyBtnRef, findBuddy };
-
 // 'https://web.telegram.org/#/im?p=@IgromagClub';
+// 'https://t.me/larisa_antsifrova';
+
+const getDeviceType = () => {
+  const ua = navigator.userAgent;
+  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+    return 'tablet';
+  }
+  if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+    return 'mobile';
+  }
+  return 'desktop';
+};
+
+export { findBuddyBtnRef, findBuddy };
