@@ -76,7 +76,7 @@ const Api = {
     const { data } = await axios.get(
       `movie/${el}/videos?api_key=${this.apiKey}&language=en-US`,
     );
-    console.log(data.results.length);
+    // console.log(data.results.length);
     if (!data.results.length) {
       return
       // return fetch(`${this.baseUrl}tv/${this.filmID}/videos?api_key=${this.apiKey}&language=en-US`)
@@ -103,4 +103,4 @@ Api.calculatePosterImgSize();
 
 export { Api };
 
-// Api.fetchTrailersAPI(464052);
+// Api.fetchTrailersAPI(97175);
