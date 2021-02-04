@@ -1,12 +1,32 @@
 // Imports of Firebase services and required variables/functions
 import { db, auth } from './firebase-init';
 import { currentMovieItem } from './show-details.js';
-import { activeBuddyPage } from './navigation.js';
+import { activeBuddyPage } from './fetch-functions.js';
+import { Api } from './movieApi';
+import searchGalleryElement from '../templates/5buddies.hbs';
+// import { clearInput } from './fetch-functions.js';
+
+
 
 // Getting access to DOM elements
 const findBuddyBtnRef = document.querySelector('.buddy-btn__js');
 const moviesToDiscussListRef = document.querySelector('.movies-list__js');
 const buddiesListRef = document.querySelector('.buddies-list__js');
+
+const searchForm = document.querySelector('.search-form');
+searchForm.addEventListener('submit', searchFilmsForBuddy);
+
+function searchFilmsForBuddy(e) {
+  e.preventDefault();
+    moviesToDiscussListRef.innerHTML = '';
+  Api.searchQuery = e.target.elements.query.value.trim();
+  Api.fetchSearchFilmsForBuddy(Api.searchQuery).then(arr => {
+      const galleryListMarkup = searchGalleryElement(arr);
+  moviesToDiscussListRef.insertAdjacentHTML('afterbegin', galleryListMarkup);
+  }).catch(error => {
+    console.log(error);
+  });
+}
 
 // Function that finds buddies in the scenario of details modal
 function findBuddy(e) {
@@ -30,7 +50,6 @@ function findBuddy(e) {
 
     querySnapshot.forEach(doc => {
       if (doc.id !== user.uid) {
-        console.log(doc.data());
         renderBuddy(doc, fragment, doc.id, movieId);
       }
     });
@@ -164,7 +183,6 @@ async function isInCollection(userId, collection, movieId) {
   const movieInCollection = await movie.get();
 
   if (movieInCollection.exists) {
-    console.log('Movie in Collection inside', movieInCollection);
     return true;
   }
   return false;

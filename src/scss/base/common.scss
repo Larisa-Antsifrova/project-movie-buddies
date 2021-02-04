@@ -19,3 +19,32 @@ section {
     padding-bottom: 60px;
   }
 }
+
+.modal {
+  background-image: linear-gradient(356deg, rgba(250, 180, 49, 0.5) 0%, rgba(245, 117, 20, 0.04525560224089631) 100%);
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.modal::-webkit-scrollbar {
+  width: 10px;
+
+  &-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color: #fedeba;
+  }
+  &-thumb {
+    background-color: #f2bf93;
+    background-image: -webkit-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.25) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.25) 75%,
+      transparent 75%,
+      transparent
+    );
+  }
+}

@@ -13,7 +13,6 @@ const Api = {
   pageNumber: 1,
   images: {
     baseImageUrl: 'https://image.tmdb.org/t/p/',
-    defaultPosterImg: '',
     currentSizes: {
       posterSize: '',
     },
@@ -39,15 +38,12 @@ const Api = {
   calculatePosterImgSize() {
     if (window.visualViewport.width >= 1024) {
       this.images.currentSizes.posterSize = this.images.posterSizes.desktop;
-      this.images.defaultPosterImg = './images/default/poster-desktop.jpg';
     }
     if (window.visualViewport.width >= 768 && window.visualViewport.width < 1024) {
       this.images.currentSizes.posterSize = this.images.posterSizes.tablet;
-      this.images.defaultPosterImg = './images/default/poster-tablet.jpg';
     }
     if (window.visualViewport.width < 768) {
       this.images.currentSizes.posterSize = this.images.posterSizes.mobile;
-      this.images.defaultPosterImg = './images/default/poster-mobile.jpg';
     }
   },
 
@@ -64,7 +60,7 @@ const Api = {
   },
   async fetchTrendingMoviesList() {
     const data = await this.smartFetchMovies(this.pageNumber, this.getMoviesPerPage(), async pageNumber => {
-      return (await axios.get(`/trending/all/week?api_key=${this.apiKey}&language=en-US&page=${pageNumber}`)).data;
+      return (await axios.get(`/trending/movie/week?api_key=${this.apiKey}&language=en-US&page=${pageNumber}`)).data;
     });
     this.totalPages = data.total_pages;
     const respArr = await data.results;
@@ -75,11 +71,10 @@ const Api = {
     const data = await this.smartFetchMovies(this.pageNumber, this.getMoviesPerPage(), async pageNumber => {
       return (
         await axios.get(
-          `/search/multi?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=${pageNumber}`,
+          `/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=${pageNumber}`,
         )
       ).data;
     });
-    console.log(data);
     this.totalPages = data.total_pages;
     const respArr = await data.results;
     if (respArr.length === 0) {
@@ -87,10 +82,26 @@ const Api = {
     }
     return respArr;
   },
+
+    async fetchSearchFilmsForBuddy(query) {
+    this.searchQuery = query;
+    const {data} = 
+        await axios.get(
+          `/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=1`,
+        );
+    const respArr = await data.results;
+    if (respArr.length === 0) {
+      notFound();
+      }
+      return (respArr.length > 7) ? respArr.slice(0, 7) : respArr;
+  },
+
   async fetchTrailersAPI(el) {
-    const { data } = await axios.get(`movie/${el}/videos?api_key=${this.apiKey}&language=en-US`);
-    if (!data.results) {
-      return;
+    const { data } = await axios.get(
+      `movie/${el}/videos?api_key=${this.apiKey}&language=en-US`,
+    );
+    if (!data.results.length) {
+      return
     } else {
       return data.results.find(e => {
         if (e.type == 'Trailer') {
@@ -147,3 +158,5 @@ const Api = {
 Api.calculatePosterImgSize();
 
 export { Api };
+
+// Api.fetchTrailersAPI(97175);

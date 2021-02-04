@@ -1,5 +1,5 @@
 table {
-  margin-top: 5 .0px !important;
+  // margin-top: 50px !important;
 }
 
 td {
@@ -28,9 +28,12 @@ td {
   line-height: 1.15;
 
   @media screen and (min-width: 601px) {
-    margin-top: 0 !important;
+    margin-top: 15px !important;
     font-size: 30px;
   }
+}
+.modal h3 {
+  margin-top: 15px !important;
 }
 
 .detailscaption {
@@ -60,7 +63,7 @@ td {
 }
 
 .title-about {
-  margin-top: 20px !important;
+  // margin-top: 15px !important;
   margin-bottom: 10px !important;
   font-weight: 500;
   font-size: 12px;
@@ -78,7 +81,7 @@ td {
 }
 
 .icon-pozition {
-  margin-right: 0 !important;
+  margin-right: 5px !important;
 }
 // .img-wrapper {
 //   position: relative;
@@ -91,8 +94,8 @@ td {
 // }
 
 .btn-detail {
-  width: 100% !important;
-  height: 40px;
+  // width: 100% !important;
+  // height: 40px;
   background: #ff6b01 !important;
   border-radius: 5px;
   border: none;
@@ -103,6 +106,7 @@ td {
   font-weight: 500;
 }
 .btn-detail {
+  flex-grow: 1;
   @media screen and (min-width: 360px) and (max-width: 389px) {
     font-size: 10px !important;
   }
@@ -114,11 +118,11 @@ td {
   }
 }
 
-.btn-detail:hover {
-  background: #fc7210 !important;
-  border: 1px solid rgb(187, 186, 186);
-  color: black;
-}
+// .btn-detail:hover {
+//   background: #fc7210 !important;
+//   border: 1px solid rgb(187, 186, 186);
+//   color: black;
+// }
 
 .btn-fav {
   background: #f13343 !important;
@@ -138,7 +142,7 @@ td {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin: -10px;
+  // margin: -10px;
 }
 
 .wrap-item-button {
@@ -159,4 +163,32 @@ td {
   @media screen and (min-width: 950px) {
     width: calc((100% - 4 * 50px) / 2);
   }
+}
+
+.modal {
+  @media only screen and (max-width: 992px) {
+    width: 90%;
+  }
+}
+
+.modal .details-modal-content {
+  padding: 24px 5px;
+}
+
+.row.wrap-buttons:after {
+  content: none;
+}
+
+.buddy-btn {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+  width: 40%;
+}
+
+.btn-middle {
+  margin-right: 10px;
+  margin-left: 10px;
 }
