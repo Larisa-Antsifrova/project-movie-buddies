@@ -41,3 +41,5 @@
    :sparkler: [Axios](https://github.com/axios/axios)
 
    :wrench: [Lodash](https://lodash.com/)
+   
+   :scroll: [Handlebars](https://handlebarsjs.com/)
