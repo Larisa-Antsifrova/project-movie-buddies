@@ -185,3 +185,21 @@ export { findBuddyBtnRef, findBuddy };
 // Examples of Telegram links
 // 'https://web.telegram.org/#/im?p=@IgromagClub';
 // 'https://t.me/larisa_antsifrova';
+
+//=======Experiments=========
+const button = document.querySelector('.e-mail-buddy__js');
+console.log('button', button);
+
+button.addEventListener('click', sendEmail);
+
+function sendEmail() {
+  Email.send({
+    Host: 'smtp.yourisp.com',
+    Username: 'Test',
+    Password: 'test123',
+    To: 'thecarrot@ukr.net',
+    From: 'thecarrot@ukr.net',
+    Subject: 'Test subject',
+    Body: 'And this is the body',
+  }).then(message => alert(message));
+}
