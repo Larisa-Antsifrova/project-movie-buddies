@@ -2,7 +2,7 @@
 import headerTemplate from '../templates/1header.hbs';
 const headerMarkup = headerTemplate();
 const headerRef = document.querySelector('.header__js');
-headerRef.insertAdjacentHTML('beforeend', headerMarkup);
+headerRef.insertAdjacentHTML('afterbegin', headerMarkup);
 
 // Initialize Home Page
 import homeTemplate from '../templates/2home.hbs';
