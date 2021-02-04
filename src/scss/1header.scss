@@ -115,15 +115,26 @@
   font-size: 20px;
   vertical-align: top;
   justify-content: center;
+
+  @media screen and (min-width: 601px) {
+    font-size: 25px;
+  }
 }
+
 .fa-film::before {
   margin-right: 10px;
 }
+
 .fa-film {
   height: 0;
 }
+
 nav {
   box-shadow: none;
+}
+
+nav .sidenav-trigger {
+  margin: 0;
 }
 
 .item {
@@ -208,4 +219,11 @@ header.dark-theme {
     color: #039be5;
     border: 1px solid #039be5;
   }
+}
+
+.account-image {
+  display: inline-block;
+  // height: 200px;
+  // width: 200px;
+  background-color: grey;
 }

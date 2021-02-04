@@ -18,7 +18,7 @@ searchForm.addEventListener('submit', searchFilms);
 // Вызов самого первого fetch за популярными фильмами и его рендер
 renderPopularFilms();
 
-// ============================ function rendering ==============================
+// ============================ function rendering ============================
 // Функция для отрисовки списка популярных фильмов
 function createMovieList(fullInfo) {
   const galleryListMarkup = galleryElementTemplate(fullInfo);
@@ -51,7 +51,7 @@ async function getGenresInfo(moviesList) {
   return filmsGenres;
 }
 
-// ================ Handlebars Helpers ===================================
+// ============================ Handlebars Helpers ============================
 Handlebars.registerHelper('getMovieYear', function (release_date) {
   if (!release_date) {
     return;
@@ -71,7 +71,7 @@ Handlebars.registerHelper('getPoster', function (poster_path) {
   }
 });
 
-// ==================================== input ===============================================================
+// ============================ input ============================
 
 // функция для слушателя инпута и отображения страницы согласно запросу
 function searchFilms(e) {
@@ -166,6 +166,9 @@ const headerNavRef = document.querySelector('.header__js');
 const homeMobNavRef = document.querySelector('.home-page-link-mobile__js');
 const libraryMobNavRef = document.querySelector('.library-page-link-mobile__js');
 const buddyMobNavRef = document.querySelector('.buddy-page-link-mobile__js');
+// Buddy page lists
+const moviesToDiscussListRef = document.querySelector('.movies-list__js');
+const buddiesListRef = document.querySelector('.buddies-list__js');
 
 logoNavRef.addEventListener('click', activeHomePage);
 homeNavLinkRef.addEventListener('click', activeHomePage);
@@ -192,6 +195,7 @@ function activeHomePage(e) {
   headerNavRef.classList.remove('bg-buddies');
   headerNavRef.classList.remove('bg-library');
 }
+
 function activeLibraryPage(e) {
   paginator.refs.pagination.removeEventListener('click', paginator.onPaginationClick);
   libraryMobNavRef.classList.add('sidenav-close');
@@ -206,6 +210,7 @@ function activeLibraryPage(e) {
   headerNavRef.classList.remove('bg-buddies');
 }
 function activeBuddyPage(e) {
+  cleanBuddyPage();
   paginator.refs.pagination.removeEventListener('click', paginator.onPaginationClick);
   buddyMobNavRef.classList.add('sidenav-close');
   toggleActiveLink(buddyNavLinkRef.firstElementChild);
@@ -225,6 +230,11 @@ function toggleActiveLink(link) {
     currentActiveLink.classList.remove('current');
   }
   link.classList.add('current');
+}
+
+function cleanBuddyPage() {
+  moviesToDiscussListRef.innerHTML = '';
+  buddiesListRef.innerHTML = '';
 }
 
 export { currentMoviesList, currentMovieItem, genres, toggleRenderPage, notFound, activeBuddyPage };
