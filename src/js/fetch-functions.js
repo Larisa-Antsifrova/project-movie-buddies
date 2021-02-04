@@ -211,6 +211,7 @@ function activeLibraryPage(e) {
 }
 function activeBuddyPage(e) {
   cleanBuddyPage();
+  clearInput();
   paginator.refs.pagination.removeEventListener('click', paginator.onPaginationClick);
   buddyMobNavRef.classList.add('sidenav-close');
   toggleActiveLink(buddyNavLinkRef.firstElementChild);

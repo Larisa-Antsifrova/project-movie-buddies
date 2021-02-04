@@ -4,7 +4,7 @@ import { currentMovieItem } from './show-details.js';
 import { activeBuddyPage } from './fetch-functions.js';
 import { Api } from './movieApi';
 import searchGalleryElement from '../templates/5buddies.hbs';
-// import { notFound } from './fetch-functions.js';
+// import { clearInput } from './fetch-functions.js';
 
 
 
@@ -15,12 +15,12 @@ const buddiesListRef = document.querySelector('.buddies-list__js');
 
 const searchForm = document.querySelector('.search-form');
 searchForm.addEventListener('submit', searchFilmsForBuddy);
+
 function searchFilmsForBuddy(e) {
   e.preventDefault();
     moviesToDiscussListRef.innerHTML = '';
   Api.searchQuery = e.target.elements.query.value.trim();
-  Api.fetchSearchMovieList(Api.searchQuery).then(arr => {
-
+  Api.fetchSearchFilmsForBuddy(Api.searchQuery).then(arr => {
       const galleryListMarkup = searchGalleryElement(arr);
   moviesToDiscussListRef.insertAdjacentHTML('afterbegin', galleryListMarkup);
   }).catch(error => {
