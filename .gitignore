@@ -67,5 +67,8 @@ typings/
 .env.test.local
 .env.production.local
 
-#api key 
+# api key 
 src/js/apiKey.js
+
+# vs code config
+.vscode
