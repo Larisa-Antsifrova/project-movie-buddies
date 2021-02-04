@@ -30,7 +30,6 @@ function findBuddy(e) {
 
     querySnapshot.forEach(doc => {
       if (doc.id !== user.uid) {
-        console.log(doc.data());
         renderBuddy(doc, fragment, doc.id, movieId);
       }
     });
@@ -164,7 +163,6 @@ async function isInCollection(userId, collection, movieId) {
   const movieInCollection = await movie.get();
 
   if (movieInCollection.exists) {
-    console.log('Movie in Collection inside', movieInCollection);
     return true;
   }
   return false;

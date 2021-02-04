@@ -1,10 +1,11 @@
-// КНОПКА ВВЕРХ получение доступа и логика
+// Getting access to the UP button
 const goTopBtn = document.querySelector('.back__to__top');
 
+// Adding event listeners
 window.addEventListener('scroll', trackScroll);
 goTopBtn.addEventListener('click', backToTop);
 
-// функция получения скролла страници и получние высоты одного экрана
+// Function to track scroll and window height
 function trackScroll() {
   const scrolled = window.pageYOffset;
 
@@ -16,7 +17,8 @@ function trackScroll() {
     goTopBtn.classList.remove('back__to__top-show');
   }
 }
-// функция скролла вверх и ацнимация с помощью setTimout
+
+// Function to scroll the page up and provide animation with the help of setTimout
 function backToTop() {
   if (window.pageYOffset > 0) {
     window.scrollBy(0, -80);

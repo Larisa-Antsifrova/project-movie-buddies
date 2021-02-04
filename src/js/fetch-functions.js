@@ -18,7 +18,7 @@ searchForm.addEventListener('submit', searchFilms);
 // Вызов самого первого fetch за популярными фильмами и его рендер
 renderPopularFilms();
 
-// ============================ function rendering ==============================
+// ============================ function rendering ============================
 // Функция для отрисовки списка популярных фильмов
 function createMovieList(fullInfo) {
   const galleryListMarkup = galleryElementTemplate(fullInfo);
@@ -51,7 +51,7 @@ async function getGenresInfo(moviesList) {
   return filmsGenres;
 }
 
-// ================ Handlebars Helpers ===================================
+// ============================ Handlebars Helpers ============================
 Handlebars.registerHelper('getMovieYear', function (release_date) {
   if (!release_date) {
     return;
@@ -71,7 +71,7 @@ Handlebars.registerHelper('getPoster', function (poster_path) {
   }
 });
 
-// ==================================== input ===============================================================
+// ============================ input ============================
 
 // функция для слушателя инпута и отображения страницы согласно запросу
 function searchFilms(e) {
