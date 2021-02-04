@@ -25,7 +25,11 @@ const loginForm = document.getElementById('login-form');
 const logoutRef = document.querySelector('#logout');
 const loggedOutLinks = document.querySelectorAll('.logged-out__js');
 const loggedInLinks = document.querySelectorAll('.logged-in__js');
-// const accountDetails = document.querySelector('.account-details__js');
+const accountForm = document.querySelector('#account-form');
+const avatarUser = document.querySelector('.avatar__js');
+const updateNameBtn = document.querySelector('.update-name__js');
+const updateEmailBtn = document.querySelector('.update-email__js');
+const updateTelegramBtn = document.querySelector('.update-telegram-name__js');
 const navLinkAccountRef = document.querySelector('.nav-link-account__js');
 const sidenameLinkAccountRef = document.querySelector('.sidenav-link-account__js');
 const homeNavLnk = document.querySelector('.home-page-link__js');
@@ -38,6 +42,66 @@ const telegramName = document.querySelector('#signup-telegram-name__js');
 // listen for auth status changes
 auth.onAuthStateChanged(user => {
   if (user) {
+    //listen updateBtn
+    updateNameBtn.addEventListener('click', e => {
+      e.preventDefault();
+      updateInfo(accountForm['account-name']);
+    });
+    updateEmailBtn.addEventListener('click', e => {
+      e.preventDefault();
+      updateInfo(accountForm['account-email']);
+    });
+    updateTelegramBtn.addEventListener('click', e => {
+      e.preventDefault();
+      updateInfo(accountForm['account-telegram-name']);
+      updateInfo(accountForm['checkbox__js']);
+    });
+
+    // accountForm UPDATE
+    accountForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!accountForm['account-name'].disabled) {
+        user
+          .updateProfile({
+            displayName: accountForm['account-name'].value,
+          })
+          .then(() => {
+            console.log('Ваше имя было успешно изменено');
+          })
+          .then(() => {
+            const modal = document.querySelector('#modal-account');
+            M.Modal.getInstance(modal).close();
+            location.reload();
+          });
+      }
+      if (!accountForm['account-email'].disabled) {
+        user
+          .updateEmail(`${accountForm['account-email'].value}`)
+          .then(() => {
+            console.log('Ваш Email был успешно изменен');
+          })
+          .then(() => {
+            const modal = document.querySelector('#modal-account');
+            M.Modal.getInstance(modal).close();
+            location.reload();
+          });
+      } else if (!accountForm['account-telegram-name'].disabled) {
+        console.log('ssss');
+        db.collection('users')
+          .doc(user.uid)
+          .update({
+            telegramName: accountForm['account-telegram-name'].value,
+          })
+          .then(() => {
+            console.log('Ваш никнейм телеграм изменен');
+          })
+          .then(() => {
+            const modal = document.querySelector('#modal-account');
+            M.Modal.getInstance(modal).close();
+            location.reload();
+          });
+      }
+    });
     watchedBtnRef.classList.remove('disabled');
     queueBtnRef.classList.remove('disabled');
     favoriteBtnRef.classList.remove('disabled');
@@ -218,18 +282,27 @@ function setupUI(user) {
   if (user) {
     navLinkAccountRef.textContent = user.displayName;
     sidenameLinkAccountRef.textContent = user.displayName;
-    // accountDetails.innerHTML = `
-    // <div> Logged in as: ${user.email}</div>
-    // <div> User Name: ${user.displayName}
-    //   <img src="${
-    //     user.photoURL ||
-    //     'https://rdihub.b-cdn.net/wp-content/uploads/2020/01/black-and-white-panda-logo-users-group-encapsulated-postscript-user-profile-group-png-clip-art.png'
-    //   }" alt="photoUser" width="250" height="250">
-    // </div>
-    // `;
+    user.photoURL
+      ? (avatarUser.src = `${user.photoURL}`)
+      : (avatarUser.src =
+          'https://rdihub.b-cdn.net/wp-content/uploads/2020/01/black-and-white-panda-logo-users-group-encapsulated-postscript-user-profile-group-png-clip-art.png');
 
-    // toggle user UI elements
-    homeNavLnk.style.display = 'block';
+    accountForm['account-name'].value = user.displayName;
+    accountForm['account-email'].value = user.email;
+    accountForm['account-telegram-name'].value = '@';
+
+    db
+      .collection('users')
+      .doc(user.uid)
+      .get()
+      .then(col => {
+        if (col.data().telegramName) {
+          accountForm['checkbox__js'].checked = true;
+          accountForm['account-telegram-name'].value = col.data().telegramName;
+        }
+      }),
+      // toggle user UI elements
+      (homeNavLnk.style.display = 'block');
     loggedInLinks.forEach(item => (item.style.display = 'block'));
     loggedOutLinks.forEach(item => (item.style.display = 'none'));
   } else {
@@ -241,5 +314,13 @@ function setupUI(user) {
     homeNavLnk.style.display = 'block';
     loggedInLinks.forEach(item => (item.style.display = 'none'));
     loggedOutLinks.forEach(item => (item.style.display = 'block'));
+  }
+}
+
+function updateInfo(link) {
+  if (link.disabled) {
+    link.disabled = false;
+  } else {
+    link.disabled = true;
   }
 }
