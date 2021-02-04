@@ -26,6 +26,8 @@ const logoutRef = document.querySelector('#logout');
 const loggedOutLinks = document.querySelectorAll('.logged-out__js');
 const loggedInLinks = document.querySelectorAll('.logged-in__js');
 // const accountDetails = document.querySelector('.account-details__js');
+const navLinkAccountRef = document.querySelector('.nav-link-account__js');
+const sidenameLinkAccountRef = document.querySelector('.sidenav-link-account__js');
 const homeNavLnk = document.querySelector('.home-page-link__js');
 const githubSigninRef = document.querySelector('.github-signin__js');
 const logoutMobRef = document.querySelector('#logoutMobile__js');
@@ -214,6 +216,8 @@ function logout(e) {
 
 function setupUI(user) {
   if (user) {
+    navLinkAccountRef.textContent = user.displayName;
+    sidenameLinkAccountRef.textContent = user.displayName;
     // accountDetails.innerHTML = `
     // <div> Logged in as: ${user.email}</div>
     // <div> User Name: ${user.displayName}
@@ -229,6 +233,8 @@ function setupUI(user) {
     loggedInLinks.forEach(item => (item.style.display = 'block'));
     loggedOutLinks.forEach(item => (item.style.display = 'none'));
   } else {
+    navLinkAccountRef.textContent = 'Account';
+    sidenameLinkAccountRef.textContent = 'Account';
     // clear account info
     // accountDetails.innerHTML = '';
     // toggle user elements
