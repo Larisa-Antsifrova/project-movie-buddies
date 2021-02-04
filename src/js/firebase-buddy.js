@@ -20,14 +20,7 @@ function searchFilmsForBuddy(e) {
     moviesToDiscussListRef.innerHTML = '';
   Api.searchQuery = e.target.elements.query.value.trim();
   Api.fetchSearchMovieList(Api.searchQuery).then(arr => {
-    // if (!arr) {
-    //   console.log("knock");
-    //   searchForm.elements.query.value = '';
-    //   Api.searchQuery = '';
 
-    //   // notFound();
-    // }
-    // console.log('arr', arr);
       const galleryListMarkup = searchGalleryElement(arr);
   moviesToDiscussListRef.insertAdjacentHTML('afterbegin', galleryListMarkup);
   }).catch(error => {

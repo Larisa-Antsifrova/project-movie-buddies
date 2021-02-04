@@ -11,6 +11,7 @@ const Api = {
   currentPerPage: '',
   totalPages: 1,
   pageNumber: 1,
+  mediaType: 'movie',
   images: {
     baseImageUrl: 'https://image.tmdb.org/t/p/',
     currentSizes: {
@@ -60,10 +61,11 @@ const Api = {
   },
   async fetchTrendingMoviesList() {
     const data = await this.smartFetchMovies(this.pageNumber, this.getMoviesPerPage(), async pageNumber => {
-      return (await axios.get(`/trending/movie/week?api_key=${this.apiKey}&language=en-US&page=${pageNumber}`)).data;
+      return (await axios.get(`/trending/${this.mediaType}/week?api_key=${this.apiKey}&language=en-US&page=${pageNumber}`)).data;
     });
     this.totalPages = data.total_pages;
     const respArr = await data.results;
+    console.log(respArr);
     return respArr;
   },
   async fetchSearchMovieList(query) {
@@ -71,7 +73,7 @@ const Api = {
     const data = await this.smartFetchMovies(this.pageNumber, this.getMoviesPerPage(), async pageNumber => {
       return (
         await axios.get(
-          `/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=${pageNumber}`,
+          `/search/${this.mediaType}?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=${pageNumber}`,
         )
       ).data;
     });
@@ -81,11 +83,12 @@ const Api = {
     if (respArr.length === 0) {
       notFound();
     }
+    console.log(respArr);
     return respArr;
   },
   async fetchTrailersAPI(el) {
     const { data } = await axios.get(
-      `movie/${el}/videos?api_key=${this.apiKey}&language=en-US`,
+      `${this.mediaType}/${el}/videos?api_key=${this.apiKey}&language=en-US`,
     );
     if (!data.results.length) {
       return
@@ -98,7 +101,7 @@ const Api = {
     }
   },
   async fetchGenresList() {
-    const { data } = await axios.get(`/genre/movie/list?api_key=${this.apiKey}`);
+    const { data } = await axios.get(`/genre/${this.mediaType}/list?api_key=${this.apiKey}`);
     return data.genres;
   },
 
@@ -145,5 +148,3 @@ const Api = {
 Api.calculatePosterImgSize();
 
 export { Api };
-
-// Api.fetchTrailersAPI(97175);
