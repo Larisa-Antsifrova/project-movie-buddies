@@ -28,10 +28,16 @@
 
 ## Tools & Resources
 
-- [Webpack v4](https://v4.webpack.js.org/)
-- [The MovieDB API](https://developers.themoviedb.org/3/getting-started/introduction)
-- [Materialize-CSS](https://materializecss.com/)
-- [Firebase Auth](https://firebase.google.com/docs/auth)
-- [Firebase Firestore](https://firebase.google.com/docs/firestore)
-- [Axios](https://github.com/axios/axios)
-- [Lodash](https://lodash.com/)
+   :hammer: [Webpack v4](https://v4.webpack.js.org/)
+
+   :movie_camera: [The MovieDB API](https://developers.themoviedb.org/3/getting-started/introduction)
+
+   :fireworks: [Materialize-CSS](https://materializecss.com/)
+
+   :key: [Firebase Auth](https://firebase.google.com/docs/auth)
+
+   :open_file_folder: [Firebase Firestore](https://firebase.google.com/docs/firestore)
+
+   :sparkler: [Axios](https://github.com/axios/axios)
+
+   :wrench: [Lodash](https://lodash.com/)
