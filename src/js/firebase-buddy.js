@@ -3,29 +3,69 @@ import { db, auth } from './firebase-init';
 import { currentMovieItem } from './show-details.js';
 import { activeBuddyPage } from './fetch-functions.js';
 import { Api } from './movieApi';
-import searchGalleryElement from '../templates/5buddies.hbs';
-// import { clearInput } from './fetch-functions.js';
-
-
 
 // Getting access to DOM elements
 const findBuddyBtnRef = document.querySelector('.buddy-btn__js');
 const moviesToDiscussListRef = document.querySelector('.movies-list__js');
 const buddiesListRef = document.querySelector('.buddies-list__js');
+const searchFormRef = document.querySelector('#search-form');
 
-const searchForm = document.querySelector('.search-form');
-searchForm.addEventListener('submit', searchFilmsForBuddy);
+let moviesToChoose = [];
+
+//Adding event listeners
+searchFormRef.addEventListener('submit', searchFilmsForBuddy);
+moviesToDiscussListRef.addEventListener('click', findBuddySearch);
+
+function findBuddySearch(e) {
+  e.preventDefault();
+
+  const id = +e.target.dataset.id;
+
+  const chosenMovie = moviesToChoose.find(movie => movie.id === id);
+  console.log('Chosen movie', chosenMovie);
+
+  moviesToDiscussListRef.innerHTML = '';
+  const moviePreview = renderMoviePreview(chosenMovie);
+  moviesToDiscussListRef.appendChild(moviePreview);
+
+  const user = auth.currentUser;
+
+  const buddies = db.collection('users').where('movies', 'array-contains', id).orderBy('name');
+
+  buddies.get().then(querySnapshot => {
+    const fragment = document.createDocumentFragment();
+
+    querySnapshot.forEach(doc => {
+      if (doc.id !== user.uid) {
+        renderBuddy(doc, fragment, doc.id, id);
+      }
+    });
+
+    buddiesListRef.innerHTML = '';
+    buddiesListRef.appendChild(fragment);
+  });
+}
 
 function searchFilmsForBuddy(e) {
   e.preventDefault();
-    moviesToDiscussListRef.innerHTML = '';
+
+  moviesToDiscussListRef.innerHTML = '';
+
   Api.searchQuery = e.target.elements.query.value.trim();
-  Api.fetchSearchFilmsForBuddy(Api.searchQuery).then(arr => {
-      const galleryListMarkup = searchGalleryElement(arr);
-  moviesToDiscussListRef.insertAdjacentHTML('afterbegin', galleryListMarkup);
-  }).catch(error => {
-    console.log(error);
-  });
+
+  Api.fetchSearchFilmsForBuddy(Api.searchQuery)
+    .then(movies => {
+      moviesToChoose = movies;
+      const moviesListFragment = document.createDocumentFragment();
+      movies.forEach(movie => {
+        const moviePreview = renderMoviePreview(movie);
+        moviesListFragment.appendChild(moviePreview);
+      });
+      moviesToDiscussListRef.appendChild(moviesListFragment);
+    })
+    .catch(error => {
+      console.log(error);
+    });
 }
 
 // Function that finds buddies in the scenario of details modal
@@ -64,10 +104,11 @@ function renderMoviePreview(currentMovieItem) {
   moviesToDiscussListRef.innerHTML = '';
 
   const title = currentMovieItem.title || currentMovieItem.name;
-
+  const id = currentMovieItem.id;
   const a = document.createElement('a');
   a.classList.add('collection-item', 'valign-wrapper', 'avatar');
   a.setAttribute('href', '#!');
+  a.setAttribute('data-id', id);
 
   const img = document.createElement('img');
   img.setAttribute('src', `https://image.tmdb.org/t/p/w500${currentMovieItem.backdrop_path}`);
@@ -207,10 +248,6 @@ export { findBuddyBtnRef, findBuddy };
 // 'https://t.me/larisa_antsifrova';
 
 //=======Experiments=========
-const button = document.querySelector('.e-mail-buddy__js');
-console.log('button', button);
-
-// button.addEventListener('click', sendEmail);
 
 function sendEmail() {
   Email.send({
