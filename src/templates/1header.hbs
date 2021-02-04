@@ -101,37 +101,41 @@
         <h4>Sign up</h4>
         <br />
         <div class="input-field center-align">
-            <a class="github-signin__js">
-                <span>Sign in with GitHub</span></a>
-            <br />
-            <span>OR</span>
+            <a class="github-signin__js github-login-link">
+                <i class="fa fa-github fa-2x"></i>
+                <span class="github-text">Sign in with GitHub</span></a>
+            <span class="or-text-span">OR</span>
 
         </div>
         <form id="signup-form">
             <div class="input-field">
+                <i class="material-icons prefix">edit</i>
                 <input type="text" id="signup-name" required />
                 <label for="signup-name">Enter your name</label>
             </div>
             <div class="input-field">
                 <p>
                     <label>
-                        <input type="checkbox" class="filled-in" id="checkbox__js" />
+                        <input type="checkbox" class="filled-in signup-checkbox" id="checkbox__js" />
                         <span>I want to contact Buddies via Telegram</span>
                     </label>
                 </p>
+                <i class="material-icons prefix">question_answer</i>
                 <input type="text" value="@" id="signup-telegram-name__js" disabled />
                 <label for="signup-telegram-name"></label>
 
             </div>
             <div class="input-field">
+                <i class="material-icons prefix">email</i>
                 <input type="email" id="signup-email" required />
                 <label for="signup-email">Email address</label>
             </div>
             <div class="input-field">
+                <i class="material-icons prefix">vpn_key</i>
                 <input type="password" id="signup-password" required />
                 <label for="signup-password">Choose password</label>
             </div>
-            <button class="btn yellow darken-2 z-depth-0">Sign up</button>
+            <button class="btn z-depth-0 login-button">Sign up</button>
         </form>
     </div>
 </div>
@@ -141,10 +145,10 @@
         <h4>Login</h4>
         <br />
         <div class="input-field center-align">
-            <a class="github-login__js">
-                <span>Log in with GitHub</span></a>
-            <br />
-            <span>OR</span>
+            <a class="github-login__js github-login-link">
+                <i class="fa fa-github fa-2x"></i>
+                <span class="github-text">Log in with GitHub</span></a>
+            <span class="or-text-span">OR</span>
         </div>
         <form id="login-form">
             <div class="input-field">
