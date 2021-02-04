@@ -75,7 +75,6 @@ const Api = {
         )
       ).data;
     });
-    console.log(data);
     this.totalPages = data.total_pages;
     const respArr = await data.results;
     if (respArr.length === 0) {
@@ -83,6 +82,20 @@ const Api = {
     }
     return respArr;
   },
+
+    async fetchSearchFilmsForBuddy(query) {
+    this.searchQuery = query;
+    const {data} = 
+        await axios.get(
+          `/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=1`,
+        );
+    const respArr = await data.results;
+    if (respArr.length === 0) {
+      notFound();
+      }
+      return (respArr.length > 7) ? respArr.slice(0, 7) : respArr;
+  },
+
   async fetchTrailersAPI(el) {
     const { data } = await axios.get(
       `movie/${el}/videos?api_key=${this.apiKey}&language=en-US`,
