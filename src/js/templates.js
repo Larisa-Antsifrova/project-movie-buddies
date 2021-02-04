@@ -18,7 +18,7 @@ const galleryElementMarkup = galleryElementTemplate();
 import headerTemplate from '../templates/1header.hbs';
 const headerMarkup = headerTemplate();
 const headerRef = document.querySelector('.header__js');
-headerRef.insertAdjacentHTML('beforeend', headerMarkup);
+headerRef.insertAdjacentHTML('afterbegin', headerMarkup);
 
 //Подключение Footer
 import footerTemplate from '../templates/7footer.hbs';
