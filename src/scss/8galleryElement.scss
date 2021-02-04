@@ -17,6 +17,11 @@
   }
 }
 
+.gallery-list .gallery-element:hover {
+  transform: scale(1.1);
+  transition: transform 0.25s linear;
+}
+
 .gallery-element {
   @media screen and (max-width: 600px) {
     margin-bottom: 20px;
@@ -32,6 +37,7 @@
 
 h3.movie-name,
 p {
+  color: #000000;
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -39,6 +45,7 @@ p {
 img.responsive-img.movie-image {
   margin-bottom: 10px;
   border-radius: 5px;
+  width: 100%;
 }
 
 .movie-info {
