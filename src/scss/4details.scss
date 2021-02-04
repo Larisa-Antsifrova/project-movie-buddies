@@ -1,5 +1,5 @@
 table {
-  margin-top: 50px !important;
+  // margin-top: 50px !important;
 }
 
 td {
@@ -159,4 +159,14 @@ td {
   @media screen and (min-width: 950px) {
     width: calc((100% - 4 * 50px) / 2);
   }
+}
+
+.modal {
+  @media only screen and (max-width: 992px) {
+    width: 90%;
+  }
+}
+
+.modal .details-modal-content {
+  padding: 24px 5px;
 }
