@@ -43,9 +43,7 @@
                 <div class="input-field">
                     <input type="text" name="query" id="search" class="input" autocomplete="off" />
                     <label for="search" class="rigth label-text">Let's find a movie for you!</label>
-                    {{!-- <a class="btn-floating btn-large pulse search-btn-click__js" type="submit"> --}}
-                        <i class="material-icons prefix">search</i>
-                        {{!-- </a> --}}
+                    <i class="material-icons prefix">search</i>
                 </div>
             </form>
             <p class="col s12 center-align red-text text-darken-4 search-error__js">
@@ -69,8 +67,7 @@
     </li>
 
     <li class="logged-out__js" style="">
-        <a href="#" class="modal-trigger" data-target="modal-login"><i
-                class="material-icons">login</i><span>Login</span></a>
+        <a href="#" class="modal-trigger" data-target="modal-login"><i class="material-icons">login</i><span>Login</span></a>
     </li>
     <li class="logged-out__js" style="">
         <a href="#" class="modal-trigger" data-target="modal-signup"><i class="material-icons">person_add</i><span>Sign
@@ -85,8 +82,7 @@
                 Buddy</span></a>
     </li>
     <li class="logged-in__js" style="">
-        <a href="#" class="modal-trigger" data-target="modal-account"><i
-                class="material-icons">account_circle</i><span>Account</span></a>
+        <a href="#" class="modal-trigger" data-target="modal-account"><i class="material-icons">account_circle</i><span>Account</span></a>
     </li>
     <li class="logged-in__js" style="">
         <a href="#" id="logoutMobile__js"><i class="material-icons">directions_run</i><span>Logout</span></a>
@@ -113,7 +109,7 @@
                 <p>
                     <label>
                         <input type="checkbox" class="filled-in" id="checkbox__js" />
-                        <span>Search Buddy by Telegram</span>
+                        <span>I want to contact Buddies via Telegram</span>
                     </label>
                 </p>
                 <input type="text" value="@" id="signup-telegram-name__js" disabled />
@@ -162,7 +158,32 @@
 <div id="modal-account" class="modal">
     <div class="modal-content center-align">
         <h4>Account details</h4>
-        <br />
-        <div class="account-details__js"></div>
+        {{!-- <div class="account-details__js"></div> --}}
+        <img src="https://rdihub.b-cdn.net/wp-content/uploads/2020/01/black-and-white-panda-logo-users-group-encapsulated-postscript-user-profile-group-png-clip-art.png"
+            alt="avatar" width="250" height="250">
+        <form id="signup-form">
+            <div class="input-field">
+                <input type="text" id="signup-name" required />
+                <label for="signup-name">Your name</label>
+            </div>
+            <div class="input-field">
+                <input type="email" id="signup-email" required />
+                <label for="signup-email">Email address</label>
+            </div>
+            <div class="input-field">
+                <p>
+                    <label>
+                        <input type="checkbox" id="checkbox__js" />
+                        <span>I want to contact Buddies via Telegram</span>
+                    </label>
+                </p>
+            </div>
+            <div class="input-field">
+                <input type="text" value="@" id="signup-telegram-name" />
+                <label for="signup-telegram-name">Your Telegram nickname</label>
+            </div>
+
+            <button class="btn yellow darken-2 z-depth-0">Save changes</button>
+        </form>
     </div>
 </div>

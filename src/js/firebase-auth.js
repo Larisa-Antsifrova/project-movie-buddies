@@ -25,7 +25,7 @@ const loginForm = document.getElementById('login-form');
 const logoutRef = document.querySelector('#logout');
 const loggedOutLinks = document.querySelectorAll('.logged-out__js');
 const loggedInLinks = document.querySelectorAll('.logged-in__js');
-const accountDetails = document.querySelector('.account-details__js');
+// const accountDetails = document.querySelector('.account-details__js');
 const homeNavLnk = document.querySelector('.home-page-link__js');
 const githubSigninRef = document.querySelector('.github-signin__js');
 const logoutMobRef = document.querySelector('#logoutMobile__js');
@@ -214,15 +214,15 @@ function logout(e) {
 
 function setupUI(user) {
   if (user) {
-    accountDetails.innerHTML = `
-    <div> Logged in as: ${user.email}</div>
-    <div> User Name: ${user.displayName}
-      <img src="${
-        user.photoURL ||
-        'https://rdihub.b-cdn.net/wp-content/uploads/2020/01/black-and-white-panda-logo-users-group-encapsulated-postscript-user-profile-group-png-clip-art.png'
-      }" alt="photoUser" width="250" height="250"> 
-    </div>
-    `;
+    // accountDetails.innerHTML = `
+    // <div> Logged in as: ${user.email}</div>
+    // <div> User Name: ${user.displayName}
+    //   <img src="${
+    //     user.photoURL ||
+    //     'https://rdihub.b-cdn.net/wp-content/uploads/2020/01/black-and-white-panda-logo-users-group-encapsulated-postscript-user-profile-group-png-clip-art.png'
+    //   }" alt="photoUser" width="250" height="250">
+    // </div>
+    // `;
 
     // toggle user UI elements
     homeNavLnk.style.display = 'block';
@@ -230,7 +230,7 @@ function setupUI(user) {
     loggedOutLinks.forEach(item => (item.style.display = 'none'));
   } else {
     // clear account info
-    accountDetails.innerHTML = '';
+    // accountDetails.innerHTML = '';
     // toggle user elements
     homeNavLnk.style.display = 'block';
     loggedInLinks.forEach(item => (item.style.display = 'none'));
