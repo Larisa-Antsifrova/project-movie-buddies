@@ -159,7 +159,7 @@ nav .sidenav-trigger {
   background-color: #ef6c00;
 }
 .sidenav {
-  height: 300px;
+  height: 330px;
 }
 
 .sidenav li:first-child {
@@ -194,7 +194,27 @@ main.dark-theme {
     background-color: #212121;
     border-bottom: 1px solid #039be5;
   }
+  .pagination li.active a {
+    color: #212121;
+  }
+  .modal {
+    border: 4px solid #039be5;
+  }
+  .detailscaption {
+    color: #ef6c00;
+  }
+  td {
+    border-bottom: 1px solid #039be5;
+  }
+  .details-modal-content {
+    background-color: black;
+    color: #039be5;
+    .overview {
+      color: #039be5;
+    }
+  }
 }
+
 .site-footer.dark-theme {
   background-color: #212121;
   .footer-container {
@@ -218,6 +238,12 @@ header.dark-theme {
   .tab a {
     color: #039be5;
     border: 1px solid #039be5;
+  }
+  .sidenav {
+    background-color: #000000;
+    .material-icons {
+      color: #ef6c00;
+    }
   }
 }
 
