@@ -190,16 +190,14 @@ export { findBuddyBtnRef, findBuddy };
 const button = document.querySelector('.e-mail-buddy__js');
 console.log('button', button);
 
-button.addEventListener('click', sendEmail);
+// button.addEventListener('click', sendEmail);
 
 function sendEmail() {
   Email.send({
-    Host: 'smtp.yourisp.com',
-    Username: 'Test',
-    Password: 'test123',
+    SecureToken: '8df58ccc-9817-4ece-ac78-f1dabcd6b9ce',
     To: 'thecarrot@ukr.net',
     From: 'thecarrot@ukr.net',
-    Subject: 'Test subject',
+    Subject: 'This is the subject',
     Body: 'And this is the body',
   }).then(message => alert(message));
 }
