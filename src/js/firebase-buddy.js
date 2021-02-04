@@ -50,6 +50,7 @@ function searchFilmsForBuddy(e) {
   e.preventDefault();
 
   moviesToDiscussListRef.innerHTML = '';
+  buddiesListRef.innerHTML = '';
 
   Api.searchQuery = e.target.elements.query.value.trim();
 
@@ -199,8 +200,8 @@ function renderBuddy(doc, fragment, userId, movieId) {
 
   // Creating element for email contact
   const toMail = document.createElement('a');
-  toMail.classList.add('btn-floating', 'waves-effect', 'waves-light');
-  toMail.setAttribute('href', `mailto:${email}`);
+  toMail.classList.add('btn-floating', 'waves-effect', 'waves-light', 'modal-trigger');
+  toMail.setAttribute('href', '#email-modal');
 
   const emailIcon = document.createElement('i');
   emailIcon.classList.add('material-icons');
@@ -216,6 +217,8 @@ function renderBuddy(doc, fragment, userId, movieId) {
 
   // Preparing the fragment
   fragment.appendChild(li);
+
+  // toMail.addEventListener('click', () => console.log('Event on email button'));
 }
 
 // Function to check what collection the chosen movie is in

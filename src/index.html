@@ -33,6 +33,27 @@
           </div>
           <ul class="collection buddies-list__js"></ul>
         </div>
+        <!-- Email modal -->
+        <div id="email-modal" class="modal">
+          <div class="modal-content">
+            <h5>Let's send an e-mail!</h5>
+            <form id="login-form">
+              <div class="input-field">
+                <input id="subject" type="text" />
+                <label for="subject">Subject</label>
+              </div>
+              <div class="input-field">
+                <input id="reply-to" type="text" />
+                <label for="reply-to">Reply to</label>
+              </div>
+              <div class="input-field">
+                <textarea id="email-body" class="materialize-textarea e-mail-text"></textarea>
+                <label for="email-body">Message</label>
+              </div>
+              <button class="btn z-depth-0 email-send-btn__js">Send</button>
+            </form>
+          </div>
+        </div>
       </section>
       <section class="team__js hide"></section>
       <!-- SHOW DETAILS MODAL -->
