@@ -75,7 +75,7 @@ const Api = {
         )
       ).data;
     });
-    console.log(data);
+    // console.log(data);
     this.totalPages = data.total_pages;
     const respArr = await data.results;
     if (respArr.length === 0) {
