@@ -8,13 +8,18 @@ form .login-button {
 }
 
 .github-login-link:hover {
-  .github-login-text {
+  .github-text {
     color: rgba(255, 107, 8, 1);
   }
 }
 
-.github-login-text {
+.github-text {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   color: black;
+}
+
+[type='checkbox'].filled-in:checked + span:not(.lever):after {
+  background-color: rgba(255, 107, 8, 1);
+  border: 2px solid rgba(255, 107, 8, 1);
 }
