@@ -1,0 +1,20 @@
+form .login-button {
+  background-color: rgba(255, 107, 8, 1);
+}
+
+.or-text-span {
+  display: block;
+  margin-top: 14px;
+}
+
+.github-login-link:hover {
+  .github-login-text {
+    color: rgba(255, 107, 8, 1);
+  }
+}
+
+.github-login-text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: black;
+}
