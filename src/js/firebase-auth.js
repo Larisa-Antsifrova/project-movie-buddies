@@ -66,27 +66,27 @@ auth.onAuthStateChanged(user => {
             displayName: accountForm['account-name'].value,
           })
           .then(() => {
+            navLinkAccountRef.textContent = accountForm['account-name'].value;
+            accountForm['account-name'].disabled = true;
             console.log('Ваше имя было успешно изменено');
           })
           .then(() => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
-            location.reload();
           });
       }
       if (!accountForm['account-email'].disabled) {
         user
           .updateEmail(`${accountForm['account-email'].value}`)
           .then(() => {
+            accountForm['account-email'].disabled = true;
             console.log('Ваш Email был успешно изменен');
           })
           .then(() => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
-            location.reload();
           });
       } else if (!accountForm['account-telegram-name'].disabled) {
-        console.log('ssss');
         db.collection('users')
           .doc(user.uid)
           .update({
