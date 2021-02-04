@@ -2,11 +2,38 @@
 import { db, auth } from './firebase-init';
 import { currentMovieItem } from './show-details.js';
 import { activeBuddyPage } from './fetch-functions.js';
+import { Api } from './movieApi';
+import searchGalleryElement from '../templates/5buddies.hbs';
+// import { notFound } from './fetch-functions.js';
+
+
 
 // Getting access to DOM elements
 const findBuddyBtnRef = document.querySelector('.buddy-btn__js');
 const moviesToDiscussListRef = document.querySelector('.movies-list__js');
 const buddiesListRef = document.querySelector('.buddies-list__js');
+
+const searchForm = document.querySelector('.search-form');
+searchForm.addEventListener('submit', searchFilmsForBuddy);
+function searchFilmsForBuddy(e) {
+  e.preventDefault();
+    moviesToDiscussListRef.innerHTML = '';
+  Api.searchQuery = e.target.elements.query.value.trim();
+  Api.fetchSearchMovieList(Api.searchQuery).then(arr => {
+    // if (!arr) {
+    //   console.log("knock");
+    //   searchForm.elements.query.value = '';
+    //   Api.searchQuery = '';
+
+    //   // notFound();
+    // }
+    // console.log('arr', arr);
+      const galleryListMarkup = searchGalleryElement(arr);
+  moviesToDiscussListRef.insertAdjacentHTML('afterbegin', galleryListMarkup);
+  }).catch(error => {
+    console.log(error);
+  });
+}
 
 // Function that finds buddies in the scenario of details modal
 function findBuddy(e) {
