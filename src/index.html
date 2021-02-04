@@ -12,7 +12,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <header class="header__js bg-home"></header>
+    <header class="header__js bg-home">
+      <div class="toolbar">
+        <div class="theme-switch">
+            <div class="theme-switch__control">
+            <input
+                class="theme-switch__toggle"
+                type="checkbox"
+                name="theme"
+                id="theme-switch-toggle"
+                aria-label="Dark mode toggle"
+            />
+            <label
+                aria-hidden="true"
+                class="theme-switch__track"
+                for="theme-switch-toggle"
+            >
+            </label>
+            <div aria-hidden="true" class="theme-switch__marker"></div>
+            </div>
+        </div>
+    </div>
+    </header>
     <main>
       <section class="home-section home__js">
         <div class="container">

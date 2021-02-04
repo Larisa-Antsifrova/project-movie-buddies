@@ -31,11 +31,6 @@
                 <li class="logged-in__js" style="display: none;">
                     <a href="#" class="" id="logout">Logout</a>
                 </li>
-                <li>
-                    <a href="#" data-action-togle>
-                        <i class="material-icons right">brightness_6</i>
-                    </a>
-                </li>
             </ul>
         </div>
         <div class="row search-form__js">
@@ -89,11 +84,6 @@
     <li class="logged-in__js" style="">
         <a href="#" id="logoutMobile__js"><i class="material-icons">directions_run</i><span>Logout</span></a>
     </li>
-    <li>
-        <a href="#" data-action-togle>
-            <i class="material-icons">brightness_6</i>
-        </a>
-    </li>
 </ul>
 
 <div id="modal-signup" class="modal">
@@ -101,37 +91,41 @@
         <h4>Sign up</h4>
         <br />
         <div class="input-field center-align">
-            <a class="github-signin__js">
-                <span>Sign in with GitHub</span></a>
-            <br />
-            <span>OR</span>
+            <a class="github-signin__js github-login-link">
+                <i class="fa fa-github fa-2x"></i>
+                <span class="github-text">Sign in with GitHub</span></a>
+            <span class="or-text-span">OR</span>
 
         </div>
         <form id="signup-form">
             <div class="input-field">
+                <i class="material-icons prefix">edit</i>
                 <input type="text" id="signup-name" required />
                 <label for="signup-name">Enter your name</label>
             </div>
             <div class="input-field">
                 <p>
                     <label>
-                        <input type="checkbox" class="filled-in" id="checkbox__js" />
+                        <input type="checkbox" class="filled-in signup-checkbox" id="checkbox__js" />
                         <span>I want to contact Buddies via Telegram</span>
                     </label>
                 </p>
+                <i class="material-icons prefix">question_answer</i>
                 <input type="text" value="@" id="signup-telegram-name__js" disabled />
                 <label for="signup-telegram-name"></label>
 
             </div>
             <div class="input-field">
+                <i class="material-icons prefix">email</i>
                 <input type="email" id="signup-email" required />
                 <label for="signup-email">Email address</label>
             </div>
             <div class="input-field">
+                <i class="material-icons prefix">vpn_key</i>
                 <input type="password" id="signup-password" required />
                 <label for="signup-password">Choose password</label>
             </div>
-            <button class="btn yellow darken-2 z-depth-0">Sign up</button>
+            <button class="btn z-depth-0 login-button">Sign up</button>
         </form>
     </div>
 </div>
@@ -141,10 +135,10 @@
         <h4>Login</h4>
         <br />
         <div class="input-field center-align">
-            <a class="github-login__js">
-                <span>Log in with GitHub</span></a>
-            <br />
-            <span>OR</span>
+            <a class="github-login__js github-login-link">
+                <i class="fa fa-github fa-2x"></i>
+                <span class="github-text">Log in with GitHub</span></a>
+            <span class="or-text-span">OR</span>
         </div>
         <form id="login-form">
             <div class="input-field">
@@ -165,31 +159,33 @@
 <div id="modal-account" class="modal">
     <div class="modal-content center-align">
         <h4>Account details</h4>
-        {{!-- <div class="account-details__js"></div> --}}
-        <img src="#" class="circle responsive-img account-image" alt="avatar" width="200" height="200">
-        {{!-- <img
-            src="https://rdihub.b-cdn.net/wp-content/uploads/2020/01/black-and-white-panda-logo-users-group-encapsulated-postscript-user-profile-group-png-clip-art.png"
-            class="circle responsive-img" alt="avatar" width="250" height="250"> --}}
-        <form id="signup-form">
+        <img src="#" class="circle responsive-img account-image avatar__js" alt="avatar" width="200" height="200">
+
+        <form id="account-form">
             <div class="input-field">
-                <input type="text" id="signup-name" required />
-                <label for="signup-name">Your name</label>
+
+                <input disabled placeholder="" type="text" id="account-name" required />
+                <label for="account-name">Your name <a href="" class="update-name__js"><i
+                            class="material-icons">edit</i></a></label>
+
             </div>
             <div class="input-field">
-                <input type="email" id="signup-email" required />
-                <label for="signup-email">Email address</label>
+                <input disabled placeholder="" type="email" id="account-email" required />
+                <label for="account-email">Email address <a href="" class="update-email__js"><i
+                            class="material-icons">edit</i></a></label>
             </div>
             <div class="input-field">
                 <p>
                     <label>
-                        <input type="checkbox" id="checkbox__js" />
+                        <input disabled type="checkbox" id="checkbox__js" />
                         <span>I want to contact Buddies via Telegram</span>
                     </label>
                 </p>
             </div>
             <div class="input-field">
-                <input type="text" value="@" id="signup-telegram-name" />
-                <label for="signup-telegram-name">Your Telegram nickname</label>
+                <input disabled placeholder="" type="text" value="@" id="account-telegram-name" />
+                <label for="account-telegram-name">Your Telegram nickname <a href="" class="update-telegram-name__js"><i
+                            class="material-icons">edit</i></a></label>
             </div>
 
             <button class="btn yellow darken-2 z-depth-0">Save changes</button>
