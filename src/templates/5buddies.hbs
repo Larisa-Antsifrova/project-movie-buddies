@@ -1,12 +1,23 @@
 {{#each this}}
 <li>
     <div class="chip">
+        {{#if title}}
         {{#if backdrop_path}}
         <img src="https://image.tmdb.org/t/p/w342{{ backdrop_path }}" alt="{{ title }}">
+        <h3 class="movie-name">{{ title }}</h3>
         {{else}}
         <img src="https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg" alt="{{ title }}">
-        {{/if}}
         <h3 class="movie-name">{{ title }}</h3>
+        {{/if}}
+        {{else}}
+        {{#if backdrop_path}}
+        <img src="https://image.tmdb.org/t/p/w342{{ backdrop_path }}" alt="{{ name }}">
+        <h3 class="movie-name">{{ name }}</h3>
+        {{else}}
+        <img src="https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg" alt="{{ name }}">
+        <h3 class="movie-name">{{ name }}</h3>
+        {{/if}}
+        {{/if}}
     </div>
 </li>
 {{/each}}

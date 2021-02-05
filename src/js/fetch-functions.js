@@ -238,4 +238,16 @@ function cleanBuddyPage() {
   buddiesListRef.innerHTML = '';
 }
 
+const switchRef = document.querySelector('.media-switch');
+switchRef.addEventListener('change', toggleMediaType);
+function toggleMediaType(e) {
+  if (!e.target.checked) {
+    Api.mediaType = 'movie';
+    
+  } else {
+    Api.mediaType = 'tv';
+  }
+  toggleRenderPage();
+}
+
 export { currentMoviesList, currentMovieItem, genres, toggleRenderPage, notFound, activeBuddyPage };

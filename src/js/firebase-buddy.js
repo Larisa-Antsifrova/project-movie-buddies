@@ -3,7 +3,7 @@ import { db, auth } from './firebase-init';
 import { currentMovieItem } from './show-details.js';
 import { activeBuddyPage } from './fetch-functions.js';
 import { Api } from './movieApi';
-
+import { SECURE_TOKEN, PROVIDER } from './apiKey.js';
 // Getting access to DOM elements
 const findBuddyBtnRef = document.querySelector('.buddy-btn__js');
 const moviesToDiscussListRef = document.querySelector('.movies-list__js');
@@ -261,7 +261,7 @@ function sendEmail(e) {
   const emailFormRef = document.getElementById('email-form');
 
   const toEmail = email;
-  const fromEmail = 'thecarrot@ukr.net';
+  const fromEmail = PROVIDER;
   const subject = emailFormRef['subject'].value;
   const replyEmail = emailFormRef['reply-to'].value;
   const message = emailFormRef['email-body'].value;
@@ -279,7 +279,7 @@ function sendEmail(e) {
   });
 
   // Email.send({
-  //   SecureToken: '8df58ccc-9817-4ece-ac78-f1dabcd6b9ce',
+  //   SecureToken: SECURE_TOKEN,
   //   To: toEmail,
   //   From: fromEmail,
   //   Subject: subject,
