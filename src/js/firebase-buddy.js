@@ -289,4 +289,5 @@ function sendEmail(e) {
   emailFormRef.reset();
   const modal = document.querySelector('#email-modal');
   M.Modal.getInstance(modal).close();
+  M.toast({ html: 'Your email is sent!', classes: 'rounded teal lighten-1' });
 }
