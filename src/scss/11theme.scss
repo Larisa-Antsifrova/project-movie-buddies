@@ -193,7 +193,7 @@ body.dark-theme {
   z-index: 2;
   pointer-events: none;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-  transform: translateX(3px);
+  transform: translateX(1px);
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
   @media screen and (min-width: 768px) {
@@ -202,8 +202,8 @@ body.dark-theme {
   }
 
   @media screen and (min-width: 1024px) {
-  width: 20px;
-  height: 20px;
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -211,15 +211,15 @@ body.dark-theme {
   transform: translateX(8px);
   background-color: #039be5;
 
- @media screen and (min-width: 601px) {
-  transform: translateX(12px);
+  @media screen and (min-width: 601px) {
+    transform: translateX(12px);
   }
 
   @media screen and (min-width: 768px) {
-  transform: translateX(15px);
+    transform: translateX(15px);
   }
 
   @media screen and (min-width: 1024px) {
-  transform: translateX(25px);
+    transform: translateX(20px);
   }
 }

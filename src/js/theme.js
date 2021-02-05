@@ -8,13 +8,16 @@ const Theme = {
   DARK: 'dark-theme',
 };
 
-
 function updateThemeLS() {
   if (localStorage.setting === Theme.DARK) {
     bodyRef.classList.add(Theme.DARK);
+    headerRef.classList.add(Theme.DARK);
+    footerRef.classList.add(Theme.DARK);
     checkBtnRef.checked = true;
   } else {
     bodyRef.classList.add(Theme.LIGHT);
+    footerRef.classList.add(Theme.LIGHT);
+    footerRef.classList.add(Theme.LIGHT);
   }
 }
 
@@ -31,7 +34,6 @@ function changeTheme(e) {
     localStorage.setItem('setting', Theme.DARK);
   }
 }
-
 
 updateThemeLS();
 checkBtnRef.addEventListener('change', changeTheme);
