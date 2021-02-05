@@ -25,8 +25,10 @@ function findBuddySearch(e) {
 
   const id = +e.target.dataset.id;
   console.log('ID', id);
+  console.log('Target', e.target);
 
   const chosenMovie = moviesToChoose.find(movie => movie.id === id);
+  // moviesToChoose = [chosenMovie];
   console.log('Chosen movie', chosenMovie);
 
   moviesToDiscussListRef.innerHTML = '';
@@ -138,9 +140,11 @@ function renderMoviePreview(currentMovieItem) {
   img.setAttribute('src', `https://image.tmdb.org/t/p/w500${currentMovieItem.backdrop_path}`);
   img.setAttribute('alt', `${title}`);
   img.classList.add('circle');
+  img.setAttribute('data-id', id);
 
   const titleSpan = document.createElement('span');
   titleSpan.classList.add('movie-title', 'title');
+  titleSpan.setAttribute('data-id', id);
 
   titleSpan.textContent = title;
   a.appendChild(img);
