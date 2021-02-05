@@ -39,7 +39,7 @@
    :open_file_folder: [Firebase Firestore](https://firebase.google.com/docs/firestore)
 
    :sparkler: [Axios](https://github.com/axios/axios)
-
-   :wrench: [Lodash](https://lodash.com/)
    
    :scroll: [Handlebars](https://handlebarsjs.com/)
+   
+   :envelope: [SmtpJS](https://www.smtpjs.com/)
