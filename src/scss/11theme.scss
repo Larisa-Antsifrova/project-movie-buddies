@@ -9,6 +9,9 @@ body.dark-theme {
   .movie-name {
     color: #039be5;
   }
+  .pagination li.disabled a {
+    color: #ef6c00;
+  }
   .pagination li a {
     color: #039be5;
   }
