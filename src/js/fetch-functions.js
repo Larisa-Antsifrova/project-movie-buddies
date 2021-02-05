@@ -149,7 +149,7 @@ function notFound() {
 function clearError() {
   errorArea.style.visibility = 'hidden';
 }
-
+// =======================================================================================================================
 // NAVIGATION module
 const logoNavRef = document.querySelector('.logo__js');
 const homeNavLinkRef = document.querySelector('.home-page-link__js');

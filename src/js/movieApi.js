@@ -7,8 +7,6 @@ axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 const Api = {
   apiKey: API_KEY,
   searchQuery: '',
-  filmID: '',
-  currentPerPage: '',
   totalPages: 1,
   pageNumber: 1,
   mediaType: 'movie',
@@ -37,25 +35,25 @@ const Api = {
     return this.images.currentSizes.posterSize;
   },
   calculatePosterImgSize() {
-    if (window.visualViewport.width >= 1024) {
+    if (document.documentElement.clientWidth >= 1024) {
       this.images.currentSizes.posterSize = this.images.posterSizes.desktop;
     }
-    if (window.visualViewport.width >= 768 && window.visualViewport.width < 1024) {
+    if (document.documentElement.clientWidth >= 768 && document.documentElement.clientWidth < 1024) {
       this.images.currentSizes.posterSize = this.images.posterSizes.tablet;
     }
-    if (window.visualViewport.width < 768) {
+    if (document.documentElement.clientWidth < 768) {
       this.images.currentSizes.posterSize = this.images.posterSizes.mobile;
     }
   },
 
   getMoviesPerPage() {
-    if (window.visualViewport.width >= 1024) {
+    if (document.documentElement.clientWidth >= 1024) {
       return 9;
     }
-    if (window.visualViewport.width >= 768 && window.visualViewport.width < 1024) {
+    if (document.documentElement.clientWidth >= 768 && document.documentElement.clientWidth < 1024) {
       return 8;
     }
-    if (window.visualViewport.width < 768) {
+    if (document.documentElement.clientWidth < 768) {
       return 4;
     }
   },
