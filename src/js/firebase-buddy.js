@@ -35,16 +35,20 @@ function findBuddySearch(e) {
   const buddies = db.collection('users').where('movies', 'array-contains', id).orderBy('name');
 
   buddies.get().then(querySnapshot => {
-    const fragment = document.createDocumentFragment();
+    if (querySnapshot.docs.length < 2) {
+      renderNoBuddyFound();
+    } else {
+      const fragment = document.createDocumentFragment();
 
-    querySnapshot.forEach(doc => {
-      if (doc.id !== user.uid) {
-        renderBuddy(doc, fragment, doc.id, id);
-      }
-    });
+      querySnapshot.forEach(doc => {
+        if (doc.id !== user.uid) {
+          renderBuddy(doc, fragment, doc.id, id);
+        }
+      });
 
-    buddiesListRef.innerHTML = '';
-    buddiesListRef.appendChild(fragment);
+      buddiesListRef.innerHTML = '';
+      buddiesListRef.appendChild(fragment);
+    }
   });
 }
 
@@ -90,15 +94,9 @@ function findBuddy(e) {
 
   buddies.get().then(querySnapshot => {
     console.log(querySnapshot.docs);
+
     if (querySnapshot.docs.length < 2) {
-      // const fragment = document.createDocumentFragment();
-
-      const li = document.createElement('li');
-      li.classList.add('collection-item', 'center-align', 'red-text', 'text-lighten-1');
-      li.textContent = 'No buddies have the movie in their collection.';
-      buddiesListRef.innerHTML = '';
-
-      buddiesListRef.appendChild(li);
+      renderNoBuddyFound();
     } else {
       const fragment = document.createDocumentFragment();
 
@@ -114,6 +112,13 @@ function findBuddy(e) {
   });
 }
 
+function renderNoBuddyFound() {
+  const li = document.createElement('li');
+  li.classList.add('collection-item', 'center-align', 'red-text', 'text-lighten-1');
+  li.textContent = 'No buddies have the movie in their collection.';
+  buddiesListRef.innerHTML = '';
+  buddiesListRef.appendChild(li);
+}
 // Function to render movies previews
 function renderMoviePreview(currentMovieItem) {
   moviesToDiscussListRef.innerHTML = '';
