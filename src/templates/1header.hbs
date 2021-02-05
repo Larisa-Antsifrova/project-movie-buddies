@@ -36,11 +36,19 @@
         <div class="row search-form__js">
             <form id="search-form" class="col s12 m8 offset-m2 search-form">
                 <div class="input-field">
+                    <i class="material-icons prefix">search</i>
                     <input type="text" name="query" id="search" class="input" autocomplete="off" />
                     <label for="search" class="rigth label-text">Let's find a movie for you!</label>
-                    <i class="material-icons prefix">search</i>
                 </div>
             </form>
+            <div class="switch">
+                <label>
+                    Movies
+                    <input type="checkbox" class="media-switch">
+                    <span class="lever"></span>
+                    TV
+                </label>
+            </div>
             <p class="col s12 center-align red-text text-darken-4 search-error__js">
                 No matches found. Try again!
             </p>
