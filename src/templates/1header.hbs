@@ -5,7 +5,7 @@
                 <span class="logo-title logo__js"><i class="fa fa-film" aria-hidden="true"></i>Movie Buddies</span>
             </a>
             <a href="#" class="right sidenav-trigger" data-target="mobile-links">
-                <i class="hide-on-large material-icons">menu</i>
+                <i class="hide-on-large material-icons burger-menu">menu</i>
             </a>
             <ul id="nav-mobile" class="right hide-on-med-and-down  navigation__js">
                 <li class="home-page-link__js item " style="display: none;">
@@ -157,20 +157,20 @@
 </div>
 
 <div id="modal-account" class="modal">
-    <div class="modal-content center-align">
+    <div class="modal-content center-align account-modal">
         <h4>Account details</h4>
         <img src="#" class="circle responsive-img account-image avatar__js" alt="avatar" width="200" height="200">
 
         <form id="account-form">
             <div class="input-field">
 
-                <input disabled placeholder="" type="text" id="account-name" required />
+                <input disabled placeholder="" type="text" id="account-name" class="input-static-color" required />
                 <label for="account-name">Your name <a href="" class="update-name__js"><i
                             class="material-icons">edit</i></a></label>
 
             </div>
             <div class="input-field">
-                <input disabled placeholder="" type="email" id="account-email" required />
+                <input disabled placeholder="" type="email" id="account-email" class="input-static-color" required />
                 <label for="account-email">Email address <a href="" class="update-email__js"><i
                             class="material-icons">edit</i></a></label>
             </div>
@@ -183,7 +183,8 @@
                 </p>
             </div>
             <div class="input-field">
-                <input disabled placeholder="" type="text" value="@" id="account-telegram-name" />
+                <input disabled placeholder="" type="text" value="@" id="account-telegram-name"
+                    class="input-static-color" />
                 <label for="account-telegram-name">Your Telegram nickname <a href="" class="update-telegram-name__js"><i
                             class="material-icons">edit</i></a></label>
             </div>
