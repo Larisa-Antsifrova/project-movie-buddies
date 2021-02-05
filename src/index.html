@@ -12,7 +12,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <header class="header__js bg-home"></header>
+    <header class="header__js bg-home">
+      <div class="toolbar">
+        <div class="theme-switch">
+          <div class="theme-switch__control">
+            <input
+              class="theme-switch__toggle"
+              type="checkbox"
+              name="theme"
+              id="theme-switch-toggle"
+              aria-label="Dark mode toggle"
+            />
+            <label aria-hidden="true" class="theme-switch__track" for="theme-switch-toggle"> </label>
+            <div aria-hidden="true" class="theme-switch__marker"></div>
+          </div>
+        </div>
+      </div>
+    </header>
     <main>
       <section class="home-section home__js">
         <div class="container">
@@ -23,15 +39,36 @@
       </section>
       <section class="library__js hide"></section>
       <section class="buddies__js hide">
-        <div class="container">
-          <h5>Movie to discuss:</h5>
-          <ul class="collection movies-to-choose movies-list__js"></ul>
+        <div class="container dark-theme-color">
+          <h5>Choose movie to discuss:</h5>
+          <div class="collection movies-to-choose movies-list__js"></div>
           <div class="row buddy-list-captions">
             <h5 class="col s4">Buddies</h5>
             <h5 class="col s4">Collections</h5>
             <h5 class="col s4 right-align">Contacts</h5>
           </div>
           <ul class="collection buddies-list__js"></ul>
+        </div>
+        <!-- Email modal -->
+        <div id="email-modal" class="modal">
+          <div class="modal-content">
+            <h5>Let's send an e-mail!</h5>
+            <form id="email-form">
+              <div class="input-field">
+                <input id="subject" type="text" />
+                <label for="subject">Subject</label>
+              </div>
+              <div class="input-field">
+                <input id="reply-to" type="text" />
+                <label for="reply-to">Reply to</label>
+              </div>
+              <div class="input-field">
+                <textarea id="email-body" class="materialize-textarea e-mail-text"></textarea>
+                <label for="email-body">Message</label>
+              </div>
+              <a href="#!" class="btn z-depth-0 email-send-btn__js">Send</a>
+            </form>
+          </div>
         </div>
       </section>
       <section class="team__js hide"></section>
@@ -80,5 +117,6 @@
       </div>
     </main>
     <footer class="footer__js site-footer"></footer>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
   </body>
 </html>

@@ -159,30 +159,9 @@ nav .sidenav-trigger {
   background-color: #ef6c00;
 }
 .sidenav {
-  height: 300px;
+  height: 330px;
 }
 
 .sidenav li:first-child {
   padding-top: 20px;
-}
-
-form .login-button {
-  background-color: rgba(255, 107, 8, 1);
-}
-
-main.light-theme {
-  background-color: #fff;
-  color: #333333;
-}
-
-main.dark-theme {
-  background-color: #333333;
-  // color: #fff;
-}
-
-.account-image {
-  display: inline-block;
-  // height: 200px;
-  // width: 200px;
-  background-color: grey;
 }
