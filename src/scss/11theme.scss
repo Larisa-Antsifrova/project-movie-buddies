@@ -69,6 +69,17 @@ header.dark-theme {
   }
   .sidenav {
     background-color: #000000;
+    border-left: 2px solid #039be5;
+    border-bottom: 2px solid #039be5;
+    a:hover {
+      background-color: #039be5;
+      span {
+        color: black;
+      }
+      i {
+        color: black;
+      }
+    }
     .material-icons {
       color: #ef6c00;
     }
@@ -85,6 +96,37 @@ body.dark-theme {
     .team-list-item {
       background-color: black;
       border: 2px solid #039be5;
+    }
+  }
+  .account-modal {
+    background-color: black;
+    label.active {
+      color: #039be5;
+    }
+    input {
+      border-bottom: 1px solid #039be5;
+    }
+    h4 {
+      color: #039be5;
+    }
+    .input-static-color {
+      color: #ef6c00;
+      border-bottom: 1px solid #039be5;
+    }
+    [type='checkbox']:not(:checked):disabled + span:not(.lever)::before {
+      background-color: grey;
+    }
+    [type='checkbox']:checked + span:not(.lever):before {
+      border-right: 2px solid #ef6c00;
+      border-bottom: 2px solid #ef6c00;
+    }
+    [type='checkbox']:checked:disabled + span:before {
+      border-right: 2px solid #039be5;
+      border-bottom: 2px solid #039be5;
+    }
+    input[type='text']:not(.browser-default):disabled,
+    input[type='email']:not(.browser-default):disabled {
+      color: grey;
     }
   }
 }
