@@ -4,6 +4,7 @@ import { currentMovieItem } from './show-details.js';
 import { activeBuddyPage } from './fetch-functions.js';
 import { Api } from './movieApi';
 import { SECURE_TOKEN, PROVIDER } from './apiKey.js';
+
 // Getting access to DOM elements
 const findBuddyBtnRef = document.querySelector('.buddy-btn__js');
 const moviesToDiscussListRef = document.querySelector('.movies-list__js');
@@ -13,6 +14,7 @@ const sendEmailBtnRef = document.querySelector('.email-send-btn__js');
 
 let moviesToChoose = [];
 let email = '';
+
 //Adding event listeners
 searchFormRef.addEventListener('submit', searchFilmsForBuddy);
 moviesToDiscussListRef.addEventListener('click', findBuddySearch);
@@ -22,6 +24,7 @@ function findBuddySearch(e) {
   e.preventDefault();
 
   const id = +e.target.dataset.id;
+  console.log('ID', id);
 
   const chosenMovie = moviesToChoose.find(movie => movie.id === id);
   console.log('Chosen movie', chosenMovie);
@@ -83,6 +86,7 @@ function findBuddy(e) {
 
   const detailsModal = document.querySelector('#details-modal');
   M.Modal.getInstance(detailsModal).close();
+  moviesToChoose = [currentMovieItem];
 
   const moviePreview = renderMoviePreview(currentMovieItem);
   moviesToDiscussListRef.appendChild(moviePreview);
