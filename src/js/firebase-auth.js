@@ -19,6 +19,7 @@ import {
 } from './firebase-firestore.js';
 import { findBuddyBtnRef, findBuddy } from './firebase-buddy.js';
 import { currentMovieItem } from './show-details.js';
+import notification from './notification.js';
 
 const signupForm = document.getElementById('signup-form');
 const loginForm = document.getElementById('login-form');
@@ -68,24 +69,25 @@ auth.onAuthStateChanged(user => {
           .then(() => {
             navLinkAccountRef.textContent = accountForm['account-name'].value;
             accountForm['account-name'].disabled = true;
-            console.log('Ваше имя было успешно изменено');
           })
           .then(() => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
-          });
+          })
+          .then(notification.changeName);
       }
       if (!accountForm['account-email'].disabled) {
         user
           .updateEmail(`${accountForm['account-email'].value}`)
           .then(() => {
             accountForm['account-email'].disabled = true;
-            console.log('Ваш Email был успешно изменен');
           })
           .then(() => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
-          });
+          })
+          .then(notification.changeEmail)
+          .catch(notification.error('Для изменения вашего Email, необходимо сделать повторный вход в кабинет'));
       } else if (!accountForm['account-telegram-name'].disabled) {
         db.collection('users')
           .doc(user.uid)
@@ -93,13 +95,14 @@ auth.onAuthStateChanged(user => {
             telegramName: accountForm['account-telegram-name'].value,
           })
           .then(() => {
-            console.log('Ваш никнейм телеграм изменен');
+            accountForm['checkbox__js'].disabled = true;
+            accountForm['account-telegram-name'].disabled = true;
           })
           .then(() => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
-            location.reload();
-          });
+          })
+          .then(notification.changeTelegramName);
       }
     });
     watchedBtnRef.classList.remove('disabled');
@@ -257,14 +260,17 @@ loginForm.addEventListener('submit', e => {
   const email = loginForm['login-email'].value;
   const password = loginForm['login-password'].value;
   // log the user in
-  auth.signInWithEmailAndPassword(email, password).then(cred => {
-    // close the signup modal & reset form
-    const nav = document.querySelector('#mobile-links');
-    M.Sidenav.getInstance(nav).close();
-    const modal = document.querySelector('#modal-login');
-    M.Modal.getInstance(modal).close();
-    loginForm.reset();
-  });
+  auth
+    .signInWithEmailAndPassword(email, password)
+    .then(cred => {
+      // close the signup modal & reset form
+      const nav = document.querySelector('#mobile-links');
+      M.Sidenav.getInstance(nav).close();
+      const modal = document.querySelector('#modal-login');
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+    })
+    .catch(notification.error('Ошибка: Неверный пароль'));
 });
 
 // logout
