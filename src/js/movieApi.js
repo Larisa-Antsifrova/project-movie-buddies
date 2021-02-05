@@ -82,7 +82,7 @@ const Api = {
     if (respArr.length === 0) {
       notFound();
     }
-    console.log(respArr);
+    // console.log(respArr);
     return respArr;
   },
 
