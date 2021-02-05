@@ -9,12 +9,14 @@ const findBuddyBtnRef = document.querySelector('.buddy-btn__js');
 const moviesToDiscussListRef = document.querySelector('.movies-list__js');
 const buddiesListRef = document.querySelector('.buddies-list__js');
 const searchFormRef = document.querySelector('#search-form');
+const sendEmailBtnRef = document.querySelector('.email-send-btn__js');
 
 let moviesToChoose = [];
-
+let email = '';
 //Adding event listeners
 searchFormRef.addEventListener('submit', searchFilmsForBuddy);
 moviesToDiscussListRef.addEventListener('click', findBuddySearch);
+sendEmailBtnRef.addEventListener('click', sendEmail);
 
 function findBuddySearch(e) {
   e.preventDefault();
@@ -129,7 +131,7 @@ function renderMoviePreview(currentMovieItem) {
 function renderBuddy(doc, fragment, userId, movieId) {
   // Getting info to fill in Buddy search result
   const name = doc.data().name;
-  const email = doc.data().email;
+  email = doc.data().email;
   const telegram = doc.data().telegram;
 
   // Creating container to contain Buddy's info
@@ -202,6 +204,7 @@ function renderBuddy(doc, fragment, userId, movieId) {
   const toMail = document.createElement('a');
   toMail.classList.add('btn-floating', 'waves-effect', 'waves-light', 'modal-trigger');
   toMail.setAttribute('href', '#email-modal');
+  toMail.setAttribute('data-email', `${email}`);
 
   const emailIcon = document.createElement('i');
   emailIcon.classList.add('material-icons');
@@ -218,7 +221,7 @@ function renderBuddy(doc, fragment, userId, movieId) {
   // Preparing the fragment
   fragment.appendChild(li);
 
-  // toMail.addEventListener('click', () => console.log('Event on email button'));
+  toMail.addEventListener('click', e => (email = e.target.parentElement.dataset.email));
 }
 
 // Function to check what collection the chosen movie is in
@@ -252,12 +255,38 @@ export { findBuddyBtnRef, findBuddy };
 
 //=======Experiments=========
 
-function sendEmail() {
-  Email.send({
-    SecureToken: '8df58ccc-9817-4ece-ac78-f1dabcd6b9ce',
-    To: 'thecarrot@ukr.net',
-    From: 'thecarrot@ukr.net',
-    Subject: 'This is the subject',
-    Body: 'And this is the body',
-  }).then(message => alert(message));
+function sendEmail(e) {
+  e.preventDefault();
+
+  const emailFormRef = document.getElementById('email-form');
+
+  const toEmail = email;
+  const fromEmail = 'thecarrot@ukr.net';
+  const subject = emailFormRef['subject'].value;
+  const replyEmail = emailFormRef['reply-to'].value;
+  const message = emailFormRef['email-body'].value;
+
+  const emailBody = `${message}
+  p.s. Reply to ${replyEmail} :)`;
+
+  console.log({
+    toEmail: toEmail,
+    fromEmail: fromEmail,
+    subject: subject,
+    replyEmail: replyEmail,
+    message: message,
+    emailBody: emailBody,
+  });
+
+  // Email.send({
+  //   SecureToken: '8df58ccc-9817-4ece-ac78-f1dabcd6b9ce',
+  //   To: toEmail,
+  //   From: fromEmail,
+  //   Subject: subject,
+  //   Body: emailBody,
+  // }).then(message => alert(message));
+
+  emailFormRef.reset();
+  const modal = document.querySelector('#email-modal');
+  M.Modal.getInstance(modal).close();
 }

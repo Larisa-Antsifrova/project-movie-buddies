@@ -15,24 +15,19 @@
     <header class="header__js bg-home">
       <div class="toolbar">
         <div class="theme-switch">
-            <div class="theme-switch__control">
+          <div class="theme-switch__control">
             <input
-                class="theme-switch__toggle"
-                type="checkbox"
-                name="theme"
-                id="theme-switch-toggle"
-                aria-label="Dark mode toggle"
+              class="theme-switch__toggle"
+              type="checkbox"
+              name="theme"
+              id="theme-switch-toggle"
+              aria-label="Dark mode toggle"
             />
-            <label
-                aria-hidden="true"
-                class="theme-switch__track"
-                for="theme-switch-toggle"
-            >
-            </label>
+            <label aria-hidden="true" class="theme-switch__track" for="theme-switch-toggle"> </label>
             <div aria-hidden="true" class="theme-switch__marker"></div>
-            </div>
+          </div>
         </div>
-    </div>
+      </div>
     </header>
     <main>
       <section class="home-section home__js">
@@ -58,7 +53,7 @@
         <div id="email-modal" class="modal">
           <div class="modal-content">
             <h5>Let's send an e-mail!</h5>
-            <form id="login-form">
+            <form id="email-form">
               <div class="input-field">
                 <input id="subject" type="text" />
                 <label for="subject">Subject</label>
@@ -71,7 +66,7 @@
                 <textarea id="email-body" class="materialize-textarea e-mail-text"></textarea>
                 <label for="email-body">Message</label>
               </div>
-              <button class="btn z-depth-0 email-send-btn__js">Send</button>
+              <a href="#!" class="btn z-depth-0 email-send-btn__js">Send</a>
             </form>
           </div>
         </div>
