@@ -89,16 +89,28 @@ function findBuddy(e) {
   const buddies = db.collection('users').where('movies', 'array-contains', movieId).orderBy('name');
 
   buddies.get().then(querySnapshot => {
-    const fragment = document.createDocumentFragment();
+    console.log(querySnapshot.docs);
+    if (querySnapshot.docs.length < 2) {
+      // const fragment = document.createDocumentFragment();
 
-    querySnapshot.forEach(doc => {
-      if (doc.id !== user.uid) {
-        renderBuddy(doc, fragment, doc.id, movieId);
-      }
-    });
+      const li = document.createElement('li');
+      li.classList.add('collection-item', 'center-align', 'red-text', 'text-lighten-1');
+      li.textContent = 'No buddies have the movie in their collection.';
+      buddiesListRef.innerHTML = '';
 
-    buddiesListRef.innerHTML = '';
-    buddiesListRef.appendChild(fragment);
+      buddiesListRef.appendChild(li);
+    } else {
+      const fragment = document.createDocumentFragment();
+
+      querySnapshot.forEach(doc => {
+        if (doc.id !== user.uid) {
+          renderBuddy(doc, fragment, doc.id, movieId);
+        }
+      });
+
+      buddiesListRef.innerHTML = '';
+      buddiesListRef.appendChild(fragment);
+    }
   });
 }
 
@@ -284,10 +296,12 @@ function sendEmail(e) {
   //   From: fromEmail,
   //   Subject: subject,
   //   Body: emailBody,
-  // }).then(message => alert(message));
+  // }).then(message => console.log(message));
 
   emailFormRef.reset();
+
   const modal = document.querySelector('#email-modal');
   M.Modal.getInstance(modal).close();
+
   M.toast({ html: 'Your email is sent!', classes: 'rounded teal lighten-1' });
 }
