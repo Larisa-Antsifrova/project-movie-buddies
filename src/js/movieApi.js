@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import { make } from 'core-js/fn/object';
 import { API_KEY } from './apiKey.js';
-import { notFound } from './fetch-functions.js';
+import { input } from './fetch-functions.js';
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
 const Api = {
@@ -77,8 +77,9 @@ const Api = {
     });
     this.totalPages = data.total_pages;
     const respArr = await data.results;
-    if (respArr.length === 0) {
-      notFound();
+    console.log("before notFound", input);
+    if (respArr.length == 0) {
+      input.notFound();
     }
     return respArr;
   },
@@ -159,4 +160,3 @@ Api.calculatePosterImgSize();
 
 export { Api };
 
-// Api.fetchTrailersAPI(97175);
