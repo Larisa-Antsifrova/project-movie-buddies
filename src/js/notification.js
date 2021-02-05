@@ -1,8 +1,6 @@
 import PNotify from 'pnotify/dist/es/PNotify.js';
 import 'pnotify/dist/PNotifyBrightTheme.css';
 
-console.log(PNotify);
-
 export default {
   changeName() {
     PNotify.success({
