@@ -14,7 +14,7 @@ let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит ма�
 // let currentMovieItem = null;
 
 searchForm.addEventListener('click', ()=>{input.onInputFocus()});
-searchForm.addEventListener('submit', (e)=>{input.searchFilms(e)});
+// searchForm.addEventListener('submit', (e)=>{input.searchFilms(e)});
 
 // Вызов самого первого fetch за популярными фильмами и его рендер
 
@@ -149,6 +149,13 @@ const input = {
     this.renderPopularFilms();
   },
 
+  notFoundBuddy() {
+  this.errorArea.style.visibility = 'visible';
+  setTimeout(this.clearError, 2000);
+  this.clearInput();
+  },
+
+
   clearError() {
     this.errorArea.style.visibility = 'hidden';
   },
@@ -168,6 +175,7 @@ const navigationRefs = document.querySelector('.navigation__js');
 const searchFormRef = document.querySelector('.search-form__js');
 const tabsLibrary = document.querySelector('.tabs__js');
 const headerNavRef = document.querySelector('.header__js');
+const searchFormLabelTextRef = document.querySelector('.label-text__js');
 // mobile menu
 const homeMobNavRef = document.querySelector('.home-page-link-mobile__js');
 const libraryMobNavRef = document.querySelector('.library-page-link-mobile__js');
@@ -191,12 +199,13 @@ function activeHomePage(e) {
   input.clearInput();
   input.renderPopularFilms();
   searchFormRef.removeEventListener('submit', searchFilmsForBuddy);
-
+  searchForm.addEventListener('submit', (e)=>{input.searchFilms(e)});
   toggleActiveLink(homeNavLinkRef.firstElementChild);
   homeSectionRef.classList.remove('hide');
   librarySectionRef.classList.add('hide');
   buddySectionRef.classList.add('hide');
   searchFormRef.classList.remove('hide');
+  searchFormLabelTextRef.textContent = "Let's find a movie for you!";
   tabsLibrary.classList.add('hide');
   headerNavRef.classList.add('bg-home');
   headerNavRef.classList.remove('bg-buddies');
@@ -219,6 +228,7 @@ function activeLibraryPage(e) {
 function activeBuddyPage(e) {
   cleanBuddyPage();
   input.clearInput();
+  searchForm.removeEventListener('submit', (e)=>{input.searchFilms(e)});
   searchFormRef.addEventListener('submit', searchFilmsForBuddy);
   paginator.refs.pagination.removeEventListener('click', paginator.onPaginationClick);
   buddyMobNavRef.classList.add('sidenav-close');
@@ -231,6 +241,7 @@ function activeBuddyPage(e) {
   headerNavRef.classList.remove('bg-library');
   tabsLibrary.classList.add('hide');
   searchFormRef.classList.remove('hide');
+  searchFormLabelTextRef.textContent = 'Movie to discuss';
 }
 
 function toggleActiveLink(link) {
@@ -244,6 +255,17 @@ function toggleActiveLink(link) {
 function cleanBuddyPage() {
   moviesToDiscussListRef.innerHTML = '';
   buddiesListRef.innerHTML = '';
+}
+
+const switchRef = document.querySelector('.media-switch');
+switchRef.addEventListener('change', toggleMediaType);
+function toggleMediaType(e) {
+  if (!e.target.checked) {
+    Api.mediaType = 'movie';
+  } else {
+    Api.mediaType = 'tv';
+  }
+  input.toggleRenderPage();
 }
 
 export { currentMoviesList, genres, input, activeBuddyPage };
