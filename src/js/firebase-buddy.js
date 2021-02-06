@@ -21,6 +21,30 @@ let email = '';
 moviesToDiscussListRef.addEventListener('click', findBuddySearch);
 sendEmailBtnRef.addEventListener('click', sendEmail);
 
+// Function to handle input serch for a movie
+function searchFilmsForBuddy(e) {
+  e.preventDefault();
+
+  moviesToDiscussListRef.innerHTML = '';
+  buddiesListRef.innerHTML = '';
+
+  Api.searchQuery = e.target.elements.query.value.trim();
+
+  Api.fetchSearchFilmsForBuddy(Api.searchQuery)
+    .then(movies => {
+      moviesToChoose = movies;
+      const moviesListFragment = document.createDocumentFragment();
+      movies.forEach(movie => {
+        const moviePreview = renderMoviePreview(movie);
+        moviesListFragment.appendChild(moviePreview);
+      });
+      moviesToDiscussListRef.appendChild(moviesListFragment);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
 // Function for searchind buddy in scenario when the movie is searched on the Buddies page
 function findBuddySearch(e) {
   e.preventDefault();
@@ -55,30 +79,6 @@ function findBuddySearch(e) {
   });
 }
 
-// Function to handle input serch for a movie
-function searchFilmsForBuddy(e) {
-  e.preventDefault();
-
-  moviesToDiscussListRef.innerHTML = '';
-  buddiesListRef.innerHTML = '';
-
-  Api.searchQuery = e.target.elements.query.value.trim();
-
-  Api.fetchSearchFilmsForBuddy(Api.searchQuery)
-    .then(movies => {
-      moviesToChoose = movies;
-      const moviesListFragment = document.createDocumentFragment();
-      movies.forEach(movie => {
-        const moviePreview = renderMoviePreview(movie);
-        moviesListFragment.appendChild(moviePreview);
-      });
-      moviesToDiscussListRef.appendChild(moviesListFragment);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
-
 // Function that finds buddies in the scenario of details modal
 function findBuddy(e) {
   e.preventDefault();
@@ -98,6 +98,7 @@ function findBuddy(e) {
   const buddies = db.collection('users').where('movies', 'array-contains', movieId).orderBy('name');
 
   buddies.get().then(querySnapshot => {
+    // console.log('query of buddies', querySnapshot);
     if (querySnapshot.docs.length < 2) {
       renderNoBuddyFound();
     } else {
@@ -158,7 +159,7 @@ function renderMoviePreview(currentMovieItem) {
 function renderBuddy(doc, fragment, userId, movieId) {
   // Getting info to fill in Buddy search result
   const name = doc.data().name;
-  const telegram = doc.data().telegram;
+  const telegram = doc.data().telegramName;
 
   // Creating container to contain Buddy's info
   const li = document.createElement('li');
