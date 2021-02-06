@@ -193,10 +193,10 @@ signupForm.addEventListener('submit', e => {
   e.preventDefault();
 
   // get user info
-  const email = signupForm['signup-email'].value;
-  const password = signupForm['signup-password'].value;
-  const displayName = signupForm['signup-name'].value;
-  const telegramName = signupForm['signup-telegram-name__js'].value;
+  const email = signupForm['signup-email'].value.trim();
+  const password = signupForm['signup-password'].value.trim();
+  const displayName = signupForm['signup-name'].value.trim();
+  const telegramName = signupForm['signup-telegram-name__js'].value.trim();
   // sign up the user
   auth
     .createUserWithEmailAndPassword(email, password)
@@ -265,8 +265,8 @@ function githubSignin() {
 loginForm.addEventListener('submit', e => {
   e.preventDefault();
   // get user info
-  const email = loginForm['login-email'].value;
-  const password = loginForm['login-password'].value;
+  const email = loginForm['login-email'].value.trim();
+  const password = loginForm['login-password'].value.trim();
   // log the user in
   auth
     .signInWithEmailAndPassword(email, password)
@@ -303,8 +303,7 @@ function setupUI(user) {
     sidenameLinkAccountRef.textContent = user.displayName;
     user.photoURL
       ? (avatarUser.src = `${user.photoURL}`)
-      : (avatarUser.src =
-          'https://rdihub.b-cdn.net/wp-content/uploads/2020/01/black-and-white-panda-logo-users-group-encapsulated-postscript-user-profile-group-png-clip-art.png');
+      : (avatarUser.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
 
     accountForm['account-name'].value = user.displayName;
     accountForm['account-email'].value = user.email;
@@ -328,9 +327,6 @@ function setupUI(user) {
   } else {
     navLinkAccountRef.textContent = 'Account';
     sidenameLinkAccountRef.textContent = 'Account';
-    // clear account info
-    // accountDetails.innerHTML = '';
-    // toggle user elements
     homeNavLnk.style.display = 'block';
     loggedInLinks.forEach(item => (item.style.display = 'none'));
     loggedOutLinks.forEach(item => (item.style.display = 'block'));
