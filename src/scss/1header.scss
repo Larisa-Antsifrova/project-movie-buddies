@@ -131,6 +131,9 @@
 
 nav {
   box-shadow: none;
+  .nav-wrapper {
+    height: 70%;
+  }
 }
 
 nav .sidenav-trigger {
@@ -171,4 +174,7 @@ nav .sidenav-trigger {
 
 #signup-form .required {
   color: red;
+}
+.search-form-style {
+  height: 10%;
 }

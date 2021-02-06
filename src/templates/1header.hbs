@@ -33,7 +33,7 @@
                 </li>
             </ul>
         </div>
-        <div class="row search-form__js">
+        <div class="search-form__js search-form-style">
             <form id="search-form" class="col s12 m8 offset-m2 search-form">
                 <div class="input-field">
                     <i class="material-icons prefix">search</i>
@@ -41,7 +41,10 @@
                     <label for="search" class="rigth label-text label-text__js">Let's find a movie for you!</label>
                 </div>
             </form>
-            <div class="switch">
+            <p class="col s12 center-align red-text text-darken-4 search-error__js">
+                No matches found. Try again!
+            </p>
+            <div class="switch center">
                 <label>
                     Movies
                     <input type="checkbox" class="media-switch">
@@ -49,9 +52,6 @@
                     TV
                 </label>
             </div>
-            <p class="col s12 center-align red-text text-darken-4 search-error__js">
-                No matches found. Try again!
-            </p>
         </div>
         <div class="row tabs__js hide tabs-wrapper">
             <div class="col s12 m6 offset-m3">
