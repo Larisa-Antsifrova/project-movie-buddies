@@ -159,7 +159,7 @@ function renderMoviePreview(currentMovieItem) {
 function renderBuddy(doc, fragment, userId, movieId) {
   // Getting info to fill in Buddy search result
   const name = doc.data().name;
-  const telegram = doc.data().telegram;
+  const telegram = doc.data().telegramName;
 
   // Creating container to contain Buddy's info
   const li = document.createElement('li');
