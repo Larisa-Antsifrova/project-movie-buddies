@@ -1,14 +1,11 @@
 import axios from 'axios';
-// import { make } from 'core-js/fn/object';
 import { API_KEY } from './apiKey.js';
-import { notFound } from './fetch-functions.js';
+import { notFound, notFoundBuddy } from './fetch-functions.js';
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
 const Api = {
   apiKey: API_KEY,
   searchQuery: '',
-  filmID: '',
-  currentPerPage: '',
   totalPages: 1,
   pageNumber: 1,
   mediaType: 'movie',
@@ -24,18 +21,12 @@ const Api = {
     },
   },
 
-  incrementPage() {
-    this.pageNumber += 1;
-  },
-  decrementPage() {
-    this.pageNumber -= 1;
-  },
   resetPage() {
     this.pageNumber = 1;
   },
-  get imagePosterSize() {
-    return this.images.currentSizes.posterSize;
-  },
+  // get imagePosterSize() {
+  //   return this.images.currentSizes.posterSize;
+  // },
   calculatePosterImgSize() {
     if (document.documentElement.clientWidth >= 1024) {
       this.images.currentSizes.posterSize = this.images.posterSizes.desktop;
@@ -67,7 +58,6 @@ const Api = {
     });
     this.totalPages = data.total_pages;
     const respArr = await data.results;
-    // console.log(respArr);
     return respArr;
   },
   async fetchSearchMovieList(query) {
@@ -79,38 +69,37 @@ const Api = {
         )
       ).data;
     });
+    if (!data) {
+      return this.fetchTrendingMoviesList();
+    }
     this.totalPages = data.total_pages;
     const respArr = await data.results;
-    if (respArr.length === 0) {
-      notFound();
-    }
-    // console.log(respArr);
     return respArr;
   },
 
   async fetchSearchFilmsForBuddy(query) {
     this.searchQuery = query;
     const { data } = await axios.get(
-      `/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=1`,
+      `/search/${this.mediaType}?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=1`,
     );
     const respArr = await data.results;
-    if (respArr.length === 0) {
-      notFound();
+    if (!respArr.length) {
+      notFoundBuddy();
     }
     return respArr.length > 7 ? respArr.slice(0, 7) : respArr;
   },
 
   async fetchTrailersAPI(el) {
-    const { data } = await axios.get(`${this.mediaType}/${el}/videos?api_key=${this.apiKey}&language=en-US`);
-    if (!data.results.length) {
-      return;
-    } else {
-      return data.results.find(e => {
-        if (e.type == 'Trailer') {
-          return e;
+      const { data } = await axios.get(`${this.mediaType}/${el}/videos?api_key=${this.apiKey}&language=en-US`);
+        if (!data.results.length) {
+          return;
+        } else {
+          return data.results.find(e => {
+            if (e.type == 'Trailer') {
+              return e;
+            }
+          });
         }
-      });
-    }
   },
   async fetchGenresList() {
     const { data } = await axios.get(`/genre/${this.mediaType}/list?api_key=${this.apiKey}`);
@@ -125,8 +114,11 @@ const Api = {
     const bigPerPage = 20; // количество обьектов, которое получаем с API
     const startIdx = pageNumber * perPage; //индекс первого элемента
     const bigStartPage = Math.floor(startIdx / bigPerPage); // требуемая страница запроса с API
-
     const startData = await fetchMovies(bigStartPage + 1);
+      if (!startData.results.length) {
+        notFound();
+        return
+      }
 
     const lastIdx = startData.total_results - 1; // индекс последнего элемента. Важно, если последняя
     // страница содержит меньше bigPerPage элементов
@@ -144,6 +136,7 @@ const Api = {
     // console.log('totalPages', totalPages);
     // Проверка условия надо ли подгружать ещё фильмов с API
     const twoPages = bigStartPage !== bigEndPage;
+
     const data = {
       results: startData.results.slice(is, twoPages ? bigPerPage : ie + 1), // обьект результатов
       total_pages: totalPages,
