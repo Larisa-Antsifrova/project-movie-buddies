@@ -137,7 +137,10 @@ function renderMoviePreview(currentMovieItem) {
   a.setAttribute('data-id', id);
 
   const img = document.createElement('img');
-  img.setAttribute('src', `https://image.tmdb.org/t/p/w500${currentMovieItem.backdrop_path}`);
+  const src = currentMovieItem.backdrop_path
+    ? `https://image.tmdb.org/t/p/w500${currentMovieItem.backdrop_path}`
+    : 'https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg';
+  img.setAttribute('src', src);
   img.setAttribute('alt', `${title}`);
   img.classList.add('circle');
   img.setAttribute('data-id', id);
