@@ -24,6 +24,17 @@ const galleryElementMarkup = galleryElementTemplate();
 import detailTemplate from '../templates/4details.hbs';
 const detailMarkup = detailTemplate();
 
+import detailsContainerTemplate from '../templates/4detailsContainer.hbs';
+const detailsContainerMarkup = detailsContainerTemplate();
+const detailsContainerRef = document.querySelector('.details-modal__js');
+detailsContainerRef.insertAdjacentHTML('beforeend', detailsContainerMarkup);
+
+// Initialize Buddies
+import buddiesTemplate from '../templates/5buddies.hbs';
+const buddiesMarkup = buddiesTemplate();
+const buddiesSectionRef = document.querySelector('.buddies__js');
+buddiesSectionRef.insertAdjacentHTML('beforeend', buddiesMarkup);
+
 // UP button
 import buttonUpTemplate from '../templates/9buttonUp.hbs';
 const buttonUp = buttonUpTemplate();
