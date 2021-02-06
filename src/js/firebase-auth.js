@@ -19,6 +19,7 @@ import {
 } from './firebase-firestore.js';
 import { findBuddyBtnRef, findBuddy } from './firebase-buddy.js';
 import { currentMovieItem } from './show-details.js';
+import notification from './notification.js';
 
 const signupForm = document.getElementById('signup-form');
 const loginForm = document.getElementById('login-form');
@@ -54,13 +55,16 @@ auth.onAuthStateChanged(user => {
     updateTelegramBtn.addEventListener('click', e => {
       e.preventDefault();
       updateInfo(accountForm['account-telegram-name']);
-      updateInfo(accountForm['checkbox__js']);
+      updateInfo(accountForm['checkbox-account__js']);
     });
 
     // accountForm UPDATE
     accountForm.addEventListener('submit', e => {
       e.preventDefault();
       if (!accountForm['account-name'].disabled) {
+        if (accountForm['account-name'].value === user.displayName) {
+          return;
+        }
         user
           .updateProfile({
             displayName: accountForm['account-name'].value,
@@ -68,23 +72,32 @@ auth.onAuthStateChanged(user => {
           .then(() => {
             navLinkAccountRef.textContent = accountForm['account-name'].value;
             accountForm['account-name'].disabled = true;
-            // console.log('Ваше имя было успешно изменено');
           })
           .then(() => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
-          });
+          })
+          .then(notification.changeName);
       }
       if (!accountForm['account-email'].disabled) {
+        if (accountForm['account-email'].value === user.email) {
+          return;
+        }
         user
           .updateEmail(`${accountForm['account-email'].value}`)
           .then(() => {
             accountForm['account-email'].disabled = true;
-            // console.log('Ваш Email был успешно изменен');
           })
           .then(() => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
+          })
+          .then(notification.changeEmail)
+          .catch(err => {
+            if (err) {
+              console.log(err);
+              notification.error('Для изменения вашего Email, необходимо сделать повторный вход в кабинет');
+            }
           });
       } else if (!accountForm['account-telegram-name'].disabled) {
         db.collection('users')
@@ -93,13 +106,14 @@ auth.onAuthStateChanged(user => {
             telegramName: accountForm['account-telegram-name'].value,
           })
           .then(() => {
-            // console.log('Ваш никнейм телеграм изменен');
+            accountForm['checkbox-account__js'].disabled = true;
+            accountForm['account-telegram-name'].disabled = true;
           })
           .then(() => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
-            location.reload();
-          });
+          })
+          .then(notification.changeTelegramName);
       }
     });
     watchedBtnRef.classList.remove('disabled');
@@ -205,6 +219,11 @@ signupForm.addEventListener('submit', e => {
       const modal = document.querySelector('#modal-signup');
       M.Modal.getInstance(modal).close();
       signupForm.reset();
+    })
+    .catch(() => {
+      if (password.length < 6) {
+        notification.error('Ошибка: длина пароля должна быть не менее 6-ти символов');
+      }
     });
 });
 
@@ -239,14 +258,6 @@ function githubSignin() {
       const modal = document.querySelector('#modal-login');
       M.Modal.getInstance(modal).close();
       loginForm.reset();
-    })
-
-    .catch(function (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      // console.log(error.code);
-      // console.log(error.message);
     });
 }
 
@@ -257,16 +268,24 @@ loginForm.addEventListener('submit', e => {
   const email = loginForm['login-email'].value;
   const password = loginForm['login-password'].value;
   // log the user in
-  auth.signInWithEmailAndPassword(email, password).then(cred => {
-    // close the signup modal & reset form
-    const nav = document.querySelector('#mobile-links');
-    M.Sidenav.getInstance(nav).close();
-    const modal = document.querySelector('#modal-login');
-    M.Modal.getInstance(modal).close();
-    loginForm.reset();
-  });
+  auth
+    .signInWithEmailAndPassword(email, password)
+    .then(cred => {
+      // close the signup modal & reset form
+      const nav = document.querySelector('#mobile-links');
+      M.Sidenav.getInstance(nav).close();
+      const modal = document.querySelector('#modal-login');
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+    })
+    .catch(err => {
+      if (err) {
+        console.log(err);
+        notification.error('Ошибка: Неверный пароль');
+      }
+    });
 });
-
+//
 // logout
 logoutRef.addEventListener('click', logout);
 logoutMobRef.addEventListener('click', logout);
@@ -298,7 +317,7 @@ function setupUI(user) {
       .then(col => {
         // console.log('col.data().telegramName', col.data().telegramName);
         if (col.data().telegramName) {
-          accountForm['checkbox__js'].checked = true;
+          accountForm['checkbox-account__js'].checked = true;
           accountForm['account-telegram-name'].value = col.data().telegramName;
         }
       }),
