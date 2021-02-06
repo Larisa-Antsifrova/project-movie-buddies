@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { API_KEY } from './apiKey.js';
 import { input } from './fetch-functions.js';
-// import { notFound, notFoundBuddy } from './fetch-functions.js';
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
 const Api = {
@@ -67,6 +66,7 @@ const Api = {
         )
       ).data;
     });
+    // console.log(data);
     if (!data) {
       return this.fetchTrendingMoviesList();
     }
@@ -114,7 +114,7 @@ const Api = {
     const bigStartPage = Math.floor(startIdx / bigPerPage); // требуемая страница запроса с API
     const startData = await fetchMovies(bigStartPage + 1);
       if (!startData.results.length) {
-        notFound();
+        input.notFound();
         return
       }
 

@@ -17,6 +17,7 @@ import './scss/main.scss';
 import './js/movieApi.js';
 import './js/fetch-functions.js';
 import './js/paginator.js';
+import './js/navigation.js';
 import './js/show-details.js';
 import './js/buttonUp.js';
 import './js/theme.js';
