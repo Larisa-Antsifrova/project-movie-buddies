@@ -62,7 +62,7 @@ function findBuddySearch(e) {
   const buddies = db.collection('users').where('movies', 'array-contains', id).orderBy('name');
 
   buddies.get().then(querySnapshot => {
-    if (querySnapshot.docs.length < 1) {
+    if (querySnapshot.docs.length < 2) {
       renderNoBuddyFound();
     } else {
       const fragment = document.createDocumentFragment();
@@ -99,7 +99,7 @@ function findBuddy(e) {
 
   buddies.get().then(querySnapshot => {
     console.log('query of buddies', querySnapshot);
-    if (querySnapshot.docs.length < 1) {
+    if (querySnapshot.docs.length < 2) {
       renderNoBuddyFound();
     } else {
       const fragment = document.createDocumentFragment();
