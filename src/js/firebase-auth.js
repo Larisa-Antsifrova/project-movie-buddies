@@ -77,6 +77,9 @@ auth.onAuthStateChanged(user => {
           .then(notification.changeName);
       }
       if (!accountForm['account-email'].disabled) {
+        if (accountForm['account-email'].value === user.email) {
+          return;
+        }
         user
           .updateEmail(`${accountForm['account-email'].value}`)
           .then(() => {
@@ -86,11 +89,7 @@ auth.onAuthStateChanged(user => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
           })
-          .then(() => {
-            if (!accountForm['account-email'].value === user.email) {
-              notification.changeEmail();
-            }
-          })
+          .then(notification.changeEmail)
           .catch(err => {
             if (err) {
               console.log(err);
