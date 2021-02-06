@@ -130,6 +130,7 @@
 }
 
 nav {
+  background-color: transparent;
   box-shadow: none;
 }
 
@@ -175,4 +176,24 @@ nav .sidenav-trigger {
 
 .github-login-link {
   cursor: pointer;
+}
+
+.switch {
+  margin: 15px 0 20px;
+}
+
+.transparent {
+  height: 50px;
+}
+
+.input-field .prefix ~ input {
+  margin: 0;
+}
+
+.input-field .prefix ~ label {
+  margin-left: 1.5rem;
+}
+
+.tabs {
+  margin-top: 40px;
 }
