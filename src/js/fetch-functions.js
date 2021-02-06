@@ -3,6 +3,7 @@ import * as Handlebars from 'handlebars/runtime';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
 import Paginator from './paginator.js';
 import { spinner } from './spinner';
+import { searchFilmsForBuddy } from './firebase-buddy';
 
 const searchForm = document.querySelector('.search-form');
 const homeGalleryListRef = document.querySelector('.home-gallery__js');
@@ -143,13 +144,19 @@ function notFound() {
   setTimeout(clearError, 2000);
   clearInput();
   Api.resetPage();
-  return renderPopularFilms();
+  renderPopularFilms();
+}
+
+function notFoundBuddy() {
+  errorArea.style.visibility = 'visible';
+  setTimeout(clearError, 2000);
+  clearInput();
 }
 
 function clearError() {
   errorArea.style.visibility = 'hidden';
 }
-
+// =======================================================================================================================
 // NAVIGATION module
 const logoNavRef = document.querySelector('.logo__js');
 const homeNavLinkRef = document.querySelector('.home-page-link__js');
@@ -185,7 +192,8 @@ function activeHomePage(e) {
   clearGallery(homeGalleryListRef);
   clearInput();
   renderPopularFilms();
-
+  searchFormRef.removeEventListener('submit', searchFilmsForBuddy);
+  searchForm.addEventListener('submit', searchFilms);
   toggleActiveLink(homeNavLinkRef.firstElementChild);
   homeSectionRef.classList.remove('hide');
   librarySectionRef.classList.add('hide');
@@ -214,6 +222,8 @@ function activeLibraryPage(e) {
 function activeBuddyPage(e) {
   cleanBuddyPage();
   clearInput();
+  searchForm.removeEventListener('submit', searchFilms);
+  searchFormRef.addEventListener('submit', searchFilmsForBuddy);
   paginator.refs.pagination.removeEventListener('click', paginator.onPaginationClick);
   buddyMobNavRef.classList.add('sidenav-close');
   toggleActiveLink(buddyNavLinkRef.firstElementChild);
@@ -225,7 +235,7 @@ function activeBuddyPage(e) {
   headerNavRef.classList.remove('bg-library');
   tabsLibrary.classList.add('hide');
   searchFormRef.classList.remove('hide');
-  searchFormLabelTextRef.textContent = 'What movie do you want to discuss?';
+  searchFormLabelTextRef.textContent = 'Movie to discuss';
 }
 
 function toggleActiveLink(link) {
@@ -252,4 +262,4 @@ function toggleMediaType(e) {
   toggleRenderPage();
 }
 
-export { currentMoviesList, currentMovieItem, genres, toggleRenderPage, notFound, activeBuddyPage };
+export { currentMoviesList, currentMovieItem, genres, toggleRenderPage, notFound, notFoundBuddy, activeBuddyPage };

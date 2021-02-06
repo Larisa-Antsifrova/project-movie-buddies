@@ -166,7 +166,7 @@ auth.onAuthStateChanged(user => {
         .doc(user.uid)
         .set({ movies: libraryIndexes }, { merge: true })
         .then(() => {
-          console.log(`DONE UPDATING libraryInd`);
+          // console.log(`DONE UPDATING libraryInd`);
         });
     });
   } else {
@@ -233,6 +233,17 @@ function githubSignin() {
   const gitHub = new firebase.auth.GithubAuthProvider();
   auth
     .signInWithPopup(gitHub)
+    .then(function (result) {
+      const token = result.credential.accessToken;
+      const user = result.user;
+
+      db.collection('users').doc(user.uid).set({
+        name: user.displayName,
+        email: user.email,
+        movies: [],
+        telegramName: null,
+      });
+    })
     .then(() => {
       // close the signup modal & reset form
       const nav = document.querySelector('#mobile-links');
@@ -245,18 +256,6 @@ function githubSignin() {
       const modal = document.querySelector('#modal-login');
       M.Modal.getInstance(modal).close();
       loginForm.reset();
-    })
-    .then(function (result) {
-      const token = result.credential.accessToken;
-      const user = result.user;
-
-      console.log(token);
-      console.log(user);
-      db.collection('users').doc(user.uid).set({
-        name: displayName,
-        email: email,
-        movies: [],
-      });
     });
 }
 
@@ -314,6 +313,7 @@ function setupUI(user) {
       .doc(user.uid)
       .get()
       .then(col => {
+        // console.log('col.data().telegramName', col.data().telegramName);
         if (col.data().telegramName) {
           accountForm['checkbox-account__js'].checked = true;
           accountForm['account-telegram-name'].value = col.data().telegramName;
