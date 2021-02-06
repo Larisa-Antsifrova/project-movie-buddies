@@ -209,7 +209,7 @@ function renderBuddy(doc, fragment, userId, movieId) {
     const deviceType = getDeviceType();
 
     const toTelegram = document.createElement('a');
-    toTelegram.classList.add('btn-floating', 'waves-effect', 'waves-light', 'telegram-btn');
+    toTelegram.classList.add('btn-floating', 'waves-effect', 'waves-light', 'contact-btn');
     if (deviceType === 'desktop') {
       toTelegram.setAttribute('href', `https://web.telegram.org/#/im?p=${telegram}`);
     } else {
@@ -227,7 +227,7 @@ function renderBuddy(doc, fragment, userId, movieId) {
 
   // Creating element for email contact
   const toMail = document.createElement('a');
-  toMail.classList.add('btn-floating', 'waves-effect', 'waves-light', 'modal-trigger');
+  toMail.classList.add('btn-floating', 'waves-effect', 'waves-light', 'modal-trigger', 'contact-btn');
   toMail.setAttribute('href', '#email-modal');
   toMail.setAttribute('data-email', `${email}`);
 
@@ -316,5 +316,5 @@ function sendEmail(e) {
   const modal = document.querySelector('#email-modal');
   M.Modal.getInstance(modal).close();
 
-  M.toast({ html: 'Your email is sent!', classes: 'rounded teal lighten-1' });
+  M.toast({ html: 'Your email is sent!', classes: 'rounded orange darken-1 center' });
 }

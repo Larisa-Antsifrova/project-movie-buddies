@@ -20,13 +20,23 @@ h5 {
   color: #26a69a;
 }
 
-.telegram-btn {
-  margin-right: 5px;
+.contact-btn {
+  margin: 0 5px 5px 0;
 }
 
 #toast-container {
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%);
-  // background-color: rgba(255, 107, 8, 0.5);
+  justify-content: center;
+}
+
+.buddy-list-caption {
+  @media screen and (max-width: 420px) {
+    font-size: 16px;
+  }
+}
+
+#email-form .required {
+  color: red;
 }
