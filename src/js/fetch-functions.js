@@ -162,6 +162,7 @@ const navigationRefs = document.querySelector('.navigation__js');
 const searchFormRef = document.querySelector('.search-form__js');
 const tabsLibrary = document.querySelector('.tabs__js');
 const headerNavRef = document.querySelector('.header__js');
+const searchFormLabelTextRef = document.querySelector('.label-text__js');
 // mobile menu
 const homeMobNavRef = document.querySelector('.home-page-link-mobile__js');
 const libraryMobNavRef = document.querySelector('.library-page-link-mobile__js');
@@ -190,6 +191,7 @@ function activeHomePage(e) {
   librarySectionRef.classList.add('hide');
   buddySectionRef.classList.add('hide');
   searchFormRef.classList.remove('hide');
+  searchFormLabelTextRef.textContent = "Let's find a movie for you!";
   tabsLibrary.classList.add('hide');
   headerNavRef.classList.add('bg-home');
   headerNavRef.classList.remove('bg-buddies');
@@ -223,6 +225,7 @@ function activeBuddyPage(e) {
   headerNavRef.classList.remove('bg-library');
   tabsLibrary.classList.add('hide');
   searchFormRef.classList.remove('hide');
+  searchFormLabelTextRef.textContent = 'What movie do you want to discuss?';
 }
 
 function toggleActiveLink(link) {
@@ -243,7 +246,6 @@ switchRef.addEventListener('change', toggleMediaType);
 function toggleMediaType(e) {
   if (!e.target.checked) {
     Api.mediaType = 'movie';
-    
   } else {
     Api.mediaType = 'tv';
   }
