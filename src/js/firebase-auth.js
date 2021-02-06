@@ -86,7 +86,11 @@ auth.onAuthStateChanged(user => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
           })
-          .then(notification.changeEmail)
+          .then(() => {
+            if (!accountForm['account-email'].value === user.email) {
+              notification.changeEmail();
+            }
+          })
           .catch(err => {
             if (err) {
               console.log(err);
@@ -253,13 +257,6 @@ function githubSignin() {
         email: email,
         movies: [],
       });
-    })
-    .catch(function (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      console.log(error.code);
-      console.log(error.message);
     });
 }
 
