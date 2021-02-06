@@ -34,3 +34,9 @@ import footerTemplate from '../templates/7footer.hbs';
 const footerMarkup = footerTemplate();
 const footerRef = document.querySelector('.footer__js');
 footerRef.insertAdjacentHTML('beforeend', footerMarkup);
+
+// Initialize Buddies
+import buddiesTemplate from '../templates/5buddies.hbs';
+const buddiesMarkup = buddiesTemplate();
+const buddiesSectionRef = document.querySelector('.buddies__js');
+buddiesSectionRef.insertAdjacentHTML('beforeend', buddiesMarkup);
