@@ -40,3 +40,8 @@ import buddiesTemplate from '../templates/5buddies.hbs';
 const buddiesMarkup = buddiesTemplate();
 const buddiesSectionRef = document.querySelector('.buddies__js');
 buddiesSectionRef.insertAdjacentHTML('beforeend', buddiesMarkup);
+
+import detailsContainerTemplate from '../templates/4detailsContainer.hbs';
+const detailsContainerMarkup = detailsContainerTemplate();
+const detailsContainerRef = document.querySelector('.details-modal__js');
+detailsContainerRef.insertAdjacentHTML('beforeend', detailsContainerMarkup);
