@@ -67,7 +67,7 @@ const Api = {
     });
     this.totalPages = data.total_pages;
     const respArr = await data.results;
-    console.log(respArr);
+    // console.log(respArr);
     return respArr;
   },
   async fetchSearchMovieList(query) {
