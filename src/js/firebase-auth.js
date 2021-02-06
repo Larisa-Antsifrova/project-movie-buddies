@@ -232,6 +232,7 @@ function githubSignin() {
     .then(function (result) {
       const token = result.credential.accessToken;
       const user = result.user;
+      console.log('GH reg', user);
 
       // console.log(token);
       // console.log(user);

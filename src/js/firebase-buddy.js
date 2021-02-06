@@ -21,40 +21,6 @@ searchFormRef.addEventListener('submit', searchFilmsForBuddy);
 moviesToDiscussListRef.addEventListener('click', findBuddySearch);
 sendEmailBtnRef.addEventListener('click', sendEmail);
 
-// Function for searchind buddy in scenario when the movie is searched on the Buddies page
-function findBuddySearch(e) {
-  e.preventDefault();
-
-  const id = +e.target.dataset.id;
-
-  const chosenMovie = moviesToChoose.find(movie => movie.id === id);
-
-  moviesToDiscussListRef.innerHTML = '';
-  const moviePreview = renderMoviePreview(chosenMovie);
-  moviesToDiscussListRef.appendChild(moviePreview);
-
-  const user = auth.currentUser;
-
-  const buddies = db.collection('users').where('movies', 'array-contains', id).orderBy('name');
-
-  buddies.get().then(querySnapshot => {
-    if (querySnapshot.docs.length < 2) {
-      renderNoBuddyFound();
-    } else {
-      const fragment = document.createDocumentFragment();
-
-      querySnapshot.forEach(doc => {
-        if (doc.id !== user.uid) {
-          renderBuddy(doc, fragment, doc.id, id);
-        }
-      });
-
-      buddiesListRef.innerHTML = '';
-      buddiesListRef.appendChild(fragment);
-    }
-  });
-}
-
 // Function to handle input serch for a movie
 function searchFilmsForBuddy(e) {
   e.preventDefault();
@@ -79,6 +45,40 @@ function searchFilmsForBuddy(e) {
     });
 }
 
+// Function for searchind buddy in scenario when the movie is searched on the Buddies page
+function findBuddySearch(e) {
+  e.preventDefault();
+
+  const id = +e.target.dataset.id;
+
+  const chosenMovie = moviesToChoose.find(movie => movie.id === id);
+
+  moviesToDiscussListRef.innerHTML = '';
+  const moviePreview = renderMoviePreview(chosenMovie);
+  moviesToDiscussListRef.appendChild(moviePreview);
+
+  const user = auth.currentUser;
+
+  const buddies = db.collection('users').where('movies', 'array-contains', id).orderBy('name');
+
+  buddies.get().then(querySnapshot => {
+    if (querySnapshot.docs.length < 1) {
+      renderNoBuddyFound();
+    } else {
+      const fragment = document.createDocumentFragment();
+
+      querySnapshot.forEach(doc => {
+        if (doc.id !== user.uid) {
+          renderBuddy(doc, fragment, doc.id, id);
+        }
+      });
+
+      buddiesListRef.innerHTML = '';
+      buddiesListRef.appendChild(fragment);
+    }
+  });
+}
+
 // Function that finds buddies in the scenario of details modal
 function findBuddy(e) {
   e.preventDefault();
@@ -98,7 +98,8 @@ function findBuddy(e) {
   const buddies = db.collection('users').where('movies', 'array-contains', movieId).orderBy('name');
 
   buddies.get().then(querySnapshot => {
-    if (querySnapshot.docs.length < 2) {
+    console.log('query of buddies', querySnapshot);
+    if (querySnapshot.docs.length < 1) {
       renderNoBuddyFound();
     } else {
       const fragment = document.createDocumentFragment();
