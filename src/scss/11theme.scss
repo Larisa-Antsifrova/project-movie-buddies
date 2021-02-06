@@ -131,6 +131,16 @@ body.dark-theme {
     input[type='email']:not(.browser-default):disabled {
       color: grey;
     }
+    .github-text {
+      color: #039be5;
+    }
+    .github-text:hover {
+      cursor: pointer;
+      color: #ef6c00;
+    }
+    [type='checkbox'].filled-in:checked + span:not(.lever):after {
+      background-color: #000000;
+    }
   }
 }
 .account-image {
