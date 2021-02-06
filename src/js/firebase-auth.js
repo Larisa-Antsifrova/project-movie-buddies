@@ -62,6 +62,9 @@ auth.onAuthStateChanged(user => {
     accountForm.addEventListener('submit', e => {
       e.preventDefault();
       if (!accountForm['account-name'].disabled) {
+        if (accountForm['account-name'].value === user.displayName) {
+          return;
+        }
         user
           .updateProfile({
             displayName: accountForm['account-name'].value,
