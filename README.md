@@ -43,3 +43,5 @@
    :scroll: [Handlebars](https://handlebarsjs.com/)
    
    :envelope: [SmtpJS](https://www.smtpjs.com/)
+   
+   :loudspeaker: [PNotify](https://sciactive.com/pnotify/)
