@@ -90,7 +90,6 @@ const Api = {
   },
 
   async fetchTrailersAPI(el) {
-    try {
       const { data } = await axios.get(`${this.mediaType}/${el}/videos?api_key=${this.apiKey}&language=en-US`);
         if (!data.results.length) {
           return;
@@ -101,10 +100,6 @@ const Api = {
             }
           });
         }
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
   },
   async fetchGenresList() {
     const { data } = await axios.get(`/genre/${this.mediaType}/list?api_key=${this.apiKey}`);
