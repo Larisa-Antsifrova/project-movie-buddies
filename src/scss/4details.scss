@@ -1,6 +1,6 @@
-table {
-  // margin-top: 50px !important;
-}
+// table {
+// margin-top: 50px !important;
+// }
 
 td {
   padding: 10px 5px !important;
@@ -66,8 +66,8 @@ td {
   // margin-top: 15px !important;
   margin-bottom: 10px !important;
   font-weight: 500;
-  font-size: 12px;
-  line-height: 1.33;
+  font-size: 14px;
+  line-height: 1.67;
   text-transform: uppercase;
   color: #ff6b01;
 }
@@ -76,7 +76,7 @@ td {
   margin-top: 0 !important;
   // margin-bottom: 40px;
   font-weight: 500 !important;
-  font-size: 12px;
+  font-size: 1.2em;
   line-height: 1.67;
 }
 
@@ -102,20 +102,21 @@ td {
 
   color: #ffffff;
   padding: 2px 10px !important;
-  font-size: 8px !important;
+  // font-size: 8px !important;
+  font-size: 1rem;
   font-weight: 500;
 }
 .btn-detail {
   flex-grow: 1;
-  @media screen and (min-width: 360px) and (max-width: 389px) {
-    font-size: 10px !important;
-  }
-  @media screen and (min-width: 390px) {
-    font-size: 14px !important;
-  }
-  @media screen and (min-width: 690px) {
-    font-size: 18px !important;
-  }
+  //   @media screen and (min-width: 360px) and (max-width: 389px) {
+  //     font-size: 10px !important;
+  //   }
+  //   @media screen and (min-width: 390px) {
+  //     font-size: 14px !important;
+  //   }
+  //   @media screen and (min-width: 690px) {
+  //     font-size: 18px !important;
+  //   }
 }
 
 // .btn-detail:hover {
@@ -126,6 +127,9 @@ td {
 
 .btn-fav {
   background: #f13343 !important;
+  @media screen and (max-width: 390px) {
+    margin-top: 10px;
+  }
 }
 .btn-fav:hover {
   background: #fa1c2f !important;
@@ -185,7 +189,8 @@ td {
   margin-right: auto;
   margin-left: auto;
   display: block;
-  width: 40%;
+  // width: 40%;
+  width: 48%;
 }
 
 .btn-middle {

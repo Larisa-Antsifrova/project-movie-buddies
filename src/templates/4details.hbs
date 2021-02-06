@@ -1,13 +1,20 @@
 <div class="row">
+  {{!-- to do --}}
   <div class="col s12 m6">
     {{#if poster_path}}
-    <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="{{ title }}" class="responsive-img border-img" {{!-- width="426" --}} />
+    <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="{{ title }}" class="responsive-img border-img"
+      {{!-- width="426" --}} />
     {{else}}
-    <img src="https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg" alt="{{ title }}" class="responsive-img border-img" />
+    <img src="https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg" alt="{{ title }}"
+      class="responsive-img border-img" />
     {{/if}}
   </div>
   <div class="col s12 m6">
+    {{#if title}}
     <h3 class="title-film center-align title-film__js">{{ title }}</h3>
+    {{else}}
+    <h3 class="title-film center-align title-film__js">{{ name }}</h3>
+    {{/if}}
     <table>
       <tbody>
         <tr class="table-light-rows">
@@ -18,9 +25,14 @@
         </tr>
         <tr class="table-dark-rows">
           <td class="detailscaption">Release Date</td>
+          {{#if release_date}}
           <td d="detailsvote" class="detailsinfo release-date__js">
             {{ release_date }}
           </td>
+          {{else}}
+          <td d="detailsvote" class="detailsinfo release-date__js">
+            {{ first_air_date }}
+            {{/if}}
         </tr>
         {{!-- <tr class="table-light-rows">
           <td class="detailscaption">Popularity</td>
@@ -30,9 +42,14 @@
         </tr>
         <tr class="table-light-rows">
           <td class="detailscaption">Original Title</td>
+          {{#if original_title}}
           <td id="detailspopularity" class="detailsinfo original-title original-title__js">
             {{ original_title }}
           </td>
+          {{else}}
+          <td id="detailspopularity" class="detailsinfo original-title original-title__js">
+            {{ original_name }}
+            {{/if}}
         </tr>
         <tr class="table-dark-rows">
           <td class="detailscaption">Genre</td>
@@ -45,8 +62,8 @@
       <ul class="trailer">
         <li class="trailer__ref">
           <div class="video-container responsive-video">
-            <iframe width="100%" height="100%" src="https://www.youtube.com//embed/{{ trailer_key }}" frameborder="0" allowfullscreen
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            <iframe width="100%" height="100%" src="https://www.youtube.com//embed/{{ trailer_key }}" frameborder="0"
+              allowfullscreen allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
           </div>
         </li>
       </ul>
