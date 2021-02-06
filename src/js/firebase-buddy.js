@@ -159,7 +159,7 @@ function renderMoviePreview(currentMovieItem) {
 function renderBuddy(doc, fragment, userId, movieId) {
   // Getting info to fill in Buddy search result
   const name = doc.data().name;
-  email = doc.data().email;
+  // email = doc.data().email;
   const telegram = doc.data().telegram;
 
   // Creating container to contain Buddy's info
@@ -232,7 +232,7 @@ function renderBuddy(doc, fragment, userId, movieId) {
   const toMail = document.createElement('a');
   toMail.classList.add('btn-floating', 'waves-effect', 'waves-light', 'modal-trigger', 'contact-btn');
   toMail.setAttribute('href', '#email-modal');
-  toMail.setAttribute('data-email', `${email}`);
+  toMail.setAttribute('data-email', `${doc.id}`);
 
   const emailIcon = document.createElement('i');
   emailIcon.classList.add('material-icons');
@@ -249,7 +249,13 @@ function renderBuddy(doc, fragment, userId, movieId) {
   // Preparing the fragment
   fragment.appendChild(li);
 
-  toMail.addEventListener('click', e => (email = e.target.parentElement.dataset.email));
+  toMail.addEventListener('click', async e => {
+    email = await db
+      .collection('users')
+      .doc(e.target.parentElement.dataset.email)
+      .get()
+      .then(doc => doc.data().email);
+  });
 }
 
 // Function to check what collection the chosen movie is in
@@ -275,8 +281,6 @@ const getDeviceType = () => {
   return 'desktop';
 };
 
-export { findBuddyBtnRef, findBuddy };
-
 // Examples of Telegram links
 // 'https://web.telegram.org/#/im?p=@IgromagClub';
 // 'https://t.me/larisa_antsifrova';
@@ -297,6 +301,22 @@ function sendEmail(e) {
   const emailBody = `${message}
   p.s. Reply to ${replyEmail} :)`;
 
+  // Script to send an e-mail with SMTP. Commented at the moment to keep the subscription safe :)
+  // Email.send({
+  //   SecureToken: SECURE_TOKEN,
+  //   To: toEmail,
+  //   From: fromEmail,
+  //   Subject: subject,
+  //   Body: emailBody,
+  // }).then(message => {
+  //   console.log(message);
+  //   emailFormRef.reset();
+  //   const modal = document.querySelector('#email-modal');
+  //   M.Modal.getInstance(modal).close();
+  //   M.toast({ html: 'Your email is sent!', classes: 'rounded orange darken-1 center' });
+  // });
+
+  // Console for checking and demo
   console.log({
     toEmail: toEmail,
     fromEmail: fromEmail,
@@ -306,18 +326,11 @@ function sendEmail(e) {
     emailBody: emailBody,
   });
 
-  // Email.send({
-  //   SecureToken: SECURE_TOKEN,
-  //   To: toEmail,
-  //   From: fromEmail,
-  //   Subject: subject,
-  //   Body: emailBody,
-  // }).then(message => console.log(message));
-
+  // Notifications for demo
   emailFormRef.reset();
-
   const modal = document.querySelector('#email-modal');
   M.Modal.getInstance(modal).close();
-
   M.toast({ html: 'Your email is sent!', classes: 'rounded orange darken-1 center' });
 }
+
+export { findBuddyBtnRef, findBuddy };

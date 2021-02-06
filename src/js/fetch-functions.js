@@ -225,7 +225,7 @@ function activeBuddyPage(e) {
   headerNavRef.classList.remove('bg-library');
   tabsLibrary.classList.add('hide');
   searchFormRef.classList.remove('hide');
-  searchFormLabelTextRef.textContent = 'What movie do you want to discuss?';
+  searchFormLabelTextRef.textContent = 'Movie to discuss';
 }
 
 function toggleActiveLink(link) {
