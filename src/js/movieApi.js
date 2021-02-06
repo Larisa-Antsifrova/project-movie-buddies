@@ -59,7 +59,9 @@ const Api = {
   },
   async fetchTrendingMoviesList() {
     const data = await this.smartFetchMovies(this.pageNumber, this.getMoviesPerPage(), async pageNumber => {
-      return (await axios.get(`/trending/${this.mediaType}/week?api_key=${this.apiKey}&language=en-US&page=${pageNumber}`)).data;
+      return (
+        await axios.get(`/trending/${this.mediaType}/week?api_key=${this.apiKey}&language=en-US&page=${pageNumber}`)
+      ).data;
     });
     this.totalPages = data.total_pages;
     const respArr = await data.results;
@@ -84,25 +86,22 @@ const Api = {
     return respArr;
   },
 
-    async fetchSearchFilmsForBuddy(query) {
+  async fetchSearchFilmsForBuddy(query) {
     this.searchQuery = query;
-    const {data} = 
-        await axios.get(
-          `/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=1`,
-        );
+    const { data } = await axios.get(
+      `/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=1`,
+    );
     const respArr = await data.results;
     if (respArr.length === 0) {
       notFound();
-      }
-      return (respArr.length > 7) ? respArr.slice(0, 7) : respArr;
+    }
+    return respArr.length > 7 ? respArr.slice(0, 7) : respArr;
   },
 
   async fetchTrailersAPI(el) {
-    const { data } = await axios.get(
-      `${this.mediaType}/${el}/videos?api_key=${this.apiKey}&language=en-US`,
-    );
+    const { data } = await axios.get(`${this.mediaType}/${el}/videos?api_key=${this.apiKey}&language=en-US`);
     if (!data.results.length) {
-      return
+      return;
     } else {
       return data.results.find(e => {
         if (e.type == 'Trailer') {
