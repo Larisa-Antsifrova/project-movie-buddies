@@ -98,7 +98,7 @@ function findBuddy(e) {
   const buddies = db.collection('users').where('movies', 'array-contains', movieId).orderBy('name');
 
   buddies.get().then(querySnapshot => {
-    console.log('query of buddies', querySnapshot);
+    // console.log('query of buddies', querySnapshot);
     if (querySnapshot.docs.length < 2) {
       renderNoBuddyFound();
     } else {
