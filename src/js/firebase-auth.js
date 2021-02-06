@@ -55,7 +55,7 @@ auth.onAuthStateChanged(user => {
     updateTelegramBtn.addEventListener('click', e => {
       e.preventDefault();
       updateInfo(accountForm['account-telegram-name']);
-      updateInfo(accountForm['checkbox__js']);
+      updateInfo(accountForm['checkbox-account__js']);
     });
 
     // accountForm UPDATE
@@ -87,7 +87,12 @@ auth.onAuthStateChanged(user => {
             M.Modal.getInstance(modal).close();
           })
           .then(notification.changeEmail)
-          .catch(notification.error('Для изменения вашего Email, необходимо сделать повторный вход в кабинет'));
+          .catch(err => {
+            if (err) {
+              console.log(err);
+              notification.error('Для изменения вашего Email, необходимо сделать повторный вход в кабинет');
+            }
+          });
       } else if (!accountForm['account-telegram-name'].disabled) {
         db.collection('users')
           .doc(user.uid)
@@ -95,7 +100,7 @@ auth.onAuthStateChanged(user => {
             telegramName: accountForm['account-telegram-name'].value,
           })
           .then(() => {
-            accountForm['checkbox__js'].disabled = true;
+            accountForm['checkbox-account__js'].disabled = true;
             accountForm['account-telegram-name'].disabled = true;
           })
           .then(() => {
@@ -208,6 +213,11 @@ signupForm.addEventListener('submit', e => {
       const modal = document.querySelector('#modal-signup');
       M.Modal.getInstance(modal).close();
       signupForm.reset();
+    })
+    .catch(() => {
+      if (password.length < 6) {
+        notification.error('Ошибка: длина пароля должна быть не менее 6-ти символов');
+      }
     });
 });
 
@@ -270,9 +280,14 @@ loginForm.addEventListener('submit', e => {
       M.Modal.getInstance(modal).close();
       loginForm.reset();
     })
-    .catch(notification.error('Ошибка: Неверный пароль'));
+    .catch(err => {
+      if (err) {
+        console.log(err);
+        notification.error('Ошибка: Неверный пароль');
+      }
+    });
 });
-
+//
 // logout
 logoutRef.addEventListener('click', logout);
 logoutMobRef.addEventListener('click', logout);
@@ -303,7 +318,7 @@ function setupUI(user) {
       .get()
       .then(col => {
         if (col.data().telegramName) {
-          accountForm['checkbox__js'].checked = true;
+          accountForm['checkbox-account__js'].checked = true;
           accountForm['account-telegram-name'].value = col.data().telegramName;
         }
       }),
