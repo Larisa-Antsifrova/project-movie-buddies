@@ -17,7 +17,7 @@ let moviesToChoose = [];
 let email = '';
 
 //Adding event listeners
-searchFormRef.addEventListener('submit', searchFilmsForBuddy);
+// searchFormRef.addEventListener('submit', searchFilmsForBuddy);
 moviesToDiscussListRef.addEventListener('click', findBuddySearch);
 sendEmailBtnRef.addEventListener('click', sendEmail);
 
@@ -327,4 +327,4 @@ function sendEmail(e) {
   M.toast({ html: 'Your email is sent!', classes: 'rounded orange darken-1 center' });
 }
 
-export { findBuddyBtnRef, findBuddy };
+export { findBuddyBtnRef, findBuddy, searchFilmsForBuddy };
