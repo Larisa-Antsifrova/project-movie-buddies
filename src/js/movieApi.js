@@ -77,10 +77,10 @@ const Api = {
     });
     this.totalPages = data.total_pages;
     const respArr = await data.results;
-    console.log("before notFound", input);
-    if (respArr.length == 0) {
-      input.notFound();
-    }
+    // if (!respArr.length) {
+    //   console.log('home');
+    //   input.notFound();
+    // }
     return respArr;
   },
 
@@ -91,8 +91,9 @@ const Api = {
           `/search/movie?api_key=${this.apiKey}&language=en-US&query=${this.searchQuery}&page=1`,
         );
     const respArr = await data.results;
-    if (respArr.length === 0) {
-      notFound();
+      if (!respArr.length) {
+      console.log('buddy');
+      input.notFound();
       }
       return (respArr.length > 7) ? respArr.slice(0, 7) : respArr;
   },

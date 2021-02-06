@@ -3,6 +3,7 @@ import * as Handlebars from 'handlebars/runtime';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
 import Paginator from './paginator.js';
 import { spinner } from './spinner';
+import { searchFilmsForBuddy } from './firebase-buddy';
 
 const searchForm = document.querySelector('.search-form');
 const homeGalleryListRef = document.querySelector('.home-gallery__js');
@@ -75,7 +76,7 @@ const input = {
   errorArea: document.querySelector('.search-error__js'),
 
   searchFilms(e) {
-    console.log(e);
+    // console.log(e);
     e.preventDefault();
     Api.searchQuery = e.target.elements.query.value.trim();
     this.toggleRenderPage();
@@ -83,7 +84,7 @@ const input = {
 
   toggleRenderPage() {
     this.clearGallery(homeGalleryListRef);
-    console.log('Api.searchQuery.length', Api.searchQuery.length);
+    // console.log('Api.searchQuery.length', Api.searchQuery.length);
     if (!Api.searchQuery.length) {
       this.renderPopularFilms();
     } else {
@@ -91,10 +92,15 @@ const input = {
     }
   },
 
-  renderSearchedFilms(inputValue) {
+  async renderSearchedFilms(inputValue) {
     spinner.show();
 
-    currentMoviesList = Api.fetchSearchMovieList(inputValue);
+    currentMoviesList = await Api.fetchSearchMovieList(inputValue);
+    console.log('currentMoviesList', currentMoviesList.length);
+    if (!currentMoviesList.length) {
+      this.notFound();
+      return;
+    }
     return combineFullMovieInfo(currentMoviesList)
       .then(createMovieList)
       .then(() => {
@@ -150,83 +156,6 @@ const input = {
 
 input.renderPopularFilms();
 
-// // функция для слушателя инпута и отображения страницы согласно запросу
-// function searchFilms(e) {
-//   e.preventDefault();
-//   Api.searchQuery = e.target.elements.query.value.trim();
-//   toggleRenderPage();
-// }
-
-// функция выбора отображения страницы в зависимости от наличия текстa в инпуте.
-// function toggleRenderPage() {
-//   clearGallery(homeGalleryListRef);
-
-//   if (!Api.searchQuery.length) {
-//     renderPopularFilms();
-//   } else {
-//     renderSearchedFilms(Api.searchQuery);
-//   }
-// }
-
-// функция рендера страницы запроса
-// function renderSearchedFilms(inputValue) {
-//   spinner.show();
-
-//   currentMoviesList = Api.fetchSearchMovieList(inputValue);
-//   return combineFullMovieInfo(currentMoviesList)
-//     .then(createMovieList)
-//     .then(() => {
-//       paginator.recalculate(Api.pageNumber || 1, Api.totalPages || 1);
-//     })
-//     .then(() => {
-//       spinner.hide();
-//     });
-// }
-
-// функция рендера страницы трендов
-// function renderPopularFilms() {
-//   spinner.show();
-
-//   currentMoviesList = Api.fetchTrendingMoviesList();
-//   return combineFullMovieInfo(currentMoviesList)
-//     .then(createMovieList)
-//     .then(() => {
-//       paginator.recalculate(Api.pageNumber, Api.totalPages);
-//     })
-//     .then(() => {
-//       spinner.hide();
-//     });
-// }
-
-// function clearGallery(filmsList) {
-//   filmsList.innerHTML = '';
-// }
-
-// // функция очистки инпута и параграфа ошибки при фокусе
-// function onInputFocus() {
-//   clearError();
-//   clearInput();
-//   Api.resetPage();
-// }
-
-// function clearInput() {
-//   searchForm.elements.query.value = '';
-//   Api.searchQuery = '';
-// }
-
-// // функция реагирования на некорректный запрос
-// function notFound() {
-//   errorArea.style.visibility = 'visible';
-//   setTimeout(clearError, 2000);
-//   clearInput();
-//   Api.resetPage();
-//   return renderPopularFilms();
-// }
-
-// function clearError() {
-//   errorArea.style.visibility = 'hidden';
-// }
-
 // NAVIGATION module
 const logoNavRef = document.querySelector('.logo__js');
 const homeNavLinkRef = document.querySelector('.home-page-link__js');
@@ -261,6 +190,7 @@ function activeHomePage(e) {
   input.clearGallery(homeGalleryListRef);
   input.clearInput();
   input.renderPopularFilms();
+  searchFormRef.removeEventListener('submit', searchFilmsForBuddy);
 
   toggleActiveLink(homeNavLinkRef.firstElementChild);
   homeSectionRef.classList.remove('hide');
@@ -289,6 +219,7 @@ function activeLibraryPage(e) {
 function activeBuddyPage(e) {
   cleanBuddyPage();
   input.clearInput();
+  searchFormRef.addEventListener('submit', searchFilmsForBuddy);
   paginator.refs.pagination.removeEventListener('click', paginator.onPaginationClick);
   buddyMobNavRef.classList.add('sidenav-close');
   toggleActiveLink(buddyNavLinkRef.firstElementChild);

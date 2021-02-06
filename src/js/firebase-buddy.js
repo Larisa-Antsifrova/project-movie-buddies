@@ -14,7 +14,7 @@ const sendEmailBtnRef = document.querySelector('.email-send-btn__js');
 let moviesToChoose = [];
 let email = '';
 //Adding event listeners
-searchFormRef.addEventListener('submit', searchFilmsForBuddy);
+// searchFormRef.addEventListener('submit', searchFilmsForBuddy);
 moviesToDiscussListRef.addEventListener('click', findBuddySearch);
 sendEmailBtnRef.addEventListener('click', sendEmail);
 
@@ -290,3 +290,5 @@ function sendEmail(e) {
   const modal = document.querySelector('#email-modal');
   M.Modal.getInstance(modal).close();
 }
+
+export { searchFilmsForBuddy };
