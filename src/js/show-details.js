@@ -58,14 +58,14 @@ async function showDetails(e, currentMovieItem) {
   }
 
   const trailerKey = await Api.fetchTrailersAPI(currentMovieItem.id).catch(error => {
-        console.log(currentMovieItem);
-      console.error("Error: ", error);
-      });
-      if (!trailerKey) {
-      currentMovieItem['trailer_key'] = '';
-    } else {
-      currentMovieItem['trailer_key'] = trailerKey.key;
-    };
+    // console.log(currentMovieItem);
+    // console.error("Error: ", error);
+  });
+  if (!trailerKey) {
+    currentMovieItem['trailer_key'] = '';
+  } else {
+    currentMovieItem['trailer_key'] = trailerKey.key;
+  }
 
   innerModalRef.innerHTML = '';
   const modalMarkup = detailTemplate(currentMovieItem);

@@ -104,7 +104,7 @@ body.dark-theme {
   .account-modal {
     background-color: black;
     label.active {
-      color: #039be5;
+      color: #ef6c00;
     }
     input {
       border-bottom: 1px solid #039be5;
@@ -130,6 +130,29 @@ body.dark-theme {
     input[type='text']:not(.browser-default):disabled,
     input[type='email']:not(.browser-default):disabled {
       color: grey;
+    }
+    .github-text {
+      color: #039be5;
+    }
+    .github-text:hover {
+      cursor: pointer;
+      color: #ef6c00;
+    }
+    [type='checkbox'].filled-in:checked + span:not(.lever):after {
+      background-color: #000000;
+    }
+    h5 {
+      color: #039be5;
+    }
+    input {
+      color: #039be5;
+    }
+    textarea {
+      color: #039be5;
+      border-bottom: 1px solid #039be5;
+    }
+    label {
+      color: #039be5;
     }
   }
 }

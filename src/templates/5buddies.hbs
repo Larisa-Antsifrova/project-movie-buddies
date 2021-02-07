@@ -1,23 +1,31 @@
-{{#each this}}
-<li>
-    <div class="chip">
-        {{#if title}}
-        {{#if backdrop_path}}
-        <img src="https://image.tmdb.org/t/p/w342{{ backdrop_path }}" alt="{{ title }}">
-        <h3 class="movie-name">{{ title }}</h3>
-        {{else}}
-        <img src="https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg" alt="{{ title }}">
-        <h3 class="movie-name">{{ title }}</h3>
-        {{/if}}
-        {{else}}
-        {{#if backdrop_path}}
-        <img src="https://image.tmdb.org/t/p/w342{{ backdrop_path }}" alt="{{ name }}">
-        <h3 class="movie-name">{{ name }}</h3>
-        {{else}}
-        <img src="https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg" alt="{{ name }}">
-        <h3 class="movie-name">{{ name }}</h3>
-        {{/if}}
-        {{/if}}
+<div class="container dark-theme-color">
+    <h5>Choose movie to discuss:</h5>
+    <div class="collection movies-to-choose movies-list__js"></div>
+    <div class="row buddy-list-captions">
+        <h5 class="col s4 buddy-list-caption">Buddies</h5>
+        <h5 class="col s4 buddy-list-caption">Collections</h5>
+        <h5 class="col s4 right-align buddy-list-caption">Contacts</h5>
     </div>
-</li>
-{{/each}}
+    <ul class="collection buddies-list__js"></ul>
+</div>
+
+<div id="email-modal" class="modal">
+    <div class="modal-content account-modal">
+        <h5>Let's send an e-mail!</h5>
+        <form id="email-form">
+            <div class="input-field">
+                <input id="subject" type="text" required />
+                <label for="subject">Subject<span class="required">*</span></label>
+            </div>
+            <div class="input-field">
+                <input id="reply-to" type="email" required />
+                <label for="reply-to">Reply to<span class="required">*</span></label>
+            </div>
+            <div class="input-field">
+                <textarea id="email-body" class="materialize-textarea e-mail-text" required></textarea>
+                <label for="email-body">Message<span class="required">*</span></label>
+            </div>
+            <a href="#!" class="btn z-depth-0 email-send-btn__js">Send</a>
+        </form>
+    </div>
+</div>
