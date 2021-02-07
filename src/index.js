@@ -21,3 +21,4 @@ import './js/navigation.js';
 import './js/show-details.js';
 import './js/buttonUp.js';
 import './js/theme.js';
+import './js/notification.js';

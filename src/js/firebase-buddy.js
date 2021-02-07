@@ -62,15 +62,14 @@ function findBuddySearch(e) {
   const buddies = db.collection('users').where('movies', 'array-contains', id).orderBy('name');
 
   buddies.get().then(querySnapshot => {
-    if (querySnapshot.docs.length < 2) {
+    const foundBuddies = querySnapshot.docs.filter(doc => doc.id !== user.uid);
+    if (foundBuddies.length < 1) {
       renderNoBuddyFound();
     } else {
       const fragment = document.createDocumentFragment();
 
-      querySnapshot.forEach(doc => {
-        if (doc.id !== user.uid) {
-          renderBuddy(doc, fragment, doc.id, id);
-        }
+      foundBuddies.forEach(doc => {
+        renderBuddy(doc, fragment, doc.id, id);
       });
 
       buddiesListRef.innerHTML = '';
@@ -98,16 +97,14 @@ function findBuddy(e) {
   const buddies = db.collection('users').where('movies', 'array-contains', movieId).orderBy('name');
 
   buddies.get().then(querySnapshot => {
-    // console.log('query of buddies', querySnapshot);
-    if (querySnapshot.docs.length < 2) {
+    const foundBuddies = querySnapshot.docs.filter(doc => doc.id !== user.uid);
+    if (foundBuddies.length < 1) {
       renderNoBuddyFound();
     } else {
       const fragment = document.createDocumentFragment();
 
-      querySnapshot.forEach(doc => {
-        if (doc.id !== user.uid) {
-          renderBuddy(doc, fragment, doc.id, movieId);
-        }
+      foundBuddies.forEach(doc => {
+        renderBuddy(doc, fragment, doc.id, movieId);
       });
 
       buddiesListRef.innerHTML = '';
