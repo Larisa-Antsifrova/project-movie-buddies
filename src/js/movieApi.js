@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_KEY } from './apiKey.js';
-import { notFound, notFoundBuddy } from './fetch-functions.js';
+import { input } from './input.js';
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
 const Api = {
@@ -24,9 +24,6 @@ const Api = {
   resetPage() {
     this.pageNumber = 1;
   },
-  // get imagePosterSize() {
-  //   return this.images.currentSizes.posterSize;
-  // },
   calculatePosterImgSize() {
     if (document.documentElement.clientWidth >= 1024) {
       this.images.currentSizes.posterSize = this.images.posterSizes.desktop;
@@ -69,6 +66,7 @@ const Api = {
         )
       ).data;
     });
+
     if (!data) {
       return this.fetchTrendingMoviesList();
     }
@@ -84,7 +82,7 @@ const Api = {
     );
     const respArr = await data.results;
     if (!respArr.length) {
-      notFoundBuddy();
+      input.notFoundBuddy();
     }
     return respArr.length > 7 ? respArr.slice(0, 7) : respArr;
   },
@@ -116,7 +114,7 @@ const Api = {
     const bigStartPage = Math.floor(startIdx / bigPerPage); // требуемая страница запроса с API
     const startData = await fetchMovies(bigStartPage + 1);
       if (!startData.results.length) {
-        notFound();
+        input.notFound();
         return
       }
 
@@ -128,7 +126,6 @@ const Api = {
     // индексы требуемых элементов
     const is = startIdx % bigPerPage;
     const ie = endIdx % bigPerPage;
-    // console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
     // console.log('args', pageNumber + 1, perPage);
     // console.log('idx', startIdx, endIdx, lastIdx);
     // console.log('is-ie', is, ie);
@@ -146,10 +143,10 @@ const Api = {
       const endData = await fetchMovies(bigEndPage + 1);
       data.results.push(...endData.results.slice(0, ie + 1));
     }
-
     return data;
   },
 };
+
 Api.calculatePosterImgSize();
 
 export { Api };
