@@ -1,22 +1,18 @@
 import { Api } from './movieApi';
 import * as Handlebars from 'handlebars/runtime';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
-import Paginator from './paginator.js';
-import { spinner } from './spinner';
+import { input } from './input';
 
 const searchForm = document.querySelector('.search-form');
 const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const switchRef = document.querySelector('.media-switch');
-const paginator = new Paginator();
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
-let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
 
 switchRef.addEventListener('change', toggleMediaType);
 searchForm.addEventListener('click', () => { input.onInputFocus() });
 searchForm.addEventListener('submit', (e)=>{input.searchFilms(e)});
 
 
-// ============================ function rendering ============================
 // Функция для отрисовки списка популярных фильмов
 function createMovieList(fullInfo) {
   const galleryListMarkup = galleryElementTemplate(fullInfo);
@@ -58,7 +54,6 @@ function toggleMediaType(e) {
   input.toggleRenderPage();
 }
 
-// ============================ Handlebars Helpers ============================
 Handlebars.registerHelper('getMovieYear', function (release_date) {
   if (!release_date) {
     return;
@@ -78,91 +73,4 @@ Handlebars.registerHelper('getPoster', function (poster_path) {
   }
 });
 
-// ============================ input ============================
-const input = {
-  errorArea: document.querySelector('.search-error__js'),
-
-  searchFilms(e) {
-    e.preventDefault();
-    Api.searchQuery = e.target.elements.query.value.trim();
-    this.toggleRenderPage();
-  },
-
-  toggleRenderPage() {
-    this.clearGallery(homeGalleryListRef);
-    if (!Api.searchQuery.length) {
-      this.renderPopularFilms();
-    } else {
-      this.renderSearchedFilms(Api.searchQuery);
-    }
-  },
-
-  async renderSearchedFilms(inputValue) {
-    spinner.show();
-
-    currentMoviesList = await Api.fetchSearchMovieList(inputValue);
-    if (!currentMoviesList.length) {
-      this.notFound();
-      return;
-    }
-    return combineFullMovieInfo(currentMoviesList)
-      .then(createMovieList)
-      .then(() => {
-        paginator.recalculate(Api.pageNumber || 1, Api.totalPages || 1);
-      })
-      .then(() => {
-        spinner.hide();
-      });
-  },
-
-  renderPopularFilms() {
-    spinner.show();
-    currentMoviesList = Api.fetchTrendingMoviesList();
-    return combineFullMovieInfo(currentMoviesList)
-      .then(createMovieList)
-      .then(() => {
-        paginator.recalculate(Api.pageNumber, Api.totalPages);
-      })
-      .then(() => {
-        spinner.hide();
-      });
-  },
-
-  clearGallery(filmsList) {
-    filmsList.innerHTML = '';
-  },
-
-  onInputFocus() {
-    this.clearError();
-    this.clearInput();
-    Api.resetPage();
-  },
-
-  clearInput() {
-    searchForm.elements.query.value = '';
-    Api.searchQuery = '';
-  },
-
-  notFound() {
-    this.errorArea.style.visibility = 'visible';
-    setTimeout(this.clearError.bind(this), 2000);
-    this.clearInput();
-    Api.resetPage();
-    this.renderPopularFilms();
-  },
-
-  notFoundBuddy() {
-    this.errorArea.style.visibility = 'visible';
-    setTimeout(this.clearError.bind(this), 2000);
-    this.clearInput();
-  },
-
-  clearError() {
-    this.errorArea.style.visibility = 'hidden';
-  },
-};
-
-// Вызов самого первого fetch за популярными фильмами и его рендер
-input.renderPopularFilms();
-
-export { currentMoviesList, genres, input };
+export { genres, combineFullMovieInfo, createMovieList };

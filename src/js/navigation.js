@@ -1,6 +1,6 @@
 import { Api } from './movieApi';
-import { input } from './fetch-functions';
 import { searchFilmsForBuddy } from './firebase-buddy';
+import { input } from './input';
 
 const logoNavRef = document.querySelector('.logo__js');
 const homeNavLinkRef = document.querySelector('.home-page-link__js');

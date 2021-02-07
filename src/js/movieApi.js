@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_KEY } from './apiKey.js';
-import { input } from './fetch-functions.js';
+import { input } from './input.js';
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
 const Api = {
@@ -66,7 +66,7 @@ const Api = {
         )
       ).data;
     });
-    // console.log(data);
+
     if (!data) {
       return this.fetchTrendingMoviesList();
     }
@@ -126,7 +126,6 @@ const Api = {
     // индексы требуемых элементов
     const is = startIdx % bigPerPage;
     const ie = endIdx % bigPerPage;
-    // console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
     // console.log('args', pageNumber + 1, perPage);
     // console.log('idx', startIdx, endIdx, lastIdx);
     // console.log('is-ie', is, ie);
@@ -144,10 +143,10 @@ const Api = {
       const endData = await fetchMovies(bigEndPage + 1);
       data.results.push(...endData.results.slice(0, ie + 1));
     }
-
     return data;
   },
 };
+
 Api.calculatePosterImgSize();
 
 export { Api };

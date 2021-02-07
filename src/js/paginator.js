@@ -1,6 +1,6 @@
 import paginationTemplate from '../templates/8pagination.hbs';
 import { Api } from './movieApi';
-import { input } from './fetch-functions.js';
+import { input } from './input.js';
 
 export default class PaginationApi {
   constructor(maxPageRadius = 2) {

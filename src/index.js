@@ -15,6 +15,7 @@ import './scss/main.scss';
 
 // Importing JS files
 import './js/movieApi.js';
+import './js/input.js';
 import './js/fetch-functions.js';
 import './js/paginator.js';
 import './js/navigation.js';

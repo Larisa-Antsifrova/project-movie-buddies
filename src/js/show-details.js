@@ -1,6 +1,6 @@
 // Imports of firestore services, template, and variables
 import { auth, db } from './firebase-init';
-import { currentMoviesList } from './fetch-functions.js';
+import { currentMoviesList } from './input.js';
 import detailTemplate from '../templates/4details.hbs';
 import {
   watchedBtnRef,
