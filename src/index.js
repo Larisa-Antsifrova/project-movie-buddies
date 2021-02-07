@@ -21,4 +21,4 @@ import './js/show-details.js';
 import './js/buttonUp.js';
 import './js/theme.js';
 import './js/notification.js';
-import './js/loader.js';
+import './js/preloader.js';
