@@ -8,6 +8,7 @@ const Api = {
   searchQuery: '',
   totalPages: 1,
   pageNumber: 1,
+  genreId: null,
   mediaType: 'movie',
   images: {
     baseImageUrl: 'https://image.tmdb.org/t/p/',
@@ -88,20 +89,34 @@ const Api = {
   },
 
   async fetchTrailersAPI(el) {
-      const { data } = await axios.get(`${this.mediaType}/${el}/videos?api_key=${this.apiKey}&language=en-US`);
-        if (!data.results.length) {
-          return;
-        } else {
-          return data.results.find(e => {
-            if (e.type == 'Trailer') {
-              return e;
-            }
-          });
+    const { data } = await axios.get(`${this.mediaType}/${el}/videos?api_key=${this.apiKey}&language=en-US`);
+    if (!data.results.length) {
+      return;
+    } else {
+      return data.results.find(e => {
+        if (e.type == 'Trailer') {
+          return e;
         }
+      });
+    }
   },
   async fetchGenresList() {
     const { data } = await axios.get(`/genre/${this.mediaType}/list?api_key=${this.apiKey}`);
     return data.genres;
+  },
+
+  async fetchGenresFilter() {
+    const data = await this.smartFetchMovies(this.pageNumber, this.getMoviesPerPage(), async pageNumber => {
+      return (
+        await axios.get(
+          `/discover/${this.mediaType}?api_key=${this.apiKey}&language=en-US&with_genres=${this.genreId}&page=${pageNumber}`,
+        )
+      ).data;
+    });
+    console.log(data);
+    this.totalPages = data.total_pages;
+    const respArr = await data.results;
+    return respArr;
   },
 
   //Функция, которая служит интерфейсом между fetchTrendingMoviesList() и дальнейшой обработкой
@@ -113,10 +128,10 @@ const Api = {
     const startIdx = pageNumber * perPage; //индекс первого элемента
     const bigStartPage = Math.floor(startIdx / bigPerPage); // требуемая страница запроса с API
     const startData = await fetchMovies(bigStartPage + 1);
-      if (!startData.results.length) {
-        input.notFound();
-        return
-      }
+    if (!startData.results.length) {
+      input.notFound();
+      return;
+    }
 
     const lastIdx = startData.total_results - 1; // индекс последнего элемента. Важно, если последняя
     // страница содержит меньше bigPerPage элементов
@@ -146,7 +161,6 @@ const Api = {
     return data;
   },
 };
-
 Api.calculatePosterImgSize();
 
 export { Api };
