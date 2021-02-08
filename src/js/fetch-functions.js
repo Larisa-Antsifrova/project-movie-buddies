@@ -9,9 +9,12 @@ const switchRef = document.querySelector('.media-switch');
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
 
 switchRef.addEventListener('change', toggleMediaType);
-searchForm.addEventListener('click', () => { input.onInputFocus() });
-searchForm.addEventListener('submit', (e)=>{input.searchFilms(e)});
-
+searchForm.addEventListener('click', () => {
+  input.onInputFocus();
+});
+searchForm.addEventListener('submit', e => {
+  input.searchFilms(e);
+});
 
 // Функция для отрисовки списка популярных фильмов
 function createMovieList(fullInfo) {
@@ -71,6 +74,11 @@ Handlebars.registerHelper('getPoster', function (poster_path) {
     const imgUrl = `${Api.images.baseImageUrl}${Api.images.currentSizes.posterSize}/${poster_path}`;
     return imgUrl;
   }
+});
+
+Handlebars.registerHelper('padRaiting', function (vote_average) {
+  const paddedRaiting = String(vote_average).padEnd(3, '.0');
+  return paddedRaiting;
 });
 
 export { genres, combineFullMovieInfo, createMovieList };
