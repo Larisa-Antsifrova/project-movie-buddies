@@ -30,10 +30,6 @@ const input = {
     spinner.show();
 
     currentMoviesList = await Api.fetchSearchMovieList(inputValue);
-    if (!currentMoviesList.length) {
-      this.notFound();
-      return;
-    }
     return combineFullMovieInfo(currentMoviesList)
       .then(createMovieList)
       .then(() => {
@@ -77,7 +73,7 @@ const input = {
     setTimeout(this.clearError.bind(this), 2000);
     this.clearInput();
     Api.resetPage();
-    this.renderPopularFilms();
+    this.toggleRenderPage();
   },
 
   notFoundBuddy() {

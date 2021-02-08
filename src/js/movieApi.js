@@ -68,7 +68,7 @@ const Api = {
     });
 
     if (!data) {
-      return this.fetchTrendingMoviesList();
+      return;
     }
     this.totalPages = data.total_pages;
     const respArr = await data.results;
