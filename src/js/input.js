@@ -30,7 +30,7 @@ const input = {
     spinner.show();
 
     currentMoviesList = await Api.fetchSearchMovieList(inputValue);
-    if (!currentMoviesList.length) {
+    if (!currentMoviesList) {
       this.notFound();
       return;
     }
