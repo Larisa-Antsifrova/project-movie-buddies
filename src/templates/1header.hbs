@@ -1,5 +1,5 @@
 <div class=" container">
-    <nav class="transparent">
+    <nav>
         <div class="nav-wrapper">
             <a href="#" class="">
                 <span class="logo-title logo__js"><i class="fa fa-film" aria-hidden="true"></i>Movie Buddies</span>
@@ -33,36 +33,50 @@
                 </li>
             </ul>
         </div>
-        <div class="row search-form__js">
-            <form id="search-form" class="col s12 m8 offset-m2 search-form">
-                <div class="input-field">
-                    <i class="material-icons prefix">search</i>
-                    <input type="text" name="query" id="search" class="input" autocomplete="off" />
-                    <label for="search" class="rigth label-text label-text__js">Let's find a movie for you!</label>
-                </div>
-            </form>
-            <div class="switch">
-                <label>
-                    Movies
-                    <input type="checkbox" class="media-switch">
-                    <span class="lever"></span>
-                    TV
-                </label>
-            </div>
-            <p class="col s12 center-align red-text text-darken-4 search-error__js">
-                No matches found. Try again!
-            </p>
-        </div>
-        <div class="row tabs__js hide tabs-wrapper">
-            <div class="col s12 m6 offset-m3">
-                <ul class="tabs">
-                    <li class="tab col s4"><a href="#watched" class="">WATCHED</a></li>
-                    <li class="tab col s4"><a href="#queue" class="">QUEUE</a></li>
-                    <li class="tab col s4"><a href="#favourite" class="">FAVORITE</a></li>
-                </ul>
-            </div>
-        </div>
+
     </nav>
+    <div class="row center-align search-form__js">
+        <div class="switch col s12">
+            <label>
+                Movies
+                <input type="checkbox" class="media-switch">
+                <span class="lever"></span>
+                TV
+            </label>
+        </div>
+        <form id="search-form" class=" search-form col s12 m8 offset-m2">
+
+            <div class="input-field">
+                <i class="material-icons prefix">search</i>
+                <input type="text" name="query" id="search" class="input" autocomplete="off" />
+                <label for="search" class="rigth label-text label-text__js">Let's find a movie for you!</label>
+            </div>
+        </form>
+
+
+
+        <p class="col s12 center-align red-text text-darken-4 search-error__js">
+            No matches found. Try again!
+        </p>
+    </div>
+    <div class="row tabs__js hide tabs-wrapper">
+        <div class="col s12 m6 offset-m3">
+            <ul class="tabs">
+                <li class="tab col s4"><a href="#watched" class="">WATCHED</a></li>
+                <li class="tab col s4"><a href="#queue" class="">QUEUE</a></li>
+                <li class="tab col s4"><a href="#favourite" class="">FAVORITE</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="toolbar">
+        <div class="theme-switch">
+            <div class="theme-switch__control">
+                <input class="theme-switch__toggle" type="checkbox" name="theme" id="theme-switch-toggle" aria-label="Dark mode toggle" />
+                <label aria-hidden="true" class="theme-switch__track" for="theme-switch-toggle"> </label>
+                <div aria-hidden="true" class="theme-switch__marker"></div>
+            </div>
+        </div>
+    </div>
 </div>
 <ul class="sidenav" id="mobile-links">
     <li class="home-page-link-mobile__js" style="">
@@ -70,8 +84,7 @@
     </li>
 
     <li class="logged-out__js" style="">
-        <a href="#" class="modal-trigger" data-target="modal-login"><i
-                class="material-icons">login</i><span>Login</span></a>
+        <a href="#" class="modal-trigger" data-target="modal-login"><i class="material-icons">login</i><span>Login</span></a>
     </li>
     <li class="logged-out__js" style="">
         <a href="#" class="modal-trigger" data-target="modal-signup"><i class="material-icons">person_add</i><span>Sign
@@ -173,28 +186,25 @@
             <div class="input-field">
                 <i class="material-icons prefix">perm_identity</i>
                 <input disabled placeholder="" type="text" id="account-name" class="input-static-color" required />
-                <label for="account-name">Your name <a href="" class="update-name__js"><i
-                            class="material-icons">edit</i></a></label>
+                <label for="account-name">Your name <a href="" class="update-name__js"><i class="material-icons">edit</i></a></label>
 
             </div>
             <div class="input-field">
                 <i class="material-icons prefix">email</i>
                 <input disabled placeholder="" type="email" id="account-email" class="input-static-color" required />
-                <label for="account-email">Email address <a href="" class="update-email__js"><i
-                            class="material-icons">edit</i></a></label>
+                <label for="account-email">Email address <a href="" class="update-email__js"><i class="material-icons">edit</i></a></label>
             </div>
             <div class="input-field">
                 <p>
                     <label>
-                        <input disabled type="checkbox" id="checkbox__js" />
+                        <input disabled type="checkbox" id="checkbox-account__js" />
                         <span>I want to contact Buddies via Telegram</span>
                     </label>
                 </p>
             </div>
             <div class="input-field">
                 <i class="material-icons prefix">near_me</i>
-                <input disabled placeholder="" type="text" value="@" id="account-telegram-name"
-                    class="input-static-color" />
+                <input disabled placeholder="" type="text" value="@" id="account-telegram-name" class="input-static-color" />
                 <label for="account-telegram-name">Your Telegram nickname <a href="" class="update-telegram-name__js"><i
                             class="material-icons">edit</i></a></label>
             </div>

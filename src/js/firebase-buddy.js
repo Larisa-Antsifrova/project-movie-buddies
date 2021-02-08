@@ -1,7 +1,7 @@
 // Imports of Firebase services and required variables/functions
 import { db, auth } from './firebase-init';
 import { currentMovieItem } from './show-details.js';
-import { activeBuddyPage } from './fetch-functions.js';
+import { activeBuddyPage } from './navigation.js';
 import { Api } from './movieApi';
 import { SECURE_TOKEN, PROVIDER } from './apiKey.js';
 

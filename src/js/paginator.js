@@ -1,6 +1,6 @@
 import paginationTemplate from '../templates/8pagination.hbs';
 import { Api } from './movieApi';
-import { toggleRenderPage } from './fetch-functions.js';
+import { input } from './input.js';
 
 export default class PaginationApi {
   constructor(maxPageRadius = 2) {
@@ -80,6 +80,6 @@ export default class PaginationApi {
       Api.pageNumber += 1;
     }
 
-    toggleRenderPage();
+    input.toggleRenderPage();
   }
 }
