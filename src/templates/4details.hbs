@@ -1,9 +1,7 @@
 <div class="row">
-  {{!-- to do --}}
   <div class="col s12 m6">
     {{#if poster_path}}
-    <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="{{ title }}" class="responsive-img border-img"
-      {{!-- width="426" --}} />
+    <img src="https://image.tmdb.org/t/p/w500{{ poster_path }}" alt="{{ title }}" class="responsive-img border-img"/>
     {{else}}
     <img src="https://cdn.pixabay.com/photo/2015/09/09/17/51/film-932154_960_720.jpg" alt="{{ title }}"
       class="responsive-img border-img" />
@@ -34,11 +32,6 @@
             {{ first_air_date }}
             {{/if}}
         </tr>
-        {{!-- <tr class="table-light-rows">
-          <td class="detailscaption">Popularity</td>
-          <td id="detailspopularity" class="detailsinfo popularity__js">
-            {{ popularity }}
-          </td> --}}
         </tr>
         <tr class="table-light-rows">
           <td class="detailscaption">Original Title</td>

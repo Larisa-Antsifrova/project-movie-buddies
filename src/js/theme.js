@@ -16,7 +16,7 @@ function updateThemeLS() {
     checkBtnRef.checked = true;
   } else {
     bodyRef.classList.add(Theme.LIGHT);
-    footerRef.classList.add(Theme.LIGHT);
+    headerRef.classList.add(Theme.LIGHT);
     footerRef.classList.add(Theme.LIGHT);
   }
 }
