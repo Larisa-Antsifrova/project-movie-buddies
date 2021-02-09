@@ -29,7 +29,7 @@ createGenresList(genres);
 async function genresFilter(e) {
   Api.resetPage();
   Api.genreId = null;
-  Api.searchQuery = '';
+  input.clearInput();
   if (e.target.nodeName !== 'SPAN') {
     return;
   }
