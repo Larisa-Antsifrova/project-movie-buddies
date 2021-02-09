@@ -97,8 +97,8 @@ const input = {
   async renderGenreFilteredFilms() {
     spinner.show();
     input.clearGallery(homeGalleryListRef);
-    let currentList = await Api.fetchGenresFilter();
-    return combineFullMovieInfo(currentList)
+    currentMoviesList = await Api.fetchGenresFilter();
+    return combineFullMovieInfo(currentMoviesList)
       .then(createMovieList)
       .then(() => {
         paginator.recalculate(Api.pageNumber, Api.totalPages);
@@ -109,7 +109,29 @@ const input = {
   },
 };
 
+searchForm.addEventListener('click', () => {
+  input.onInputFocus();
+});
+
+searchForm.addEventListener('submit', e => {
+  input.searchFilms(e);
+});
+genresList.addEventListener('click', genresFilter);
+
+async function genresFilter(e) {
+  Api.resetPage();
+  Api.genreId = null;
+  input.clearInput();
+  if (e.target.nodeName !== 'SPAN') {
+    return;
+  }
+  if (e.target.textContent !== 'ALL GENRES') {
+    Api.genreId = +e.target.dataset.id;
+  }
+
+  input.toggleRenderPage();
+}
+
 // Вызов самого первого fetch за популярными фильмами и его рендер
 input.renderPopularFilms();
-
 export { input, currentMoviesList };
