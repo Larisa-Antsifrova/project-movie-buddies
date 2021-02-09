@@ -14,6 +14,7 @@ const input = {
 
   searchFilms(e) {
     e.preventDefault();
+    Api.genreId = null;
     Api.searchQuery = e.target.elements.query.value.trim();
     this.toggleRenderPage();
   },
