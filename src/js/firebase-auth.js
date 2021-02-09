@@ -239,12 +239,14 @@ function githubSignin() {
       const token = result.credential.accessToken;
       const user = result.user;
 
-      db.collection('users').doc(user.uid).set({
-        name: user.displayName,
-        email: user.email,
-        movies: [],
-        telegramName: null,
-      });
+      db.collection('users')
+        .doc(user.uid)
+        .set({
+          name: user.displayName || 'Pirozhochek',
+          email: user.email,
+          movies: [],
+          telegramName: null,
+        });
     })
     .then(() => {
       // close the signup modal & reset form
