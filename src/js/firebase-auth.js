@@ -71,6 +71,7 @@ auth.onAuthStateChanged(user => {
           })
           .then(() => {
             navLinkAccountRef.textContent = accountForm['account-name'].value;
+            sidenameLinkAccountRef.textContent = accountForm['account-name'].value;
             accountForm['account-name'].disabled = true;
           })
           .then(() => {
@@ -238,7 +239,6 @@ function githubSignin() {
     .then(function (result) {
       const token = result.credential.accessToken;
       const user = result.user;
-
       db.collection('users')
         .doc(user.uid)
         .set({
@@ -331,8 +331,8 @@ function logout(e) {
 
 function setupUI(user) {
   if (user) {
-    navLinkAccountRef.textContent = user.displayName;
-    sidenameLinkAccountRef.textContent = user.displayName;
+    navLinkAccountRef.textContent = user.displayName || 'Pirozhochek';
+    sidenameLinkAccountRef.textContent = user.displayName || 'Pirozhochek';
     user.photoURL
       ? (avatarUser.src = `${user.photoURL}`)
       : (avatarUser.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
