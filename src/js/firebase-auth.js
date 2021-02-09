@@ -203,6 +203,7 @@ signupForm.addEventListener('submit', e => {
   const password = signupForm['signup-password'].value.trim();
   const displayName = signupForm['signup-name'].value.trim();
   const telegramName = signupForm['signup-telegram-name__js'].value.trim();
+
   // sign up the user
   auth
     .createUserWithEmailAndPassword(email, password)
@@ -244,13 +245,21 @@ function githubSignin() {
     .then(function (result) {
       const token = result.credential.accessToken;
       const user = result.user;
+      // const telegram = db
+      //   .collection('users')
+      //   .doc(user.uid)
+      //   .get()
+      //   .then(doc => doc.data().telegramName);
 
-      db.collection('users').doc(user.uid).set({
-        name: user.displayName,
-        email: user.email,
-        movies: [],
-        telegramName: null,
-      });
+      db.collection('users').doc(user.uid).set(
+        {
+          name: user.displayName,
+          email: user.email,
+          movies: [],
+          // telegramName: telegram,
+        },
+        { merge: true },
+      );
     })
     .then(() => {
       // close the signup modal & reset form
@@ -313,7 +322,11 @@ function setupUI(user) {
 
     accountForm['account-name'].value = user.displayName;
     accountForm['account-email'].value = user.email;
-    accountForm['account-telegram-name'].value = '@';
+    accountForm['account-telegram-name'].value = db
+      .collection('users')
+      .doc(user.uid)
+      .get()
+      .then(doc => doc.data().telegramName);
 
     db
       .collection('users')
