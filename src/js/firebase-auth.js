@@ -56,12 +56,6 @@ auth.onAuthStateChanged(user => {
       e.preventDefault();
       updateInfo(accountForm['account-telegram-name']);
       updateInfo(accountForm['checkbox-account__js']);
-      db.collection('users').doc(user.uid).set(
-        {
-          telegramName: accountForm['account-telegram-name'].value,
-        },
-        { merge: true },
-      );
     });
 
     // accountForm UPDATE
@@ -203,7 +197,6 @@ signupForm.addEventListener('submit', e => {
   const password = signupForm['signup-password'].value.trim();
   const displayName = signupForm['signup-name'].value.trim();
   const telegramName = signupForm['signup-telegram-name__js'].value.trim();
-
   // sign up the user
   auth
     .createUserWithEmailAndPassword(email, password)
@@ -236,7 +229,7 @@ signupForm.addEventListener('submit', e => {
 
 // login github
 githubSigninRef.addEventListener('click', githubSignin);
-githubLoginRef.addEventListener('click', githubSignin);
+githubLoginRef.addEventListener('click', gitHubLogin);
 
 function githubSignin() {
   const gitHub = new firebase.auth.GithubAuthProvider();
@@ -245,21 +238,15 @@ function githubSignin() {
     .then(function (result) {
       const token = result.credential.accessToken;
       const user = result.user;
-      // const telegram = db
-      //   .collection('users')
-      //   .doc(user.uid)
-      //   .get()
-      //   .then(doc => doc.data().telegramName);
 
-      db.collection('users').doc(user.uid).set(
-        {
-          name: user.displayName,
+      db.collection('users')
+        .doc(user.uid)
+        .set({
+          name: user.displayName || 'Pirozhochek',
           email: user.email,
           movies: [],
-          // telegramName: telegram,
-        },
-        { merge: true },
-      );
+          telegramName: null,
+        });
     })
     .then(() => {
       // close the signup modal & reset form
@@ -269,6 +256,23 @@ function githubSignin() {
       M.Modal.getInstance(modal).close();
       loginForm.reset();
     })
+    .then(() => {
+      const modal = document.querySelector('#modal-login');
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+    });
+}
+
+function gitHubLogin() {
+  const gitHub = new firebase.auth.GithubAuthProvider();
+  auth
+    .signInWithPopup(gitHub)
+    .then(function (result) {
+      const token = result.credential.accessToken;
+      const user = result.user;
+      console.log('user', user);
+    })
+
     .then(() => {
       const modal = document.querySelector('#modal-login');
       M.Modal.getInstance(modal).close();
@@ -322,11 +326,7 @@ function setupUI(user) {
 
     accountForm['account-name'].value = user.displayName;
     accountForm['account-email'].value = user.email;
-    accountForm['account-telegram-name'].value = db
-      .collection('users')
-      .doc(user.uid)
-      .get()
-      .then(doc => doc.data().telegramName);
+    accountForm['account-telegram-name'].value = '@';
 
     db
       .collection('users')
