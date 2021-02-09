@@ -71,6 +71,7 @@ auth.onAuthStateChanged(user => {
           })
           .then(() => {
             navLinkAccountRef.textContent = accountForm['account-name'].value;
+            sidenameLinkAccountRef.textContent = accountForm['account-name'].value;
             accountForm['account-name'].disabled = true;
           })
           .then(() => {
@@ -229,7 +230,7 @@ signupForm.addEventListener('submit', e => {
 
 // login github
 githubSigninRef.addEventListener('click', githubSignin);
-githubLoginRef.addEventListener('click', githubSignin);
+githubLoginRef.addEventListener('click', githubLogin);
 
 function githubSignin() {
   const gitHub = new firebase.auth.GithubAuthProvider();
@@ -238,14 +239,45 @@ function githubSignin() {
     .then(function (result) {
       const token = result.credential.accessToken;
       const user = result.user;
-
-      db.collection('users').doc(user.uid).set({
-        name: user.displayName,
-        email: user.email,
-        movies: [],
-        telegramName: null,
-      });
+      db.collection('users')
+        .doc(user.uid)
+        .set({
+          name: user.displayName || 'Pirozhochek',
+          email: user.email,
+          movies: [],
+          telegramName: null,
+        });
     })
+    .then(() => {
+      // close the signup modal & reset form
+      const nav = document.querySelector('#mobile-links');
+      M.Sidenav.getInstance(nav).close();
+      const modal = document.querySelector('#modal-signup');
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+    })
+    .then(() => {
+      const modal = document.querySelector('#modal-login');
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+    });
+}
+
+function githubLogin() {
+  const gitHub = new firebase.auth.GithubAuthProvider();
+  auth
+    .signInWithPopup(gitHub)
+    //  .then(function (result) {
+    //    const token = result.credential.accessToken;
+    //    const user = result.user;
+
+    //    db.collection('users').doc(user.uid).set({
+    //      name: user.displayName,
+    //      email: user.email,
+    //      movies: [],
+    //      telegramName: null,
+    //    });
+    //  })
     .then(() => {
       // close the signup modal & reset form
       const nav = document.querySelector('#mobile-links');
@@ -299,8 +331,8 @@ function logout(e) {
 
 function setupUI(user) {
   if (user) {
-    navLinkAccountRef.textContent = user.displayName;
-    sidenameLinkAccountRef.textContent = user.displayName;
+    navLinkAccountRef.textContent = user.displayName || 'Pirozhochek';
+    sidenameLinkAccountRef.textContent = user.displayName || 'Pirozhochek';
     user.photoURL
       ? (avatarUser.src = `${user.photoURL}`)
       : (avatarUser.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
