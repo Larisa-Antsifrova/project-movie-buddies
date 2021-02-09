@@ -1,13 +1,11 @@
 import { Api } from './movieApi';
 import * as Handlebars from 'handlebars/runtime';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
-import genresElementTemplate from '../templates/8genresBtn.hbs';
 import { input } from './input';
 
 const searchForm = document.querySelector('.search-form');
 const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const switchRef = document.querySelector('.media-switch');
-const genresList = document.querySelector('.genres_list__js');
 const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
 
 switchRef.addEventListener('change', toggleMediaType);
@@ -17,28 +15,6 @@ searchForm.addEventListener('click', () => {
 searchForm.addEventListener('submit', e => {
   input.searchFilms(e);
 });
-genresList.addEventListener('click', genresFilter);
-
-async function createGenresList(genres) {
-  const genresArr = await genres;
-  const genresListMarkup = genresElementTemplate(genresArr);
-  genresList.insertAdjacentHTML('beforeend', genresListMarkup);
-}
-createGenresList(genres);
-
-async function genresFilter(e) {
-  Api.resetPage();
-  Api.genreId = null;
-  input.clearInput();
-  if (e.target.nodeName !== 'SPAN') {
-    return;
-  }
-  if (e.target.textContent !== 'ALL GENRES') {
-    Api.genreId = +e.target.dataset.id;
-  }
-
-  input.toggleRenderPage();
-}
 
 // Функция для отрисовки списка популярных фильмов
 function createMovieList(fullInfo) {
@@ -105,4 +81,4 @@ Handlebars.registerHelper('padRaiting', function (vote_average) {
   return paddedRaiting;
 });
 
-export { genres, combineFullMovieInfo, createMovieList, createGenresList };
+export { genres, combineFullMovieInfo, createMovieList };
