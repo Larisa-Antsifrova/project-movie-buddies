@@ -56,12 +56,6 @@ auth.onAuthStateChanged(user => {
       e.preventDefault();
       updateInfo(accountForm['account-telegram-name']);
       updateInfo(accountForm['checkbox-account__js']);
-      db.collection('users').doc(user.uid).set(
-        {
-          telegramName: accountForm['account-telegram-name'].value,
-        },
-        { merge: true },
-      );
     });
 
     // accountForm UPDATE
