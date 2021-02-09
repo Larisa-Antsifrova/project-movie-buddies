@@ -229,7 +229,7 @@ signupForm.addEventListener('submit', e => {
 
 // login github
 githubSigninRef.addEventListener('click', githubSignin);
-githubLoginRef.addEventListener('click', githubSignin);
+githubLoginRef.addEventListener('click', gitHubLogin);
 
 function githubSignin() {
   const gitHub = new firebase.auth.GithubAuthProvider();
@@ -239,12 +239,14 @@ function githubSignin() {
       const token = result.credential.accessToken;
       const user = result.user;
 
-      db.collection('users').doc(user.uid).set({
-        name: user.displayName,
-        email: user.email,
-        movies: [],
-        telegramName: null,
-      });
+      db.collection('users')
+        .doc(user.uid)
+        .set({
+          name: user.displayName || 'Pirozhochek',
+          email: user.email,
+          movies: [],
+          telegramName: null,
+        });
     })
     .then(() => {
       // close the signup modal & reset form
@@ -254,6 +256,23 @@ function githubSignin() {
       M.Modal.getInstance(modal).close();
       loginForm.reset();
     })
+    .then(() => {
+      const modal = document.querySelector('#modal-login');
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+    });
+}
+
+function gitHubLogin() {
+  const gitHub = new firebase.auth.GithubAuthProvider();
+  auth
+    .signInWithPopup(gitHub)
+    .then(function (result) {
+      const token = result.credential.accessToken;
+      const user = result.user;
+      console.log('user', user);
+    })
+
     .then(() => {
       const modal = document.querySelector('#modal-login');
       M.Modal.getInstance(modal).close();
