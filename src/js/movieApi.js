@@ -113,7 +113,7 @@ const Api = {
         )
       ).data;
     });
-    console.log(data);
+
     this.totalPages = data.total_pages;
     const respArr = await data.results;
     return respArr;
@@ -127,6 +127,7 @@ const Api = {
     const bigPerPage = 20; // количество обьектов, которое получаем с API
     const startIdx = pageNumber * perPage; //индекс первого элемента
     const bigStartPage = Math.floor(startIdx / bigPerPage); // требуемая страница запроса с API
+
     const startData = await fetchMovies(bigStartPage + 1);
     if (!startData.results.length) {
       input.notFound();

@@ -3,10 +3,7 @@ import * as Handlebars from 'handlebars/runtime';
 import galleryElementTemplate from '../templates/8galleryElement.hbs';
 import genresElementTemplate from '../templates/8genresBtn.hbs';
 import { input } from './input';
-import Paginator from './paginator.js';
-import { spinner } from './spinner';
 
-const paginator = new Paginator();
 const searchForm = document.querySelector('.search-form');
 const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const switchRef = document.querySelector('.media-switch');
@@ -31,15 +28,15 @@ createGenresList(genres);
 
 async function genresFilter(e) {
   Api.resetPage();
+  Api.genreId = null;
   if (e.target.nodeName !== 'SPAN') {
     return;
   }
-  if (e.target.textContent === 'ALL GENRES') {
-    input.toggleRenderPage();
-    return;
+  if (e.target.textContent !== 'ALL GENRES') {
+    Api.genreId = +e.target.dataset.id;
   }
-  Api.genreId = +e.target.dataset.id;
-  input.renderGenreFilteredFilms();
+
+  input.toggleRenderPage();
 }
 
 // Функция для отрисовки списка популярных фильмов
@@ -100,6 +97,11 @@ Handlebars.registerHelper('getPoster', function (poster_path) {
     const imgUrl = `${Api.images.baseImageUrl}${Api.images.currentSizes.posterSize}/${poster_path}`;
     return imgUrl;
   }
+});
+
+Handlebars.registerHelper('padRaiting', function (vote_average) {
+  const paddedRaiting = String(vote_average).padEnd(3, '.0');
+  return paddedRaiting;
 });
 
 export { genres, combineFullMovieInfo, createMovieList, createGenresList };
