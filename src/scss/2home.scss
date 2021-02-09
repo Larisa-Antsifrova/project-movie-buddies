@@ -39,7 +39,8 @@ input[type='url']:not(.browser-default):focus:not([readonly]) + label,
 input[type='time']:not(.browser-default):focus:not([readonly]) + label,
 input[type='date']:not(.browser-default):focus:not([readonly]) + label,
 input[type='datetime']:not(.browser-default):focus:not([readonly]) + label,
-input[type='datetime-local']:not(.browser-default):focus:not([readonly]) + label,
+input[type='datetime-local']:not(.browser-default):focus:not([readonly])
+  + label,
 input[type='tel']:not(.browser-default):focus:not([readonly]) + label,
 input[type='number']:not(.browser-default):focus:not([readonly]) + label,
 input[type='search']:not(.browser-default):focus:not([readonly]) + label,
@@ -83,38 +84,4 @@ nav .input-field input[type='date']:valid {
     font-size: 15px;
     padding: 0 5px;
   }
-}
-
-.genres_list__js {
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-}
-.collapsible-header {
-  border: 1px solid;
-  border-radius: 5px;
-  padding: 1px;
-  margin: 2px;
-  background-color: #ff6b08;
-  color: #fff;
-}
-.collapsible-header:hover {
-  background-color: #fff;
-  color: #ff6b08;
-}
-.genres_name {
-  padding: 5px;
-}
-.all-genres {
-  border: 1px solid #ff6b08;
-  background-color: #fff;
-  color: #ff6b08;
-}
-.all-genres:hover {
-  border: none;
-  background-color: #ff6b08;
-  color: #fff;
 }

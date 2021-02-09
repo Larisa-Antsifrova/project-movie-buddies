@@ -1,12 +1,11 @@
 import { Api } from './movieApi';
 import Paginator from './paginator.js';
 import { spinner } from './spinner';
-import { combineFullMovieInfo, createMovieList, createGenresList } from './fetch-functions';
+import { combineFullMovieInfo, createMovieList } from './fetch-functions';
 
 const paginator = new Paginator();
 const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const searchForm = document.querySelector('.search-form');
-const genresList = document.querySelector('.genres_list__js');
 let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
 
 const input = {
@@ -14,17 +13,14 @@ const input = {
 
   searchFilms(e) {
     e.preventDefault();
-    Api.genreId = null;
     Api.searchQuery = e.target.elements.query.value.trim();
     this.toggleRenderPage();
   },
 
   toggleRenderPage() {
     this.clearGallery(homeGalleryListRef);
-    if (!Api.searchQuery.length && !Api.genreId) {
+    if (!Api.searchQuery.length) {
       this.renderPopularFilms();
-    } else if (Api.genreId) {
-      this.renderGenreFilteredFilms();
     } else {
       this.renderSearchedFilms(Api.searchQuery);
     }
@@ -34,10 +30,6 @@ const input = {
     spinner.show();
 
     currentMoviesList = await Api.fetchSearchMovieList(inputValue);
-    if (!currentMoviesList) {
-      this.notFound();
-      return;
-    }
     return combineFullMovieInfo(currentMoviesList)
       .then(createMovieList)
       .then(() => {
@@ -81,7 +73,7 @@ const input = {
     setTimeout(this.clearError.bind(this), 2000);
     this.clearInput();
     Api.resetPage();
-    this.renderPopularFilms();
+    this.toggleRenderPage();
   },
 
   notFoundBuddy() {
@@ -92,20 +84,6 @@ const input = {
 
   clearError() {
     this.errorArea.style.visibility = 'hidden';
-  },
-
-  async renderGenreFilteredFilms() {
-    spinner.show();
-    input.clearGallery(homeGalleryListRef);
-    let currentList = await Api.fetchGenresFilter();
-    return combineFullMovieInfo(currentList)
-      .then(createMovieList)
-      .then(() => {
-        paginator.recalculate(Api.pageNumber, Api.totalPages);
-      })
-      .then(() => {
-        spinner.hide();
-      });
   },
 };
 
