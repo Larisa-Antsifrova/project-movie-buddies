@@ -70,6 +70,7 @@ auth.onAuthStateChanged(user => {
             displayName: accountForm['account-name'].value,
           })
           .then(() => {
+            db.collection(`users`).doc(user.uid).set({ name: user.displayName }, { merge: true });
             navLinkAccountRef.textContent = accountForm['account-name'].value;
             sidenameLinkAccountRef.textContent = accountForm['account-name'].value;
             accountForm['account-name'].disabled = true;
@@ -77,6 +78,8 @@ auth.onAuthStateChanged(user => {
           .then(() => {
             const modal = document.querySelector('#modal-account');
             M.Modal.getInstance(modal).close();
+            const nav = document.querySelector('#mobile-links');
+            M.Sidenav.getInstance(nav).close();
           })
           .then(notification.changeName);
       }
