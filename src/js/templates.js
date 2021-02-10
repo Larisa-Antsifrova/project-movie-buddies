@@ -17,12 +17,12 @@ const libraryRef = document.querySelector('.library__js');
 libraryRef.insertAdjacentHTML('beforeend', libraryMarkup);
 
 // Initialize GalleryElement
-import galleryElementTemplate from '../templates/8galleryElement.hbs';
-const galleryElementMarkup = galleryElementTemplate();
+// import galleryElementTemplate from '../templates/8galleryElement.hbs';
+// const galleryElementMarkup = galleryElementTemplate();
 
 // Initialize details modal
-import detailTemplate from '../templates/4details.hbs';
-const detailMarkup = detailTemplate();
+// import detailTemplate from '../templates/4details.hbs';
+// const detailMarkup = detailTemplate();
 
 import detailsContainerTemplate from '../templates/4detailsContainer.hbs';
 const detailsContainerMarkup = detailsContainerTemplate();

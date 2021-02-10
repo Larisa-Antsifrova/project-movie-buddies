@@ -4,19 +4,19 @@ import 'pnotify/dist/PNotifyBrightTheme.css';
 export default {
   changeName() {
     PNotify.success({
-      text: 'Вы успешно сменили имя пользователя',
+      text: "Hey! You've changed your name!",
       delay: 3000,
     });
   },
   changeTelegramName() {
     PNotify.success({
-      text: 'Ваш никнейм Telegram изменен',
+      text: "You've updated your Telegram nickname!",
       delay: 3000,
     });
   },
   changeEmail() {
     PNotify.success({
-      text: 'Ваш Email был успешно изменен',
+      text: "Hey! You've just updated your e-mail!",
       delay: 3000,
     });
   },

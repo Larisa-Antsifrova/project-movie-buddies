@@ -100,7 +100,7 @@ auth.onAuthStateChanged(user => {
           .catch(err => {
             if (err) {
               console.log(err);
-              notification.error('Для изменения вашего Email, необходимо сделать повторный вход в кабинет');
+              notification.error('Please, re-enter your account to change e-mail.');
             }
           });
       } else if (!accountForm['account-telegram-name'].disabled) {
@@ -226,7 +226,7 @@ signupForm.addEventListener('submit', e => {
     })
     .catch(() => {
       if (password.length < 6) {
-        notification.error('Ошибка: длина пароля должна быть не менее 6-ти символов');
+        notification.error('Oops! Password should be at least 6 symbols long.');
       }
     });
 });
