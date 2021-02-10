@@ -60,7 +60,7 @@ function toggleMediaType(e) {
   }
   input.toggleRenderPage();
 }
-
+// функция переключатель языка
 function toggleLanguageType(e) {
   if (!e.target.checked) {
     Api.languageType = 'en-US';
