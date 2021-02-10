@@ -6,10 +6,12 @@ import genresElementTemplate from '../templates/8genresBtn.hbs';
 
 const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const switchRef = document.querySelector('.media-switch');
+const langSwitch = document.querySelector('.language-switch');
 const genresList = document.querySelector('.genres_list__js');
 const genres = Api.fetchGenresList(); // contains a promise with genres array
 
 switchRef.addEventListener('change', toggleMediaType);
+langSwitch.addEventListener('change', toggleLanguageType);
 
 async function createGenresList(genres) {
   const genresArr = await genres;
@@ -55,6 +57,15 @@ function toggleMediaType(e) {
     Api.mediaType = 'movie';
   } else {
     Api.mediaType = 'tv';
+  }
+  input.toggleRenderPage();
+}
+
+function toggleLanguageType(e) {
+  if (!e.target.checked) {
+    Api.languageType = 'en-US';
+  } else {
+    Api.languageType = 'ru-RU';
   }
   input.toggleRenderPage();
 }

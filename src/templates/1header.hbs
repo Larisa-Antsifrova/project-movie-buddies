@@ -36,14 +36,26 @@
 
     </nav>
     <div class="row center-align search-form__js">
-        <div class="switch col s12">
-            <label>
-                <span class="movies-label">Movies</span>
-                <input type="checkbox" class="media-switch">
-                <span class="lever"></span>
-                <span class="tv-label">TV</span>
-            </label>
+        <div class="switch_container">
+            <div class="switch col s12">
+                <label>
+                    <span class="movies-label">Movies</span>
+                    <input type="checkbox" class="media-switch">
+                    <span class="lever"></span>
+                    <span class="tv-label">TV</span>
+                </label>
+            </div>
+
+            <div class="switch col s12">
+                <label>
+                    <span class="En-label">En</span>
+                    <input type="checkbox" class="language-switch">
+                    <span class="lever"></span>
+                    <span class="Ru-label">Ru</span>
+                </label>
+            </div>
         </div>
+
         <form id="search-form" class=" search-form col s12 m8 offset-m2">
 
             <div class="input-field">
@@ -71,7 +83,8 @@
     <div class="toolbar">
         <div class="theme-switch">
             <div class="theme-switch__control">
-                <input class="theme-switch__toggle" type="checkbox" name="theme" id="theme-switch-toggle" aria-label="Dark mode toggle" />
+                <input class="theme-switch__toggle" type="checkbox" name="theme" id="theme-switch-toggle"
+                    aria-label="Dark mode toggle" />
                 <label aria-hidden="true" class="theme-switch__track" for="theme-switch-toggle"> </label>
                 <div aria-hidden="true" class="theme-switch__marker"></div>
             </div>
@@ -84,7 +97,8 @@
     </li>
 
     <li class="logged-out__js" style="">
-        <a href="#" class="modal-trigger" data-target="modal-login"><i class="material-icons">login</i><span>Login</span></a>
+        <a href="#" class="modal-trigger" data-target="modal-login"><i
+                class="material-icons">login</i><span>Login</span></a>
     </li>
     <li class="logged-out__js" style="">
         <a href="#" class="modal-trigger" data-target="modal-signup"><i class="material-icons">person_add</i><span>Sign
@@ -186,13 +200,15 @@
             <div class="input-field">
                 <i class="material-icons prefix">perm_identity</i>
                 <input disabled placeholder="" type="text" id="account-name" class="input-static-color" required />
-                <label for="account-name">Your name <a href="" class="update-name__js"><i class="material-icons">edit</i></a></label>
+                <label for="account-name">Your name <a href="" class="update-name__js"><i
+                            class="material-icons">edit</i></a></label>
 
             </div>
             <div class="input-field">
                 <i class="material-icons prefix">email</i>
                 <input disabled placeholder="" type="email" id="account-email" class="input-static-color" required />
-                <label for="account-email">Email address <a href="" class="update-email__js"><i class="material-icons">edit</i></a></label>
+                <label for="account-email">Email address <a href="" class="update-email__js"><i
+                            class="material-icons">edit</i></a></label>
             </div>
             <div class="input-field">
                 <p>
@@ -204,7 +220,8 @@
             </div>
             <div class="input-field">
                 <i class="material-icons prefix">near_me</i>
-                <input disabled placeholder="" type="text" value="@" id="account-telegram-name" class="input-static-color" />
+                <input disabled placeholder="" type="text" value="@" id="account-telegram-name"
+                    class="input-static-color" />
                 <label for="account-telegram-name">Your Telegram nickname <a href="" class="update-telegram-name__js"><i
                             class="material-icons">edit</i></a></label>
             </div>
