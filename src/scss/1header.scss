@@ -198,11 +198,17 @@ nav .sidenav-trigger {
   margin-top: 40px;
 }
 
-.movies-label {
+.switch_container {
+  display: flex;
+  justify-content: space-evenly;
+}
+.movies-label,
+.En-label {
   color: #ef6c00;
 }
 
-.tv-label {
+.tv-label,
+.Ru-label {
   color: #26a69a;
 }
 
