@@ -286,43 +286,47 @@ function sendEmail(e) {
 
   const toEmail = email;
   const fromEmail = PROVIDER;
-  const subject = emailFormRef['subject'].value;
-  const replyEmail = emailFormRef['reply-to'].value;
-  const message = emailFormRef['email-body'].value;
+  const subject = emailFormRef['subject'].value.trim();
+  const replyEmail = emailFormRef['reply-to'].value.trim();
+  const message = emailFormRef['email-body'].value.trim();
 
   const emailBody = `${message}
   p.s. Reply to ${replyEmail} :)`;
 
-  // Script to send an e-mail with SMTP. Commented at the moment to keep the subscription safe :)
-  // Email.send({
-  //   SecureToken: SECURE_TOKEN,
-  //   To: toEmail,
-  //   From: fromEmail,
-  //   Subject: subject,
-  //   Body: emailBody,
-  // }).then(message => {
-  //   console.log(message);
-  //   emailFormRef.reset();
-  //   const modal = document.querySelector('#email-modal');
-  //   M.Modal.getInstance(modal).close();
-  //   M.toast({ html: 'Your email is sent!', classes: 'rounded orange darken-1 center' });
-  // });
+  if (subject && replyEmail && message) {
+    // Script to send an e-mail with SMTP. Commented at the moment to keep the subscription safe :)
+    // Email.send({
+    //   SecureToken: SECURE_TOKEN,
+    //   To: toEmail,
+    //   From: fromEmail,
+    //   Subject: subject,
+    //   Body: emailBody,
+    // }).then(message => {
+    //   console.log(message);
+    //   emailFormRef.reset();
+    //   const modal = document.querySelector('#email-modal');
+    //   M.Modal.getInstance(modal).close();
+    //   M.toast({ html: 'Your email is sent!', classes: 'rounded orange darken-1 center' });
+    // });
 
-  // Console for checking and demo
-  console.log({
-    toEmail: toEmail,
-    fromEmail: fromEmail,
-    subject: subject,
-    replyEmail: replyEmail,
-    message: message,
-    emailBody: emailBody,
-  });
+    // Console for checking and demo
+    console.log({
+      toEmail: toEmail,
+      fromEmail: fromEmail,
+      subject: subject,
+      replyEmail: replyEmail,
+      message: message,
+      emailBody: emailBody,
+    });
 
-  // Notifications for demo
-  emailFormRef.reset();
-  const modal = document.querySelector('#email-modal');
-  M.Modal.getInstance(modal).close();
-  M.toast({ html: 'Your email is sent!', classes: 'rounded orange darken-1 center' });
+    // Notifications for demo
+    emailFormRef.reset();
+    const modal = document.querySelector('#email-modal');
+    M.Modal.getInstance(modal).close();
+    M.toast({ html: 'Your email is sent!', classes: 'rounded orange darken-1 center' });
+  } else {
+    M.toast({ html: 'Please, fill in all fields!', classes: 'rounded red darken-1 center' });
+  }
 }
 
 export { findBuddyBtnRef, findBuddy, searchFilmsForBuddy };
