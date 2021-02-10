@@ -28,12 +28,7 @@ module.exports = env => ({
       },
       {
         test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-          'sass-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
       },
     ],
   },
@@ -48,6 +43,7 @@ module.exports = env => ({
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true,
       },
+      favicon: './images/favicon.png',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
