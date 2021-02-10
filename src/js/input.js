@@ -7,7 +7,7 @@ const paginator = new Paginator();
 const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const searchForm = document.querySelector('.search-form');
 const genresList = document.querySelector('.genres_list__js');
-let currentMoviesList = Api.fetchTrendingMoviesList(); // содержит массив с объектами фильмов
+let currentMoviesList = Api.fetchTrendingMoviesList(); // contains array with movies objects
 
 const input = {
   errorArea: document.querySelector('.search-error__js'),
@@ -132,6 +132,6 @@ async function genresFilter(e) {
   input.toggleRenderPage();
 }
 
-// Вызов самого первого fetch за популярными фильмами и его рендер
+// Fetching the popular movies list for the very first time
 input.renderPopularFilms();
 export { input, currentMoviesList };

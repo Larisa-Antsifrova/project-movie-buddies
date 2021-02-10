@@ -9,6 +9,7 @@ const watchedBtnRef = document.querySelector('.watched-btn__js');
 const queueBtnRef = document.querySelector('.queue-btn__js');
 const favoriteBtnRef = document.querySelector('.favorite-btn__js');
 const buddyBtnRef = document.querySelector('.buddy-btn__js');
+
 // Getting references to icons in Buttions in details modal
 const watchedBtnIconRef = document.querySelector('.watched-btn-icon__js');
 const queueBtnIconRef = document.querySelector('.queue-btn-icon__js');

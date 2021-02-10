@@ -7,7 +7,7 @@ import genresElementTemplate from '../templates/8genresBtn.hbs';
 const homeGalleryListRef = document.querySelector('.home-gallery__js');
 const switchRef = document.querySelector('.media-switch');
 const genresList = document.querySelector('.genres_list__js');
-const genres = Api.fetchGenresList(); // содержит промис с массивом объектов жанров
+const genres = Api.fetchGenresList(); // contains a promise with genres array
 
 switchRef.addEventListener('change', toggleMediaType);
 
@@ -18,13 +18,13 @@ async function createGenresList(genres) {
 }
 createGenresList(genres);
 
-// Функция для отрисовки списка популярных фильмов
+// Function to render popular movies list
 function createMovieList(fullInfo) {
   const galleryListMarkup = galleryElementTemplate(fullInfo);
   homeGalleryListRef.insertAdjacentHTML('afterbegin', galleryListMarkup);
 }
 
-// Функция для добавления декодированных жанров в обьект фильмов
+// Function to add deciphered genres to movie cards
 async function combineFullMovieInfo(moviesList) {
   const moviesFullInfo = await moviesList;
   const genres_info = await getGenresInfo(moviesList);
